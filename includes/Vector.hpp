@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/10 17:52:09 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/11 20:06:52 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,26 @@ namespace ft
 			T		&operator[](unsigned int i);
 
 				/*METHODES*/
-			T		&at(unsigned int i);
-			unsigned int size() const;
-			void	push_back(const T &val);
+			T				&at(unsigned int i);
+			T				&back() const;
+			void			clear();
+			unsigned int	size() const;
+			unsigned int	capacity() const;
+			bool			empty() const;
+			T				&front() const;
+			unsigned int	max_size() const;
+			void			push_back(const T &val);
+			void			pop_back();
+			void			reserve(unsigned int n);
+			void			resize(unsigned int n, T val = T());
 
 				/*EXEPTIONS*/
 			class BadIndex : public std::exception
+			{
+				const char *what() const throw();
+			};
+			
+			class lenghtError : public std::exception
 			{
 				const char *what() const throw();
 			};

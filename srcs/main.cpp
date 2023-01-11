@@ -6,23 +6,25 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/10 19:28:52 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/11 20:11:19 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include <deque>
+#include <vector>
 #include "../includes/Vector.hpp"
 
 int	main()
 {
-	ft::Vector<int> empty;
 
 	ft::Vector<int> fill(3, 50);
+	std::vector<int> vfill(3, 50);
+
 	for (unsigned int i = 0; i < fill.size(); ++i)
 	{
-		std::cout << "vec[i] = " << fill[i] << std::endl;
+		std::cout << "mine vec[i] = " << fill[i] << std::endl;
 	}
 	try
 	{
@@ -34,16 +36,105 @@ int	main()
 		std::cerr << e.what() << std::endl;
 	}
 
+	for (unsigned int i = 0; i < vfill.size(); ++i)
+	{
+		std::cout << "vrai vec[i] = " << vfill[i] << std::endl;
+	}
+	try
+	{
+		std::cout << vfill.at(2) << std::endl;
+		std::cout << vfill.at(3) << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	std::cout << std::endl << std::endl;
+
 	ft::Vector<int> copy(fill);
+	std::vector<int> vcopy(vfill);
 	for (unsigned int i = 0; i < copy.size(); ++i)
 	{
 		std::cout << "copy[i] = " << copy[i] << std::endl;
 	}
+	std::cout << std::endl << std::endl;
 	copy.push_back(8);
-	std::cout << std::endl << std::endl << std::endl << std::endl;
-	std::cout << copy.size() << std::endl;
+	copy.push_back(9);
+	copy.push_back(10);
+	copy.push_back(11);
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+	// copy.clear();
+	// std::cout << "after size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << std::endl << std::endl;
+
+	vcopy.push_back(8);
+	vcopy.push_back(9);
+	vcopy.push_back(10);
+	vcopy.push_back(11);
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	// vcopy.clear();
+	// std::cout << "after size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+
+	ft::Vector<int> empty;
+	std::vector<int> vempty;
+
+	std::cout << "mon empty ? " << empty.empty() << std::endl;
+	std::cout << "vrai empty ? " << vempty.empty() << std::endl;
+
+	std::cout << empty.max_size() << std::endl;
+	std::cout << vempty.max_size() << std::endl;
+
+	copy.pop_back();
+	vcopy.pop_back();
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+
+	copy.reserve(55);
+	vcopy.reserve(55);
+
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+
+	copy.resize(5);
+	vcopy.resize(5);
+	std::cout << "after resize" << std::endl;
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	copy.resize(7, 666);
+	vcopy.resize(7, 666);
 	for (unsigned int i = 0; i < copy.size(); ++i)
 	{
 		std::cout << "copy[i] = " << copy[i] << std::endl;
 	}
+	std::cout << "DJHSDLFKJDFLKGJLZKRJGLDKGJDLFKJGDLFKGJDLFKJG" << std::endl;
+	for (unsigned int i = 0; i < vcopy.size(); ++i)
+	{
+		std::cout << "vcopy[i] = " << vcopy[i] << std::endl;
+	}
+	std::cout << "after resize" << std::endl;
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+
+	copy.resize(57);
+	vcopy.resize(57);
+	for (unsigned int i = 0; i < copy.size(); ++i)
+	{
+		std::cout << "copy[i] = " << copy[i] << std::endl;
+	}
+	std::cout << "HIHIHIHIIH" << std::endl;
+	for (unsigned int i = 0; i < vcopy.size(); ++i)
+	{
+		std::cout << "vcopy[i] = " << vcopy[i] << std::endl;
+	}
+	std::cout << "after resize" << std::endl;
+	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
+
+	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+
+
 }
