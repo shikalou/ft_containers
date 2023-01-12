@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/11 20:11:19 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/12 14:52:22 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	main()
 	}
 	std::cout << std::endl << std::endl;
 	copy.push_back(8);
-	copy.push_back(9);
-	copy.push_back(10);
-	copy.push_back(11);
+	copy.push_back(8);
+	copy.push_back(8);
+	copy.push_back(8);
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
 	// copy.clear();
 	// std::cout << "after size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
@@ -69,9 +69,9 @@ int	main()
 	std::cout << std::endl << std::endl;
 
 	vcopy.push_back(8);
-	vcopy.push_back(9);
-	vcopy.push_back(10);
-	vcopy.push_back(11);
+	vcopy.push_back(8);
+	vcopy.push_back(8);
+	vcopy.push_back(8);
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
 	// vcopy.clear();
 	// std::cout << "after size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
@@ -135,6 +135,4 @@ int	main()
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
 
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
-
-
 }

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/11 20:12:44 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/12 14:51:37 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,9 @@ namespace ft
 	template <class T, class Alloc>
 	void	Vector<T, Alloc>::push_back(const T &val)
 	{
-		checkCapacity();
+		if (_capacity == 0)
+			_capacity++;
+		checkCapacity(_size + 1, _capacity * 2);
 		_malloc.construct(_vec + _size, val);
 		_size++;
 	}
@@ -175,21 +177,7 @@ namespace ft
 	{
 		if (n > _malloc.max_size())
 			throw (lenghtError());
-		if (n > _capacity)
-		{
-			T	*new_tab = _malloc.allocate(n);
-			for (unsigned int i = 0; i < _size; ++i)
-			{
-				_malloc.construct(new_tab + i, _vec[i]);
-			}
-			for (unsigned int i = _size; i != 0; --i)
-			{
-				_malloc.destroy(_vec + i);
-			}
-			_malloc.deallocate(_vec, _capacity);
-			_capacity = n;
-			_vec = new_tab;
-		}
+		checkCapacity(n, n);
 	}
 
 	template <class T, class Alloc>
@@ -206,9 +194,7 @@ namespace ft
 				push_back(val);
 		}
 		if (n > _capacity)
-		{
-			reserve(val);
-		}
+			checkCapacity(n, n);
 	}
 
 					/*****EXEPTIONS*****/
@@ -226,13 +212,11 @@ namespace ft
 
 					/*****MINE*****/
 	template <class T, class Alloc>
-	void	Vector<T, Alloc>::checkCapacity()
+	void	Vector<T, Alloc>::checkCapacity(unsigned int size, unsigned int capacity)
 	{
-		if (_size + 1 >= _capacity)
+		if (size > _capacity)
 		{
-			if (_capacity == 0)
-				_capacity++;
-			T	*new_tab = _malloc.allocate(_capacity * 2);
+			T	*new_tab = _malloc.allocate(capacity);
 			for (unsigned int i = 0; i < _size; ++i)
 			{
 				_malloc.construct(new_tab + i, _vec[i]);
@@ -242,7 +226,7 @@ namespace ft
 				_malloc.destroy(_vec + i);
 			}
 			_malloc.deallocate(_vec, _capacity);
-			_capacity *= 2;
+			_capacity = capacity;
 			_vec = new_tab;
 		}
 	}

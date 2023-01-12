@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/11 20:06:52 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/12 14:01:37 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ namespace ft
 			unsigned int	_capacity;
 			Alloc			_malloc;
 
-			void	checkCapacity();
+			void	checkCapacity(unsigned int size, unsigned int capacity);
 	};
 }
 
