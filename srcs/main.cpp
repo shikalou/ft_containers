@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/12 14:52:22 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/13 17:12:00 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,51 +88,33 @@ int	main()
 	copy.pop_back();
 	vcopy.pop_back();
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
-
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
 
 	copy.reserve(55);
 	vcopy.reserve(55);
-
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
-
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
 
 	copy.resize(5);
 	vcopy.resize(5);
 	std::cout << "after resize" << std::endl;
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
-
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
+
 	copy.resize(7, 666);
 	vcopy.resize(7, 666);
-	for (unsigned int i = 0; i < copy.size(); ++i)
-	{
-		std::cout << "copy[i] = " << copy[i] << std::endl;
-	}
-	std::cout << "DJHSDLFKJDFLKGJLZKRJGLDKGJDLFKJGDLFKGJDLFKJG" << std::endl;
-	for (unsigned int i = 0; i < vcopy.size(); ++i)
-	{
-		std::cout << "vcopy[i] = " << vcopy[i] << std::endl;
-	}
 	std::cout << "after resize" << std::endl;
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
-
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
 
 	copy.resize(57);
 	vcopy.resize(57);
-	for (unsigned int i = 0; i < copy.size(); ++i)
-	{
-		std::cout << "copy[i] = " << copy[i] << std::endl;
-	}
-	std::cout << "HIHIHIHIIH" << std::endl;
-	for (unsigned int i = 0; i < vcopy.size(); ++i)
-	{
-		std::cout << "vcopy[i] = " << vcopy[i] << std::endl;
-	}
 	std::cout << "after resize" << std::endl;
 	std::cout << "copy size = " << copy.size() << " capacity = " << copy.capacity() << std::endl;
-
 	std::cout << "vcopy size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
 }

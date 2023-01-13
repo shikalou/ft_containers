@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/12 14:01:37 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/13 16:04:20 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ namespace ft
 			void			pop_back();
 			void			reserve(unsigned int n);
 			void			resize(unsigned int n, T val = T());
+			void			swap(T &x);
+			void			swap(T &x, T &y);
 
 				/*EXEPTIONS*/
 			class BadIndex : public std::exception
@@ -63,7 +65,7 @@ namespace ft
 			unsigned int	_capacity;
 			Alloc			_malloc;
 
-			void	checkCapacity(unsigned int size, unsigned int capacity);
+			void	updateCapacity(unsigned int size, unsigned int capacity);
 	};
 }
 

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/12 14:51:37 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/13 16:38:47 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ namespace ft
 	{
 		if (_capacity == 0)
 			_capacity++;
-		checkCapacity(_size + 1, _capacity * 2);
+		updateCapacity(_size + 1, _capacity * 2);
 		_malloc.construct(_vec + _size, val);
 		_size++;
 	}
@@ -177,7 +177,7 @@ namespace ft
 	{
 		if (n > _malloc.max_size())
 			throw (lenghtError());
-		checkCapacity(n, n);
+		updateCapacity(n, n);
 	}
 
 	template <class T, class Alloc>
@@ -188,13 +188,22 @@ namespace ft
 			for (; _size > n; --_size)
 				_malloc.destroy(_vec + (_size - 1));
 		}
-		else if (n > _size && n <= _capacity)
+		else if (n > _size)
 		{
+			if (n > _capacity)
+				updateCapacity(n, n);
 			for (unsigned int i = _size; i < n; ++i)
-				push_back(val);
+			{
+				_malloc.construct(_vec + i, val);
+				_size++;
+			}
 		}
-		if (n > _capacity)
-			checkCapacity(n, n);
+	}
+
+	template <class T, class Alloc>
+	void	Vector<T, Alloc>::swap(T &x)
+	{
+		
 	}
 
 					/*****EXEPTIONS*****/
@@ -212,7 +221,7 @@ namespace ft
 
 					/*****MINE*****/
 	template <class T, class Alloc>
-	void	Vector<T, Alloc>::checkCapacity(unsigned int size, unsigned int capacity)
+	void	Vector<T, Alloc>::updateCapacity(unsigned int size, unsigned int capacity)
 	{
 		if (size > _capacity)
 		{
