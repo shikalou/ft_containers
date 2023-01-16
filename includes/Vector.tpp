@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/13 16:38:47 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/16 18:53:46 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	Vector<T, Alloc>::Vector(unsigned int n, const T &val)
+	Vector<T, Alloc>::Vector(size_type n, const T &val)
 	{
 		// std::cout << "vector fill constructor called" << std::endl;
 		_malloc = Alloc();
@@ -94,14 +94,14 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	T	&Vector<T, Alloc>::operator[](unsigned int i)
+	T	&Vector<T, Alloc>::operator[](size_type i)
 	{
 		return (this->_vec[i]);
 	}
 
 					/*****METHODES*****/
 	template <class T, class Alloc>
-	T	&Vector<T, Alloc>::at(unsigned int i)
+	T	&Vector<T, Alloc>::at(size_type i)
 	{
 		if (i >= _size)
 			throw (BadIndex());
@@ -109,13 +109,13 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	unsigned int	Vector<T, Alloc>::size() const
+	size_t	Vector<T, Alloc>::size() const
 	{
 		return (_size);
 	}
 
 	template <class T, class Alloc>
-	unsigned int	Vector<T, Alloc>::capacity() const
+	size_t	Vector<T, Alloc>::capacity() const
 	{
 		return (_capacity);
 	}
@@ -150,7 +150,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	unsigned int	Vector<T, Alloc>::max_size() const
+	size_t	Vector<T, Alloc>::max_size() const
 	{
 		return (_malloc.max_size());
 	}
@@ -173,7 +173,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	void	Vector<T, Alloc>::reserve(unsigned int n)
+	void	Vector<T, Alloc>::reserve(size_type n)
 	{
 		if (n > _malloc.max_size())
 			throw (lenghtError());
@@ -181,7 +181,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	void	Vector<T, Alloc>::resize(unsigned int n, T val)
+	void	Vector<T, Alloc>::resize(size_type n, T val)
 	{
 		if (n < _size)
 		{
@@ -201,9 +201,22 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	void	Vector<T, Alloc>::swap(T &x)
+	void	Vector<T, Alloc>::swap(Vector<T, Alloc> &x)
 	{
-		
+		T				*vec_tmp = x._vec;
+		unsigned int	size_tmp = x._size;
+		unsigned int	capa_tmp = x._capacity;
+		Alloc			malloc_tmp = x._malloc;
+
+		x._vec = _vec;
+		x._size = _size;
+		x._capacity = _capacity;
+		x._malloc = _malloc;
+
+		_vec = vec_tmp;
+		_size = size_tmp;
+		_capacity = capa_tmp;
+		_malloc = malloc_tmp;
 	}
 
 					/*****EXEPTIONS*****/
@@ -217,6 +230,13 @@ namespace ft
 	const char *Vector<T, Alloc>::lenghtError::what() const throw()
 	{
 		return ("Lenght error : ask more than max_size");
+	}
+
+					/*****NON-MEMBER OVERLOAD*****/
+	template <class T, class Alloc>
+	void swap (Vector<T,Alloc> &x, Vector<T,Alloc> &y)
+	{
+		x.swap(y);
 	}
 
 					/*****MINE*****/
