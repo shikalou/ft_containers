@@ -6,15 +6,19 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/01/09 18:38:07 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/01/17 11:42:21 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	containers
 
-SRCS_FILES	=	main.cpp
+SRCS_FILES	=	main_iterator.cpp #main.cpp
 
-INC_FILES	=	Vector.hpp Vector.tpp
+INC_FILES	=	Vector.hpp Vector.tpp\
+				vector_iterator.hpp\
+				iterator_traits.hpp\
+				reverse_iterator.hpp reverse_iterator.tpp
+
 
 SRCS	=	$(addprefix srcs/, $(SRCS_FILES))
 

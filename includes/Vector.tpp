@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/16 18:53:46 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/17 14:21:01 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	size_t	Vector<T, Alloc>::size() const
+	std::size_t	Vector<T, Alloc>::size() const
 	{
 		return (_size);
 	}
 
 	template <class T, class Alloc>
-	size_t	Vector<T, Alloc>::capacity() const
+	std::size_t	Vector<T, Alloc>::capacity() const
 	{
 		return (_capacity);
 	}
@@ -150,7 +150,7 @@ namespace ft
 	}
 
 	template <class T, class Alloc>
-	size_t	Vector<T, Alloc>::max_size() const
+	std::size_t	Vector<T, Alloc>::max_size() const
 	{
 		return (_malloc.max_size());
 	}
