@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:09:55 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/17 18:46:24 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/18 18:10:27 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,24 @@ namespace ft
 	}
 	
 	template <class Iterator>
-	reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::operator*() const
+	typename reverse_iterator<Iterator>::reference	reverse_iterator<Iterator>::operator*() const
 	{
-		// iterator_type tmp = _it;
-		// return (*--tmp);
-		return (&*(_it - 1));
+		iterator_type tmp = _it;
+		return (*--tmp);
 	}
 
-	template<class Iterator>
-	reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator--()
+	template <class Iterator>
+	typename reverse_iterator<Iterator>::pointer	reverse_iterator<Iterator>::operator->() const
 	{
-		return ()
+		iterator_type tmp = _it;
+		return (&(*--tmp));
 	}
+
+	// template<class Iterator>
+	// reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator--()
+	// {
+	// 	return ()
+	// }
 }
 
 #endif

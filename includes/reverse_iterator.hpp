@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 15:44:58 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/17 18:49:58 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/18 18:07:55 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ namespace ft
 			// reverse_iterator(const reverse_iterator<Iter> &rev_it); //copy cons
 
 					/*OPERATOR OVERLOAD*/
-			iterator_type	base() const;
-			reference		operator*() const;
+			iterator_type		base() const;
+			reference			operator*() const;
+			pointer				operator->() const;
 			reverse_iterator	&operator++(); // pre_decrement
 			reverse_iterator	operator++(int); // post_decrement
 			reverse_iterator	&operator--(); // pre_increment
