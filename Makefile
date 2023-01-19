@@ -6,13 +6,14 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/01/17 11:42:21 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/01/19 18:57:38 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	containers
 
-SRCS_FILES	=	main_iterator.cpp #main.cpp
+SRCS_FILES	=	main_iterator.cpp 
+				
 
 INC_FILES	=	Vector.hpp Vector.tpp\
 				vector_iterator.hpp\

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/17 14:21:01 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/19 18:50:20 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ namespace ft
 {
 					/*****CONS/DESTRUCTOR*****/
 	template <class T, class Alloc>
-	Vector<T, Alloc>::Vector()
+	Vector<T, Alloc>::Vector(const allocator_type& alloc)
 	{
 		// std::cout << "vector default constructor called" << std::endl;
-		_malloc = Alloc();
+		_malloc = alloc;
 		_vec = _malloc.allocate(0);
 		_size = 0;
 		_capacity = 0;
 	}
 
 	template <class T, class Alloc>
-	Vector<T, Alloc>::Vector(size_type n, const T &val)
+	Vector<T, Alloc>::Vector (size_type n, const value_type& val)
 	{
 		// std::cout << "vector fill constructor called" << std::endl;
 		_malloc = Alloc();
@@ -104,7 +104,7 @@ namespace ft
 	T	&Vector<T, Alloc>::at(size_type i)
 	{
 		if (i >= _size)
-			throw (BadIndex());
+			throw (std::out_of_range("out_of_range"));
 		return (_vec[i]);
 	}
 
@@ -176,7 +176,7 @@ namespace ft
 	void	Vector<T, Alloc>::reserve(size_type n)
 	{
 		if (n > _malloc.max_size())
-			throw (lenghtError());
+			throw (std::length_error("length_error"));
 		updateCapacity(n, n);
 	}
 
@@ -217,19 +217,6 @@ namespace ft
 		_size = size_tmp;
 		_capacity = capa_tmp;
 		_malloc = malloc_tmp;
-	}
-
-					/*****EXEPTIONS*****/
-	template <class T, class Alloc>
-	const char *Vector<T, Alloc>::BadIndex::what() const throw()
-	{
-		return ("Index is out of range");
-	}
-
-	template <class T, class Alloc>
-	const char *Vector<T, Alloc>::lenghtError::what() const throw()
-	{
-		return ("Lenght error : ask more than max_size");
 	}
 
 					/*****NON-MEMBER OVERLOAD*****/

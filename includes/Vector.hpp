@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/17 14:20:44 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/19 18:48:58 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <stdexcept>
 #include <reverse_iterator.hpp>
 #include <vector_iterator.hpp>
 
@@ -30,9 +31,9 @@ namespace ft
 			typedef size_t							size_type;
 
 				/*CONS/DESTRUCTOR*/
-			Vector();
+			explicit Vector(const allocator_type& alloc = allocator_type());
 			~Vector();
-			Vector(size_type n, const T &val);
+			explicit Vector (size_type n, const value_type& val = value_type());
 		//	Vector(); //range
 			Vector(const Vector &copy);
 
@@ -54,17 +55,6 @@ namespace ft
 			void		reserve(size_type n);
 			void		resize(size_type n, T val = T());
 			void		swap(Vector<T, Alloc> &x);
-
-				/*EXEPTIONS*/
-			class BadIndex : public std::exception
-			{
-				const char *what() const throw();
-			};
-			
-			class lenghtError : public std::exception
-			{
-				const char *what() const throw();
-			};
 
 		private:
 			T				*_vec;
