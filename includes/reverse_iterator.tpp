@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:09:55 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/18 18:10:27 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/20 17:59:31 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,59 @@ namespace ft
 		return (&(*--tmp));
 	}
 
-	// template<class Iterator>
-	// reverse_iterator<Iterator> &reverse_iterator<Iterator>::operator--()
-	// {
-	// 	return ()
-	// }
+	template<class Iterator>
+	reverse_iterator<Iterator>	&reverse_iterator<Iterator>::operator--()
+	{
+		return (*this--);
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	reverse_iterator<Iterator>::operator--(int)
+	{
+		reverse_iterator tmp = *this;
+		*this--;
+		return (tmp);
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	&reverse_iterator<Iterator>::operator++()
+	{
+		return (*this++);
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	reverse_iterator<Iterator>::operator++(int)
+	{
+		reverse_iterator tmp = *this;
+		*this++;
+		return (tmp);
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	reverse_iterator<Iterator>::operator+(difference_type n) const
+	{
+		return (reverse_iterator(base() + n));
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	reverse_iterator<Iterator>::operator-(difference_type n) const
+	{
+		return (reverse_iterator(base() - n));
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	&reverse_iterator<Iterator>::operator+=(difference_type n)
+	{
+		*this = *this + n;
+		return (*this);
+	}
+
+	template<class Iterator>
+	reverse_iterator<Iterator>	&reverse_iterator<Iterator>::operator-=(difference_type n)
+	{
+		*this = *this - n;
+		return (*this);
+	}
 }
 
 #endif
