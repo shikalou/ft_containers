@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/19 18:57:15 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/20 22:58:17 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,4 @@ int	main()
 	std::cout << ' ' << bar[i];
 	std::cout << '\n';
 	std::cout << std::endl << std::endl;
-
 }

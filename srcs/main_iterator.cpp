@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:49:21 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/20 18:14:43 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/20 22:58:33 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,197 @@
 #include <vector>
 #include <reverse_iterator.hpp>
 
-int	main()
+int	main(void)
 {
-	std::vector<int> toto(1, 100);
+	std::vector<int> toto(1, 1);
+	toto.push_back(5);
+	toto.push_back(6);
+	toto.push_back(7);
+	toto.push_back(5);
+	toto.push_back(6);
+	toto.push_back(7);
+	toto.push_back(5);
+	toto.push_back(6);
+	toto.push_back(7);
+	toto.push_back(5);
+	toto.push_back(6);
+	toto.push_back(7);
+	toto.push_back(5);
+	toto.push_back(6);
+	toto.push_back(7);
+	std::vector<int>::iterator it2 = toto.begin();
+	std::vector<int>::reverse_iterator rev(it2);
+	ft::reverse_iterator<std::vector<int>::iterator> it(it2);
 
-	toto.push_back(669);
-	toto.push_back(668);
-	toto.push_back(667);
-	toto.push_back(666);
-	toto.push_back(665);
-	toto.push_back(664);
-	toto.push_back(663);
-	toto.push_back(662);
-	toto.push_back(661);
-	toto.push_back(660);
+	std::cout << "----- START * | [] | base test -----" << std::endl;
+	std::cout << std::endl;
+	std::cout << "*: " << std::endl;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "base: " << std::endl;
+	std::cout << "REAL: " << *rev.base() << std::endl;
+	std::cout << "FT: " << *it.base() << std::endl;
+	std::cout << std::endl;
+	std::cout << "[]: " << std::endl;
+	std::cout << "REAL: " << rev[1] << std::endl;
+	std::cout << "FT: " << it[1] << std::endl;
+	std::cout << std::endl;
+	std::cout << "----- END * | [] | base test -----" << std::endl;
 
-
-	std::vector<int>::iterator it = toto.begin();
-
-	std::vector<int>::reverse_iterator rit(it);
-	ft::reverse_iterator<std::vector<int>::iterator> my_rit(it);
-
-	std::cout << "*rit = " << *rit << std::endl;
-	std::cout << "*my_rit = " << *my_rit << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 	std::cout << std::endl;
 
-	std::cout << "*rit.base() - 1 = " << *rit.base() << std::endl;
-	std::cout << "*my_rit.base() - 1 = " << *my_rit.base() << std::endl;
+	std::cout << "----- START arithmetics operator test -----" << std::endl;
+	std::cout << std::endl;
+	std::cout << "--x: " << std::endl;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << "REVERSE DECREMENTATION" << std::endl;
+	--rev;
+	--it;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "x--: " << std::endl;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << "REVERSE DECREMENTATION" << std::endl;
+	rev--;
+	it--;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "++x: " << std::endl;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << "REVERSE INCREMENTATION" << std::endl;
+	++rev;
+	++it;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "x++: " << std::endl;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << "REVERSE INCREMENTATION" << std::endl;
+	rev++;
+	it++;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "REVERSE -=: " << std::endl;
+	rev -= 9;
+	it -= 9;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "REVERSE +=: " << std::endl;
+	rev += 1;
+	it += 1;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "REVERSE -: " << std::endl;
+	rev - 1;
+	it - 1;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "REVERSE +: " << std::endl;
+	rev + 2;
+	it + 2;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << std::endl;
+	std::cout << "----- END arithmetics operators -----" << std::endl;
+	
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 	std::cout << std::endl;
 
-//	rit++;
-//	my_rit++;
+	std::cout << "----- START comparaison operators -----" << std::endl;	
+	std::cout << std::endl;
+	ft::reverse_iterator<std::vector<int>::iterator> it3(it);
+	std::vector<int>::reverse_iterator rev2(rev);
+
+	std::cout << "lhs == rhs (lhs = rhs): " << std::endl;
+	bool recup = rev == rev2;
+	bool recup2 = it == it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+	it++;
+	rev++;
+	std::cout << "lhs == rhs (lhs != rhs): " << std::endl;
+	recup = rev == rev2;
+	recup2 = it == it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "lhs != rhs (lhs = rhs): " << std::endl;
+	recup = rev != rev2;
+	recup2 = it != it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+	it--;
+	rev--;
+	std::cout << "lhs != rhs (lhs != rhs): " << std::endl;
+	recup = rev != rev2;
+	recup2 = it != it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "lhs <= rhs (lhs <= rhs): " << std::endl;
+	recup = rev <= rev2;
+	recup2 = it <= it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+	std::cout << "lhs >= rhs (lhs >= rhs): " << std::endl;
+	recup = rev >= rev2;
+	recup2 = it >= it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "lhs < rhs (lhs < rhs): " << std::endl;
+	recup = rev < rev2;
+	recup2 = it < it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+	std::cout << "lhs > rhs (lhs > rhs): " << std::endl;
+	recup = rev > rev2;
+	recup2 = it > it3;
+	std::cout << "REAL: " << recup << std::endl;
+	std::cout << "FT: " << recup2 << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "----- END comparaison operators -----" << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "----- START template -/+ -----" << std::endl;
+	std::cout << std::endl;
+	*it++;
+	*rev++;
+	std::cout << "n - rhs: " << std::endl;
+	rev = rev - 5;
+	it = it - 5;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+	std::cout << "n + rhs: " << std::endl;
+	rev = 23 + rev;
+	it = 23 + it;
+	std::cout << "REAL: " << *rev << std::endl;
+	std::cout << "FT: " << *it << std::endl;
+
+	std::cout << std::endl;
+	std::cout << "----- END template -/+ -----" << std::endl;
 }
