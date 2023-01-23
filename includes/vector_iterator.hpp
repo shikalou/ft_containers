@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:31:39 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/17 12:00:32 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/23 18:11:44 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,43 @@ namespace ft
 	template <class T>
 	class vector_iterator
 	{
+		public:
+			typedef T				value_type;
+			typedef std::ptrdiff_t	difference_type;
+			typedef T*				pointer;
+			typedef T&				reference;
+			typedef ft::random_access_iterator_tag	iterator_category;
 
+				/*CONS/DESTRUCTORS*/
+			vector_iterator(pointer t = 0);
+			vector_iterator(const vector_iterator<T> &copy);
+			~vector_iterator();
+
+				/*OVERLOADS OPERATOR*/
+			reference		operator=(const vector_iterator &egal);
+			reference		operator*() const;
+			vector_iterator	&operator++(); // pre_decrement
+			vector_iterator	operator++(int); // post_decrement
+			vector_iterator	&operator--(); // pre_increment
+			vector_iterator	operator--(int); // post_increment
+			vector_iterator	operator+(difference_type n) const;
+			vector_iterator	operator-(difference_type n) const;
+			vector_iterator	&operator+=(difference_type n);
+			vector_iterator	&operator-=(difference_type n);
+			reference		&operator[](difference_type n) const;
+
+
+		private:
+			pointer	_p;
 	};
+	
+	template <class T>
+	bool		operator!=(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
+	
+	template <class T>
+	bool		operator==(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
 }
+
+#include "vector_iterator.tpp"
 
 #endif

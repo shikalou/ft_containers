@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   main_vector.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/20 22:58:17 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/23 18:05:42 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,13 @@ int	main()
 	std::cout << ' ' << bar[i];
 	std::cout << '\n';
 	std::cout << std::endl << std::endl;
+
+	std::vector<int>::iterator lol;
+	std::cout << &(*lol) << std::endl;
+
+	ft::Vector<int>::iterator lol2;
+	std::cout << &(*lol2) << std::endl;
+
+	ft::Vector<int>::iterator lol3;
+	
 }
