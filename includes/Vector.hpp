@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/19 18:48:58 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/24 15:00:26 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace ft
 				/*METHODES*/
 			value_type	&at(size_type i);
 			T			&back() const;
+			iterator	begin();
 			void		clear();
 			size_type	size() const;
 			size_type	capacity() const;

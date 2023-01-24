@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/19 18:50:20 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:16:32 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,12 @@ namespace ft
 		_capacity = capa_tmp;
 		_malloc = malloc_tmp;
 	}
+
+	// template<class T, class Alloc>
+	// vector_iterator<T>	Vector<T, Alloc>::begin()
+	// {
+	// 	return (iterator._p);
+	// }
 
 					/*****NON-MEMBER OVERLOAD*****/
 	template <class T, class Alloc>

@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:49:21 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/20 22:58:33 by ldinaut          ###   ########.fr       */
+/*   Created: 2023/01/24 14:46:14 by ldinaut           #+#    #+#             */
+/*   Updated: 2023/01/24 16:30:51 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <Vector.hpp>
+#include <iostream>
 #include <vector>
-#include <reverse_iterator.hpp>
+#include "Vector.hpp"
+#include "vector_iterator.hpp"
 
 int	main(void)
 {
@@ -20,21 +21,14 @@ int	main(void)
 	toto.push_back(5);
 	toto.push_back(6);
 	toto.push_back(7);
-	toto.push_back(5);
-	toto.push_back(6);
-	toto.push_back(7);
-	toto.push_back(5);
-	toto.push_back(6);
-	toto.push_back(7);
-	toto.push_back(5);
-	toto.push_back(6);
-	toto.push_back(7);
-	toto.push_back(5);
-	toto.push_back(6);
-	toto.push_back(7);
+	ft::Vector<int> lala(1, 1);
+	lala.push_back(5);
+	lala.push_back(6);
+	lala.push_back(7);
 	std::vector<int>::iterator it2 = toto.begin();
-	std::vector<int>::reverse_iterator rev(it2);
-	ft::reverse_iterator<std::vector<int>::iterator> it(it2);
+	ft::Vector<int>::iterator it4 = lala.begin();
+	std::vector<int>::iterator rev(it2);
+	ft::Vector<int>::iterator it(it4);
 
 	std::cout << "----- START * | [] | base test -----" << std::endl;
 	std::cout << std::endl;
@@ -42,10 +36,10 @@ int	main(void)
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << std::endl;
-	std::cout << "base: " << std::endl;
-	std::cout << "REAL: " << *rev.base() << std::endl;
-	std::cout << "FT: " << *it.base() << std::endl;
-	std::cout << std::endl;
+	// std::cout << "base: " << std::endl;
+	// std::cout << "REAL: " << *rev.base() << std::endl;
+	// std::cout << "FT: " << *it.base() << std::endl;
+	// std::cout << std::endl;
 	std::cout << "[]: " << std::endl;
 	std::cout << "REAL: " << rev[1] << std::endl;
 	std::cout << "FT: " << it[1] << std::endl;
@@ -62,7 +56,7 @@ int	main(void)
 	std::cout << "--x: " << std::endl;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
-	std::cout << "REVERSE DECREMENTATION" << std::endl;
+	std::cout << "DECREMENTATION" << std::endl;
 	--rev;
 	--it;
 	std::cout << "REAL: " << *rev << std::endl;
@@ -71,7 +65,7 @@ int	main(void)
 	std::cout << "x--: " << std::endl;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
-	std::cout << "REVERSE DECREMENTATION" << std::endl;
+	std::cout << "DECREMENTATION" << std::endl;
 	rev--;
 	it--;
 	std::cout << "REAL: " << *rev << std::endl;
@@ -80,7 +74,7 @@ int	main(void)
 	std::cout << "++x: " << std::endl;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
-	std::cout << "REVERSE INCREMENTATION" << std::endl;
+	std::cout << "INCREMENTATION" << std::endl;
 	++rev;
 	++it;
 	std::cout << "REAL: " << *rev << std::endl;
@@ -89,31 +83,45 @@ int	main(void)
 	std::cout << "x++: " << std::endl;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
-	std::cout << "REVERSE INCREMENTATION" << std::endl;
+	std::cout << "INCREMENTATION" << std::endl;
 	rev++;
 	it++;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << std::endl;
-	std::cout << "REVERSE -=: " << std::endl;
-	rev -= 9;
-	it -= 9;
+	std::cout << "-=: " << std::endl;
+	rev -= 1;
+	it -= 1;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << std::endl;
-	std::cout << "REVERSE +=: " << std::endl;
+	int i = 0;
+	while (lala[i])
+	{
+		std::cout << lala[i] << std::endl;
+		i++;
+	}
+	std::cout << std::endl;
+	i = 0;
+	while (toto[i])
+	{
+		std::cout << toto[i] << std::endl;
+		i++;
+	}
+	std::cout << std::endl;
+	std::cout << "+=: " << std::endl;
 	rev += 1;
 	it += 1;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << std::endl;
-	std::cout << "REVERSE -: " << std::endl;
+	std::cout << "-: " << std::endl;
 	rev - 1;
 	it - 1;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << std::endl;
-	std::cout << "REVERSE +: " << std::endl;
+	std::cout << "+: " << std::endl;
 	rev + 2;
 	it + 2;
 	std::cout << "REAL: " << *rev << std::endl;
@@ -128,8 +136,8 @@ int	main(void)
 
 	std::cout << "----- START comparaison operators -----" << std::endl;	
 	std::cout << std::endl;
-	ft::reverse_iterator<std::vector<int>::iterator> it3(it);
-	std::vector<int>::reverse_iterator rev2(rev);
+	ft::Vector<int>::iterator it3(it);
+	std::vector<int>::iterator rev2(rev);
 
 	std::cout << "lhs == rhs (lhs = rhs): " << std::endl;
 	bool recup = rev == rev2;
@@ -200,11 +208,16 @@ int	main(void)
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 	std::cout << "n + rhs: " << std::endl;
-	rev = 23 + rev;
-	it = 23 + it;
+	rev = 2 + rev;
+	it = 2 + it;
 	std::cout << "REAL: " << *rev << std::endl;
 	std::cout << "FT: " << *it << std::endl;
 
 	std::cout << std::endl;
 	std::cout << "----- END template -/+ -----" << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
