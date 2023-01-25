@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 18:35:13 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/25 23:00:33 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ namespace ft
 			iterator		erase(iterator first, iterator last);
 			T				&front() const;
 			allocator_type	get_allocator() const;
+			iterator		insert(iterator position, const value_type& val);
+			void			insert(iterator position, size_type n, const value_type& val);
+			// template <class InputIterator>
+			// void			insert(iterator position, InputIterator first, InputIterator last);
 			size_type		max_size() const;
 			void			pop_back();
 			void			push_back(const T &val);

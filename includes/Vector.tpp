@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 20:24:45 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/26 00:34:35 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,15 @@ namespace ft
 			last--;
 		}
 		return (first);
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<T>	Vector<T, Alloc>::insert(iterator position, const value_type &val)
+	{
+		if (_size + 1 > capacity)
+		{
+
+		}
 	}
 
 					/*****NON-MEMBER OVERLOAD*****/
