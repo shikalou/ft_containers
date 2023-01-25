@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:37:47 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/24 16:38:37 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/25 19:51:31 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ namespace ft
 	}
 
 	template<class T>
+	T	*vector_iterator<T>::operator->() const
+	{
+		return (_p);
+	}
+
+	template<class T>
 	vector_iterator<T> vector_iterator<T>::operator=(const vector_iterator &egal)
 	{
 		_p = egal._p;
@@ -57,7 +63,7 @@ namespace ft
 	template<class T>
 	vector_iterator<T>	&vector_iterator<T>::operator--()
 	{
-		++this->_p;
+		--this->_p;
 		return (*this);
 	}
 
@@ -72,7 +78,7 @@ namespace ft
 	template<class T>
 	vector_iterator<T>	&vector_iterator<T>::operator++()
 	{
-		--this->_p;
+		++this->_p;
 		return (*this);
 	}
 
@@ -102,66 +108,65 @@ namespace ft
 	template<class T>
 	bool	operator!=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p != rhs._p);
+		return (lhs.operator->() != rhs.operator->());
 	}
 
 	template<class T>
 	bool	operator==(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p == rhs._p);
+		return (lhs.operator->() == rhs.operator->());
 	}
 
 	template<class T>
-	vector_iterator<T>	operator+(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a + n
+	vector_iterator<T>	operator+(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a + n
 	{
-		lhs._p = lhs._p + n;
-		return (lhs);
+		vector_iterator<T> tmp(lhs.operator->() + n);
+		return (tmp);
 	}
 
 	template<class T>
-	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, vector_iterator<T> &rhs) // n + a
+	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, const vector_iterator<T> &rhs) // n + a
 	{
-		rhs._p = rhs._p + n;
-		return (rhs);
+		vector_iterator<T> tmp(rhs.operator->() + n);
+		return (tmp);
 	}
 
 	template<class T>
-	vector_iterator<T>	operator-(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a - n
+	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a - n
 	{
-		lhs._p = lhs._p - n;
-		return (lhs);
+		vector_iterator<T> tmp(lhs.operator->() - n);
+		return (tmp);
 	}
 
 	template<class T> // a - b
-	vector_iterator<T>	operator-(vector_iterator<T> &lhs, vector_iterator<T> &rhs)
+	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs)
 	{
-		return (lhs._p - rhs._p);
+		return (lhs.operator->() - rhs.operator->());
 	}
 
 	template<class T>
 	bool	operator<(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p < rhs._p);
+		return (lhs.operator->() < rhs.operator->());
 	}
 
 	template<class T>
 	bool	operator>(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p > rhs._p);
+		return (lhs.operator->() > rhs.operator->());
 	}
 
 	template<class T>
 	bool	operator<=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p <= rhs._p);
+		return (lhs.operator->() <= rhs.operator->());
 	}
 
 	template<class T>
 	bool	operator>=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
 	{
-		return (lhs._p >= rhs._p);
+		return (lhs.operator->() >= rhs.operator->());
 	}
-
 }
 
 #endif

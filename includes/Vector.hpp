@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/24 15:00:26 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/25 18:35:13 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ namespace ft
 	class Vector
 	{
 		public:
-			typedef T								value_type;
-			typedef Alloc							allocator_type;
-			typedef vector_iterator<value_type>		iterator;
-			typedef ft::reverse_iterator<iterator>	reverse_iterator;
-			typedef size_t							size_type;
+			typedef T										value_type;
+			typedef Alloc									allocator_type;
+			typedef vector_iterator<value_type>				iterator;
+			typedef vector_iterator<const value_type>		const_iterator;
+			typedef ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef ft::reverse_iterator<const iterator>	const_reverse_iterator;
+			typedef size_t									size_type;
 
 				/*CONS/DESTRUCTOR*/
 			explicit Vector(const allocator_type& alloc = allocator_type());
@@ -42,20 +44,26 @@ namespace ft
 			T		&operator[](size_type i);
 
 				/*METHODES*/
-			value_type	&at(size_type i);
-			T			&back() const;
-			iterator	begin();
-			void		clear();
-			size_type	size() const;
-			size_type	capacity() const;
-			bool		empty() const;
-			T			&front() const;
-			size_type	max_size() const;
-			void		push_back(const T &val);
-			void		pop_back();
-			void		reserve(size_type n);
-			void		resize(size_type n, T val = T());
-			void		swap(Vector<T, Alloc> &x);
+			value_type		&at(size_type i);
+			T				&back() const;
+			iterator		begin();
+			const_iterator	begin() const;
+			size_type		capacity() const;
+			void			clear();
+			iterator 		end();
+			const_iterator	end() const;
+			bool			empty() const;
+			iterator		erase(iterator position);
+			iterator		erase(iterator first, iterator last);
+			T				&front() const;
+			allocator_type	get_allocator() const;
+			size_type		max_size() const;
+			void			pop_back();
+			void			push_back(const T &val);
+			void			reserve(size_type n);
+			void			resize(size_type n, T val = T());
+			size_type		size() const;
+			void			swap(Vector<T, Alloc> &x);
 
 		private:
 			T				*_vec;

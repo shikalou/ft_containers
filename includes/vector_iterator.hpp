@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:31:39 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/24 16:38:49 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/25 19:47:57 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ namespace ft
 	class vector_iterator
 	{
 		public:
-			typedef T				value_type;
-			typedef std::ptrdiff_t	difference_type;
-			typedef T*				pointer;
-			typedef T&				reference;
+			typedef T								value_type;
+			typedef ptrdiff_t					difference_type;
+			typedef T*								pointer;
+			typedef T&								reference;
 			typedef ft::random_access_iterator_tag	iterator_category;
 
 				/*CONS/DESTRUCTORS*/
@@ -33,6 +33,7 @@ namespace ft
 				/*OVERLOADS OPERATOR*/
 			vector_iterator	operator=(const vector_iterator &egal);
 			reference		operator*() const;
+			pointer			operator->() const;
 			vector_iterator	&operator++(); // pre_decrement
 			vector_iterator	operator++(int); // post_decrement
 			vector_iterator	&operator--(); // pre_increment
@@ -41,38 +42,40 @@ namespace ft
 			vector_iterator	&operator-=(difference_type n);
 			reference		&operator[](difference_type n) const;
 
-			friend bool					operator!=(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
-			friend bool					operator==(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
-			friend bool					operator<(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
-			friend bool					operator>(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
-			friend bool					operator<=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
-			friend bool					operator>=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
-			friend vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, vector_iterator<T> &rhs);
-			friend vector_iterator<T>	operator+(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
-			friend vector_iterator<T>	operator-(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
-			friend vector_iterator<T>	operator-(vector_iterator<T> &lhs, vector_iterator<T> &rhs);
 
 		private:
 			pointer	_p;
 	};
-	
-	template <class T>
-	bool		operator!=(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
-	
-	template <class T>
-	bool		operator==(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
-	
-	template<class T> // n + a
-	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, vector_iterator<T> &rhs);
 
-	template<class T> // a + n
-	vector_iterator<T>	operator+(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
-	
-	template<class T> // a - n
-	vector_iterator<T>	operator-(vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
+	template <class T>
+	bool				operator==(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
 
-	template<class T> // a - b
-	vector_iterator<T>	operator-(vector_iterator<T> &lhs, vector_iterator<T> &rhs);
+	template <class T>
+	bool				operator!=(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
+
+	template <class T>
+	bool				operator<(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
+
+	template <class T>
+	bool				operator>(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
+
+	template <class T>
+	bool				operator<=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs);
+
+	template <class T>
+	bool				operator>=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs); 
+
+	template <class T>
+	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, const vector_iterator<T> &rhs);
+
+	template <class T>
+	vector_iterator<T>	operator+(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
+
+	template <class T>
+	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
+
+	template <class T>
+	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
 }
 
 #include "vector_iterator.tpp"

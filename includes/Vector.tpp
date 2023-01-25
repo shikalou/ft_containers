@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/24 16:16:32 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/25 20:24:45 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,11 +219,63 @@ namespace ft
 		_malloc = malloc_tmp;
 	}
 
-	// template<class T, class Alloc>
-	// vector_iterator<T>	Vector<T, Alloc>::begin()
-	// {
-	// 	return (iterator._p);
-	// }
+	template<class T, class Alloc>
+	Alloc	Vector<T, Alloc>::get_allocator() const
+	{
+		return (_malloc);
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<T>	Vector<T, Alloc>::begin()
+	{
+		return (iterator(_vec));
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<const T>	Vector<T, Alloc>::begin() const
+	{
+		return (const_iterator(_vec));
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<T>	Vector<T, Alloc>::end()
+	{
+		return (iterator(_vec + _size));
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<const T>	Vector<T, Alloc>::end() const
+	{
+		return (const_iterator(_vec + _size));
+	}
+	
+	template<class T, class Alloc>
+	vector_iterator<T>	Vector<T, Alloc>::erase(iterator position)
+	{
+		if (position < end())
+		{
+			_size--;
+			iterator tmp(position);
+			_malloc.destroy(position.operator->());
+			for(;tmp < end(); ++tmp)
+			{ 
+				_malloc.construct(tmp.operator->(), *(tmp + 1));
+				_malloc.destroy(tmp.operator->() + 1);
+			}
+		}
+		return (position);
+	}
+
+	template<class T, class Alloc>
+	vector_iterator<T>	Vector<T, Alloc>::erase(iterator first, iterator last)
+	{
+		while (first != last)
+		{
+			erase(first);
+			last--;
+		}
+		return (first);
+	}
 
 					/*****NON-MEMBER OVERLOAD*****/
 	template <class T, class Alloc>
