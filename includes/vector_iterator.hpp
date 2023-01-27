@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:31:39 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 19:47:57 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:06:22 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ namespace ft
 	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n);
 
 	template <class T>
-	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
+	typename vector_iterator<T>::difference_type		operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs);
 }
 
 #include "vector_iterator.tpp"

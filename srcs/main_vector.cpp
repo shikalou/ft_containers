@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/23 18:05:42 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/27 17:24:59 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,13 +134,42 @@ int	main()
 	std::cout << ' ' << bar[i];
 	std::cout << '\n';
 	std::cout << std::endl << std::endl;
+	std::cout << std::endl << std::endl;
 
-	std::vector<int>::iterator lol;
-	std::cout << &(*lol) << std::endl;
+	std::vector<int> test;
 
-	ft::Vector<int>::iterator lol2;
-	std::cout << &(*lol2) << std::endl;
+	std::cout << "test size = " << test.size() << " capacity = " << test.capacity() << std::endl;
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	test.push_back(3);
+	std::cout << "test size = " << test.size() << " capacity = " << test.capacity() << std::endl;
+	for (unsigned int i = 0; i < test.size(); ++i)
+	{
+		std::cout << "test[i] = " << test[i] << std::endl;
+	}
+	ft::Vector<int> test2;
 
-	ft::Vector<int>::iterator lol3;
-	
+	std::cout << "test2 size = " << test2.size() << " capacity = " << test2.capacity() << std::endl;
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	test2.push_back(3);
+	std::cout << "test2 size = " << test2.size() << " capacity = " << test2.capacity() << std::endl;
+	for (unsigned int i = 0; i < test2.size(); ++i)
+	{
+		std::cout << "test2[i] = " << test2[i] << std::endl;
+	}
 }

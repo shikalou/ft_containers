@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/26 00:34:35 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/27 17:35:17 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,9 +280,31 @@ namespace ft
 	template<class T, class Alloc>
 	vector_iterator<T>	Vector<T, Alloc>::insert(iterator position, const value_type &val)
 	{
-		if (_size + 1 > capacity)
-		{
+		_size++;
+		size_t j = position - begin();
+		std::cout<< "fgdfgdfgdfg" << _capacity << _size << std::endl;
+		if (_capacity <= _size)
+			updateCapacity(_size, _capacity * 2);
+		size_t i = size();
+		while (i > j)
+		{		
+			std::cout<< "_vec[i] " << _vec[i] << "   " << _capacity << "   " << _size << std::endl;
+			_malloc.construct(&_vec[i], _vec[i - 1]);
+			i--;
+			//_malloc.destroy(&_vec[i + 1]);
+		}
+		_malloc.construct(position.operator->(), val);
+		return (position);
+	}
 
+	template <class T, class Alloc>
+	void	Vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
+	{
+		//size_type j = position - begin();
+		for (size_type i = 0; i < n; i++)
+		{
+			insert(position, val);
+			//position++;
 		}
 	}
 
@@ -297,7 +319,7 @@ namespace ft
 	template <class T, class Alloc>
 	void	Vector<T, Alloc>::updateCapacity(unsigned int size, unsigned int capacity)
 	{
-		if (size > _capacity)
+		if (size >= _capacity)
 		{
 			T	*new_tab = _malloc.allocate(capacity);
 			for (unsigned int i = 0; i < _size; ++i)

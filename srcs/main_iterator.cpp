@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:46:14 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 20:22:03 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/27 17:05:06 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,17 +261,28 @@ int	main(void)
 	// std::cout << "REAL: " << *(titi.rend() + 1) << std::endl;
 	// std::cout << "FT: " << *(lulu.rend() + 1) << std::endl;
 	// std::cout << std::endl;
-	// std::cout << "insert() 999 at 3 position: " << std::endl;
-	// titi.insert(titi.begin() + 2, 999);
-	// lulu.insert(lulu.begin() + 2, 999);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < titi.size(); ++i)
-	// 	std::cout << "REAL: " << titi[i] << std::endl;
-	// std::cout << std::endl;
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < lulu.size(); ++i)
-	// 	std::cout << "FT: " << lulu[i] << std::endl;
-	// std::cout << std::endl;
+	std::cout << "insert() 999 at 3 position: " << std::endl;
+	titi.insert(titi.begin() + 2, 999);
+	lulu.insert(lulu.begin() + 2, 999);
+	std::cout << std::endl;
+	for (size_t i = 0; i < titi.size(); ++i)
+		std::cout << "REAL: " << titi[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	for (size_t i = 0; i < lulu.size(); ++i)
+		std::cout << "FT: " << lulu[i] << std::endl;
+	std::cout << std::endl;
+    std::cout << "insert() 999 2 to 8 positions: " << std::endl;
+    titi.insert(titi.begin() + 2, 8, 999);
+    lulu.insert(lulu.begin() + 2, 8, 999);
+    std::cout << std::endl;
+    for (size_t i = 0; i < titi.size(); ++i)
+        std::cout << "REAL: " << titi[i] << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    for (size_t i = 0; i < lulu.size(); ++i)
+        std::cout << "FT: " << lulu[i] << std::endl;
+    std::cout << std::endl;
 	std::cout << "erase() the second element: " << std::endl;
 	titi.erase(titi.begin() + 1);
 	lulu.erase(lulu.begin() + 1);

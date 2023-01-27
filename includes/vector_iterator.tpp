@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:37:47 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 19:51:31 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:07:11 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ namespace ft
 	}
 
 	template<class T> // a - b
-	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs)
+	typename vector_iterator<T>::difference_type	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs)
 	{
 		return (lhs.operator->() - rhs.operator->());
 	}
