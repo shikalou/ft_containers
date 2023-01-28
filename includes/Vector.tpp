@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/27 17:35:17 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/28 19:50:35 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ namespace ft
 	{
 		if (_vec)
 		{
-			for (unsigned int i = _size; _size != 0; --i)
+			for (unsigned int i = _size - 1; _size != 0; --i)
 			{
 				_malloc.destroy(_vec + i);
 				_size--;
@@ -281,30 +281,116 @@ namespace ft
 	vector_iterator<T>	Vector<T, Alloc>::insert(iterator position, const value_type &val)
 	{
 		_size++;
-		size_t j = position - begin();
-		std::cout<< "fgdfgdfgdfg" << _capacity << _size << std::endl;
-		if (_capacity <= _size)
-			updateCapacity(_size, _capacity * 2);
-		size_t i = size();
-		while (i > j)
-		{		
-			std::cout<< "_vec[i] " << _vec[i] << "   " << _capacity << "   " << _size << std::endl;
-			_malloc.construct(&_vec[i], _vec[i - 1]);
-			i--;
-			//_malloc.destroy(&_vec[i + 1]);
+		// if (_capacity < _size)
+		// {
+		// std::cout<< "fgdfgdfgdfg " << _capacity  << "   " << _size << "    position = " << *position << std::endl;
+		// 	_capacity = _capacity + 1;
+		// 	T *tmp = _malloc.allocate(_capacity);
+		// 	for (size_type j = 0; j < _size - 1; ++j)
+		// 	{
+		// 		std::cout << "JJJJJJ: " << j << "\n";
+		// 		_malloc.construct(&tmp[j], _vec[j]);
+		// 	}
+		// 	for (size_type j = 0; j < _size - 1; ++j)
+		// 			_malloc.destroy(_vec + j);
+		// 	_malloc.deallocate(_vec, _capacity);
+		// 	_vec = tmp;
+		// }
+
+
+	//	_size++;
+	//	if (_capacity < _size)
+	//			realloc(_capacity + 1);
+		size_type pos = position - begin();
+		std::cout << "BEGIN: " << pos << "\n";
+		for(size_t i = _size - 1; i > pos; i--)
+		{
+
+				 _malloc.construct(&_vec[i], _vec[i - 1]);
+				 _malloc.destroy(&_vec[i - 1]);
 		}
-		_malloc.construct(position.operator->(), val);
-		return (position);
+		_malloc.construct(&_vec[pos], val);
+//			for (size_t i = 0; i < _size - 1; i++)
+				// std::cout << "PRINT VEC: " << _vec[i] << "\n";
+		return (iterator(_vec + pos));
+		// size_type i = position - this->begin(); //recup l'index de pos
+		// size_type j = size() - 1;
+		// std::cout << "j = " << j << " et i = " << i << std::endl;
+		// for (; j > i; --j)
+		// {
+		// 	std::cout << "_vec[j - 1] = " << _vec[j - 1] << std::endl;
+		// 	_malloc.construct(_vec + j, _vec[j - 1]);
+		// 	_malloc.destroy(&_vec[j - 1]);
+		// }
+		// _malloc.construct(_vec + j, val);
+		// return (iterator(_vec + j));
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// _size++;
+		// std::cout<< "fgdfgdfgdfg" << _capacity << _size << "position = " << *position << std::endl;
+		// updateCapacity(_size, _capacity + 1);
+		// size_t j = position - iterator(&_vec[0]);
+		// //size_t i = size();
+		// // std::cout << "DANS INSERT i = " << i << "et j = " << j << std::endl;
+		// for(size_t i = _size - 1; i > j; i--)
+		// {
+		// 		_malloc.construct(&_vec[i], _vec[i - 1]);
+		// 		_malloc.destroy(&_vec[i - 1]);
+		// }
+		// // while (i > j)
+		// // {		
+		// // 	std::cout<< "_vec[i] " << _vec[i] << "   " << _capacity << "   " << _size << std::endl;
+		// // 	_malloc.construct(&_vec[i], _vec[i - 1]);
+		// // 	_malloc.destroy(&_vec[i - 1]);
+		// // 	i--;
+		// // }
+		// _malloc.construct(_vec + j, val);
+		// return (iterator(_vec + j));
+//	}
+
 
 	template <class T, class Alloc>
 	void	Vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
 	{
 		//size_type j = position - begin();
-		for (size_type i = 0; i < n; i++)
+		std::cout << "je passe la " << std::endl;
+		//for (size_type i = 0; i < n; i++)
+		_size += n;
+		if (_size > _capacity)
+			updateCapacity(_size, _capacity + n);
+		_size -= n;
+		while (n)
 		{
 			insert(position, val);
-			//position++;
+			position++;
+			n--;
 		}
 	}
 
@@ -322,14 +408,11 @@ namespace ft
 		if (size >= _capacity)
 		{
 			T	*new_tab = _malloc.allocate(capacity);
+			for (unsigned int i = 0; i < _size ; ++i)
+				_malloc.construct(&new_tab[i], this->at(i));
+			// for (unsigned int i = _size; i != 0; --i)
 			for (unsigned int i = 0; i < _size; ++i)
-			{
-				_malloc.construct(new_tab + i, _vec[i]);
-			}
-			for (unsigned int i = _size; i != 0; --i)
-			{
-				_malloc.destroy(_vec + i);
-			}
+				_malloc.destroy(&_vec[i]);
 			_malloc.deallocate(_vec, _capacity);
 			_capacity = capacity;
 			_vec = new_tab;
