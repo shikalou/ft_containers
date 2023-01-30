@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/28 19:50:35 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:25:56 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ namespace ft
 			_malloc.construct(_vec + i, val);
 		}
 	}
+
+	// template <class T, class Alloc> template <class InputIterator> 
+	// Vector<T, Alloc>::Vector(ft::enable_if<InputIterator>::type first, InputIterator last, const Alloc &alloc = typename Vector<T, Alloc>::allocator_type())
+	// {
+	// }
 
 	template <class T, class Alloc>
 	Vector<T, Alloc>::Vector(const Vector &copy)
@@ -276,120 +281,48 @@ namespace ft
 		}
 		return (first);
 	}
+	
+	template<class T, class Alloc>
+	void	Vector<T, Alloc>::assign(size_type n, const value_type &val)
+	{
+		clear();
+		while(n)
+		{
+			push_back(val);
+			n--;
+		}
+	}
 
 	template<class T, class Alloc>
 	vector_iterator<T>	Vector<T, Alloc>::insert(iterator position, const value_type &val)
 	{
-		_size++;
-		// if (_capacity < _size)
-		// {
-		// std::cout<< "fgdfgdfgdfg " << _capacity  << "   " << _size << "    position = " << *position << std::endl;
-		// 	_capacity = _capacity + 1;
-		// 	T *tmp = _malloc.allocate(_capacity);
-		// 	for (size_type j = 0; j < _size - 1; ++j)
-		// 	{
-		// 		std::cout << "JJJJJJ: " << j << "\n";
-		// 		_malloc.construct(&tmp[j], _vec[j]);
-		// 	}
-		// 	for (size_type j = 0; j < _size - 1; ++j)
-		// 			_malloc.destroy(_vec + j);
-		// 	_malloc.deallocate(_vec, _capacity);
-		// 	_vec = tmp;
-		// }
-
-
-	//	_size++;
-	//	if (_capacity < _size)
-	//			realloc(_capacity + 1);
-		size_type pos = position - begin();
-		std::cout << "BEGIN: " << pos << "\n";
-		for(size_t i = _size - 1; i > pos; i--)
+		if (position == end())
 		{
-
-				 _malloc.construct(&_vec[i], _vec[i - 1]);
-				 _malloc.destroy(&_vec[i - 1]);
+			push_back(val);
+			return (iterator(end() - 1));
 		}
-		_malloc.construct(&_vec[pos], val);
-//			for (size_t i = 0; i < _size - 1; i++)
-				// std::cout << "PRINT VEC: " << _vec[i] << "\n";
-		return (iterator(_vec + pos));
-		// size_type i = position - this->begin(); //recup l'index de pos
-		// size_type j = size() - 1;
-		// std::cout << "j = " << j << " et i = " << i << std::endl;
-		// for (; j > i; --j)
-		// {
-		// 	std::cout << "_vec[j - 1] = " << _vec[j - 1] << std::endl;
-		// 	_malloc.construct(_vec + j, _vec[j - 1]);
-		// 	_malloc.destroy(&_vec[j - 1]);
-		// }
-		// _malloc.construct(_vec + j, val);
-		// return (iterator(_vec + j));
+		_size++;
+		size_t j = position - begin();
+		updateCapacity(_size, _capacity + 1);
+		size_t i = size() - 1;
+		while (i > j)
+		{		
+			_malloc.construct(&_vec[i], _vec[i - 1]);
+			i--;
+		}
+		_malloc.construct(_vec + i, val);
+		return (iterator(_vec + i));
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// _size++;
-		// std::cout<< "fgdfgdfgdfg" << _capacity << _size << "position = " << *position << std::endl;
-		// updateCapacity(_size, _capacity + 1);
-		// size_t j = position - iterator(&_vec[0]);
-		// //size_t i = size();
-		// // std::cout << "DANS INSERT i = " << i << "et j = " << j << std::endl;
-		// for(size_t i = _size - 1; i > j; i--)
-		// {
-		// 		_malloc.construct(&_vec[i], _vec[i - 1]);
-		// 		_malloc.destroy(&_vec[i - 1]);
-		// }
-		// // while (i > j)
-		// // {		
-		// // 	std::cout<< "_vec[i] " << _vec[i] << "   " << _capacity << "   " << _size << std::endl;
-		// // 	_malloc.construct(&_vec[i], _vec[i - 1]);
-		// // 	_malloc.destroy(&_vec[i - 1]);
-		// // 	i--;
-		// // }
-		// _malloc.construct(_vec + j, val);
-		// return (iterator(_vec + j));
-//	}
 
 
 	template <class T, class Alloc>
 	void	Vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
 	{
-		//size_type j = position - begin();
-		std::cout << "je passe la " << std::endl;
-		//for (size_type i = 0; i < n; i++)
-		_size += n;
-		if (_size > _capacity)
-			updateCapacity(_size, _capacity + n);
-		_size -= n;
+		size_type tmp = position - begin();
 		while (n)
 		{
-			insert(position, val);
-			position++;
+			insert(_vec + tmp, val);
+			tmp++;
 			n--;
 		}
 	}
@@ -399,6 +332,42 @@ namespace ft
 	void swap (Vector<T,Alloc> &x, Vector<T,Alloc> &y)
 	{
 		x.swap(y);
+	}
+
+	template <class T, class Alloc>
+	bool operator==(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+		return ()
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator<(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator<=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator>(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+
+	}
+
+	template <class T, class Alloc>
+	bool operator>=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
+	{
+
 	}
 
 					/*****MINE*****/

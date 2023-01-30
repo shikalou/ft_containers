@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:37:47 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/28 18:38:40 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/30 13:18:01 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,30 +63,30 @@ namespace ft
 	template<class T>
 	vector_iterator<T>	&vector_iterator<T>::operator--()
 	{
-		--this->_p;
+		this->_p--;
 		return (*this);
 	}
 
 	template<class T>
-	vector_iterator<T>	vector_iterator<T>::operator--(int)
+	vector_iterator<T>	vector_iterator<T>::operator--(int) // post
 	{
-		vector_iterator tmp = *this;
-		--(*this);
+		vector_iterator tmp(*this);
+		this->_p--;
 		return (tmp);
 	}
 
 	template<class T>
 	vector_iterator<T>	&vector_iterator<T>::operator++()
 	{
-		++this->_p;
+		this->_p++;
 		return (*this);
 	}
 
 	template<class T>
 	vector_iterator<T>	vector_iterator<T>::operator++(int)
 	{
-		vector_iterator tmp = *this;
-		++(*this);
+		vector_iterator tmp(*this);
+		this->_p++;
 		return (tmp);
 	}
 

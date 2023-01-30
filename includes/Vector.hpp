@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/25 23:00:33 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/30 19:18:35 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdexcept>
 #include <reverse_iterator.hpp>
 #include <vector_iterator.hpp>
+#include <enable_if.hpp>
+#include <is_integral.hpp>
 
 namespace ft
 {
@@ -36,7 +38,8 @@ namespace ft
 			explicit Vector(const allocator_type& alloc = allocator_type());
 			~Vector();
 			explicit Vector (size_type n, const value_type& val = value_type());
-		//	Vector(); //range
+			template <class InputIterator>
+			Vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type());
 			Vector(const Vector &copy);
 
 				/*OPERATOR OVERLOAD*/
@@ -44,6 +47,9 @@ namespace ft
 			T		&operator[](size_type i);
 
 				/*METHODES*/
+			// template <class InputIterator>
+			// void			assign(InputIterator first, InputIterator last);
+			void			assign(size_type n, const value_type &val);
 			value_type		&at(size_type i);
 			T				&back() const;
 			iterator		begin();
@@ -57,8 +63,8 @@ namespace ft
 			iterator		erase(iterator first, iterator last);
 			T				&front() const;
 			allocator_type	get_allocator() const;
-			iterator		insert(iterator position, const value_type& val);
-			void			insert(iterator position, size_type n, const value_type& val);
+			iterator		insert(iterator position, const value_type &val);
+			void			insert(iterator position, size_type n, const value_type &val);
 			// template <class InputIterator>
 			// void			insert(iterator position, InputIterator first, InputIterator last);
 			size_type		max_size() const;
@@ -81,6 +87,24 @@ namespace ft
 
 	template <class T, class Alloc>
 	void swap (Vector<T,Alloc> &x, Vector<T,Alloc> &y);
+
+	template <class T, class Alloc>
+	bool operator==(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
+
+	template <class T, class Alloc>
+	bool operator!=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
+
+	template <class T, class Alloc>
+	bool operator<(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
+
+	template <class T, class Alloc>
+	bool operator<=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
+
+	template <class T, class Alloc>
+	bool operator>(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
+
+	template <class T, class Alloc>
+	bool operator>=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs);
 }
 
 #include "Vector.tpp"
