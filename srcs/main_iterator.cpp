@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:46:14 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/30 19:06:46 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/31 12:36:57 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int	main(void)
 // 	std::cout << std::endl;
 	std::cout << " TITI: " << titi.size() << "\n";
 	std::cout << " LULU: " << lulu.size() << "\n";
-    std::cout << "insert() 999 2 to 8 positions: " << std::endl;
+	std::cout << "insert() 999 2 to 8 positions: " << std::endl;
 	titi.insert(titi.begin() + 2, 8, 999);
 	lulu.insert(lulu.begin() + 2, 8, 999);
 	std::cout << std::endl;
@@ -307,4 +307,21 @@ int	main(void)
 	for (size_t i = 0; i < lulu.size(); ++i)
 		std::cout << "FT: " << lulu[i] << std::endl;
 	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "range constructor test" << std::endl;
+	std::vector<int> vrange(titi.begin(), titi.end());
+	ft::Vector<int> range(lulu.begin(), lulu.end());
+	for (size_t i = 0; i < vrange.size(); ++i)
+		std::cout << "REAL: " << vrange[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	for (size_t i = 0; i < range.size(); ++i)
+		std::cout << "FT: " << range[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << "range size = " << range.size() << " capacity = " << range.capacity() << std::endl;
+	std::cout << "vrange size = " << vrange.size() << " capacity = " << vrange.capacity() << std::endl;
+	std::cout << std::endl << std::endl;
+
+
+	
 }

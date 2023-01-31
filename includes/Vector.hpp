@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/30 19:18:35 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/31 12:40:39 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <iterator>
 #include <stdexcept>
 #include <reverse_iterator.hpp>
 #include <vector_iterator.hpp>
 #include <enable_if.hpp>
 #include <is_integral.hpp>
+#include <equal.hpp>
 
 namespace ft
 {
@@ -32,6 +34,7 @@ namespace ft
 			typedef vector_iterator<const value_type>		const_iterator;
 			typedef ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef ft::reverse_iterator<const iterator>	const_reverse_iterator;
+			typedef typename iterator_traits<iterator>::difference_type	difference_type;
 			typedef size_t									size_type;
 
 				/*CONS/DESTRUCTOR*/

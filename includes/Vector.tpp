@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/30 19:25:56 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/31 12:57:41 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,21 @@ namespace ft
 		}
 	}
 
-	// template <class T, class Alloc> template <class InputIterator> 
-	// Vector<T, Alloc>::Vector(ft::enable_if<InputIterator>::type first, InputIterator last, const Alloc &alloc = typename Vector<T, Alloc>::allocator_type())
-	// {
-	// }
+	template <class T, class Alloc>
+	template <class InputIterator>
+	Vector<T, Alloc>::Vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Alloc &alloc)
+	{
+		// std::cout << "vector range constructor called" << std::endl;
+		_malloc = alloc;
+		_vec = _malloc.allocate(0);
+		_size = 0;
+		_capacity = 0;
+		while (first != last)
+		{
+			push_back(*first);
+			first++;
+		}
+	}
 
 	template <class T, class Alloc>
 	Vector<T, Alloc>::Vector(const Vector &copy)
@@ -337,19 +348,23 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
 	{
-		return ()
+		if (lhs.size() == rhs.size())
+			return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+		return (false);
 	}
 
 	template <class T, class Alloc>
 	bool operator!=(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
 	{
-
+		if (lhs.size() == rhs.size())
+			return(false)
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template <class T, class Alloc>
 	bool operator<(const Vector<T,Alloc> &lhs, const Vector<T,Alloc> &rhs)
 	{
-
+		
 	}
 
 	template <class T, class Alloc>
