@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/30 15:16:01 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:31:38 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include "../includes/Vector.hpp"
+#include "../includes/vector.hpp"
 
 // int	main()
 // {
 
-// 	ft::Vector<int> fill(3, 50);
+// 	ft::vector<int> fill(3, 50);
 // 	std::vector<int> vfill(3, 50);
 
 // 	for (unsigned int i = 0; i < fill.size(); ++i)
@@ -52,7 +52,7 @@
 // 	}
 // 	std::cout << std::endl << std::endl;
 
-// 	ft::Vector<int> copy(fill);
+// 	ft::vector<int> copy(fill);
 // 	std::vector<int> vcopy(vfill);
 // 	for (unsigned int i = 0; i < copy.size(); ++i)
 // 	{
@@ -77,7 +77,7 @@
 // 	// vcopy.clear();
 // 	// std::cout << "after size = " << vcopy.size() << " capacity = " << vcopy.capacity() << std::endl;
 
-// 	ft::Vector<int> empty;
+// 	ft::vector<int> empty;
 // 	std::vector<int> vempty;
 
 // 	std::cout << "mon empty ? " << empty.empty() << std::endl;
@@ -121,8 +121,8 @@
 
 // 	std::cout << "tests de swap" << std::endl;
 
-// 	ft::Vector<int> foo(3,100);   // three ints with a value of 100
-// 	ft::Vector<int> bar(5,200);   // five ints with a value of 200
+// 	ft::vector<int> foo(3,100);   // three ints with a value of 100
+// 	ft::vector<int> bar(5,200);   // five ints with a value of 200
 // 	foo.swap(bar);
 
 // 	std::cout << "foo contains:";
@@ -155,7 +155,7 @@
 // 	{
 // 		std::cout << "test[i] = " << test[i] << std::endl;
 // 	}
-// 	ft::Vector<int> test2;
+// 	ft::vector<int> test2;
 
 // 	std::cout << "test2 size = " << test2.size() << " capacity = " << test2.capacity() << std::endl;
 // 	test2.push_back(3);
@@ -177,11 +177,11 @@
 int	main(void)
 {
 	srand(time(NULL));
-	ft::Vector<int>	ft(3, 1);
-	ft::Vector<int>	ft2(3);
-	// ft::Vector<int>::iterator p = ft.begin();
-	// ft::Vector<int>::iterator o = ft.end();
-	// ft::Vector<int> ft3(p, o);
+	ft::vector<int>	ft(3, 1);
+	ft::vector<int>	ft2(3);
+	// ft::vector<int>::iterator p = ft.begin();
+	// ft::vector<int>::iterator o = ft.end();
+	// ft::vector<int> ft3(p, o);
 	std::vector<int> real(3, 1);
 
 	std::cout << "---------- START push_back test ----------" << std::endl;
@@ -407,7 +407,7 @@ int	main(void)
 	
 	real.clear();
 	ft.clear();
-	ft::Vector<int> tmp;
+	ft::vector<int> tmp;
 	for (size_t i = 0; i < 5; ++i)
 	{
 		tmp.push_back(1);
@@ -513,7 +513,7 @@ int	main(void)
 	std::cout << std::endl;
 
 	std::vector<int> toto(1, 1);
-	ft::Vector<int> lala(1, 1);
+	ft::vector<int> lala(1, 1);
 	for (size_t i = 0; i < 10; ++i)
 	{
 		int nb = (rand() % (1000 + 1));
@@ -521,7 +521,7 @@ int	main(void)
 		lala.push_back(nb);
 	}
 	//std::vector<int>::iterator rit = toto.begin();
-	//ft::Vector<int>::iterator ftit = lala.begin();
+	//ft::vector<int>::iterator ftit = lala.begin();
 	for (size_t i = 0; i < toto.size(); ++i)
 		std::cout << "REAL: " << toto[i] << std::endl;
 	std::cout << std::endl;
@@ -603,9 +603,9 @@ int	main(void)
 	// std::vector<int>::iterator b = toto.begin();
 	// std::vector<int>::iterator e = toto.end();
 	// std::vector<int> test(b, e);
-	// ft::Vector<int>::iterator b1 = lala.begin();
-	// ft::Vector<int>::iterator e1 = lala.end();
-	// ft::Vector<int> test1(b1, e1);
+	// ft::vector<int>::iterator b1 = lala.begin();
+	// ft::vector<int>::iterator e1 = lala.end();
+	// ft::vector<int> test1(b1, e1);
 	// std::cout << std::endl;
 	// for (size_t i = 0; i < test.size(); ++i)
 	// 	std::cout << "REAL: " << test[i] << std::endl;

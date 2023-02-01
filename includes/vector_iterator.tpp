@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 16:37:47 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/30 13:18:01 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/01 16:55:59 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,70 +104,10 @@ namespace ft
 		return (*this);
 	}
 
-		/*****FRIENDS OVERLOAD*****/
 	template<class T>
-	bool	operator!=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
+	vector_iterator<T>::operator vector_iterator<const value_type>() const
 	{
-		return (lhs.operator->() != rhs.operator->());
-	}
-
-	template<class T>
-	bool	operator==(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
-	{
-		return (lhs.operator->() == rhs.operator->());
-	}
-
-	template<class T>
-	vector_iterator<T>	operator+(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a + n
-	{
-		vector_iterator<T> tmp(lhs.operator->() + n);
-		return (tmp);
-	}
-
-	template<class T>
-	vector_iterator<T>	operator+(typename vector_iterator<T>::difference_type n, const vector_iterator<T> &rhs) // n + a
-	{
-		vector_iterator<T> tmp(rhs.operator->() + n);
-		return (tmp);
-	}
-
-	template<class T>
-	vector_iterator<T>	operator-(const vector_iterator<T> &lhs, typename vector_iterator<T>::difference_type n) // a - n
-	{
-		vector_iterator<T> tmp(lhs.operator->() - n);
-		return (tmp);
-	}
-
-	template<class T> // a - b
-	typename vector_iterator<T>::difference_type	operator-(const vector_iterator<T> &lhs, const vector_iterator<T> &rhs)
-	{
-		std::cout << "lol hihihi" << std::endl;
-		(void)lhs;
-		return (lhs.operator->() - rhs.operator->());
-	}
-
-	template<class T>
-	bool	operator<(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
-	{
-		return (lhs.operator->() < rhs.operator->());
-	}
-
-	template<class T>
-	bool	operator>(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
-	{
-		return (lhs.operator->() > rhs.operator->());
-	}
-
-	template<class T>
-	bool	operator<=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
-	{
-		return (lhs.operator->() <= rhs.operator->());
-	}
-
-	template<class T>
-	bool	operator>=(const vector_iterator<T>& lhs, const vector_iterator<T>& rhs)
-	{
-		return (lhs.operator->() >= rhs.operator->());
+		return (vector_iterator<const value_type>(_p));
 	}
 }
 

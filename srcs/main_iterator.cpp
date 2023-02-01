@@ -6,15 +6,14 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:46:14 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/31 12:36:57 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/01/31 16:31:38 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <vector>
-#include "Vector.hpp"
+#include "vector.hpp"
 #include "vector_iterator.hpp"
-#include "../includes/vector_iterator.tpp"
 #include <cstdlib>
 
 int	main(void)
@@ -25,14 +24,14 @@ int	main(void)
 	toto.push_back(5);
 	toto.push_back(6);
 	toto.push_back(7);
-	ft::Vector<int> lala(1, 1);
+	ft::vector<int> lala(1, 1);
 	lala.push_back(5);
 	lala.push_back(6);
 	lala.push_back(7);
 	std::vector<int>::iterator it2 = toto.begin() + 2;
-	ft::Vector<int>::iterator it4 = lala.begin() + 2;
+	ft::vector<int>::iterator it4 = lala.begin() + 2;
 	std::vector<int>::iterator rev(it2);
-	ft::Vector<int>::iterator it(it4);
+	ft::vector<int>::iterator it(it4);
 
 	std::cout << "----- START * | [] | base test -----" << std::endl;
 	std::cout << std::endl;
@@ -140,7 +139,7 @@ int	main(void)
 
 	std::cout << "----- START comparaison operators -----" << std::endl;	
 	std::cout << std::endl;
-	ft::Vector<int>::iterator it3(it);
+	ft::vector<int>::iterator it3(it);
 	std::vector<int>::iterator rev2(rev);
 
 	std::cout << "lhs == rhs (lhs = rhs): " << std::endl;
@@ -229,7 +228,7 @@ int	main(void)
 	std::cout << std::endl;
 
 	std::vector<int> titi(1, 1);
-	ft::Vector<int> lulu(1, 1);
+	ft::vector<int> lulu(1, 1);
 	for (size_t i = 0; i < 10; ++i)
 	{
 		int nb = (rand() % (1000 + 1));
@@ -237,7 +236,7 @@ int	main(void)
 		lulu.push_back(nb);
 	}
 	//std::vector<int>::iterator rit = titi.begin();
-	//ft::Vector<int>::iterator ftit = lulu.begin();
+	//ft::vector<int>::iterator ftit = lulu.begin();
 	for (size_t i = 0; i < titi.size(); ++i)
 		std::cout << "REAL: " << titi[i] << std::endl;
 	std::cout << std::endl;
@@ -310,7 +309,7 @@ int	main(void)
 	std::cout << std::endl;
 	std::cout << "range constructor test" << std::endl;
 	std::vector<int> vrange(titi.begin(), titi.end());
-	ft::Vector<int> range(lulu.begin(), lulu.end());
+	ft::vector<int> range(lulu.begin(), lulu.end());
 	for (size_t i = 0; i < vrange.size(); ++i)
 		std::cout << "REAL: " << vrange[i] << std::endl;
 	std::cout << std::endl;
