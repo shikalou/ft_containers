@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 15:49:08 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/31 16:31:38 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/02 15:18:01 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,9 @@ int	main(void)
 	srand(time(NULL));
 	ft::vector<int>	ft(3, 1);
 	ft::vector<int>	ft2(3);
-	// ft::vector<int>::iterator p = ft.begin();
-	// ft::vector<int>::iterator o = ft.end();
-	// ft::vector<int> ft3(p, o);
+	ft::vector<int>::iterator p = ft.begin();
+	ft::vector<int>::iterator o = ft.end();
+	ft::vector<int> ft3(p, o);
 	std::vector<int> real(3, 1);
 
 	std::cout << "---------- START push_back test ----------" << std::endl;
@@ -520,8 +520,8 @@ int	main(void)
 		toto.push_back(nb);
 		lala.push_back(nb);
 	}
-	//std::vector<int>::iterator rit = toto.begin();
-	//ft::vector<int>::iterator ftit = lala.begin();
+	// std::vector<int>::iterator rit = toto.begin();
+	// ft::vector<int>::iterator ftit = lala.begin();
 	for (size_t i = 0; i < toto.size(); ++i)
 		std::cout << "REAL: " << toto[i] << std::endl;
 	std::cout << std::endl;
@@ -534,17 +534,17 @@ int	main(void)
 	std::cout << "FT: " << *lala.begin() << std::endl;
 	std::cout << std::endl;
 	std::cout << "end(): " << std::endl;
-	std::cout << "REAL: " << *toto.end() << std::endl;
-	std::cout << "FT: " << *lala.end() << std::endl;
+	std::cout << "REAL: " << *(toto.end() - 1) << std::endl;
+	std::cout << "FT: " << *(lala.end() - 1) << std::endl;
 	std::cout << std::endl;
-	// std::cout << "rbegin(): " << std::endl;
-	// std::cout << "REAL: " << *toto.rbegin() << std::endl;
-	// std::cout << "FT: " << *lala.rbegin() << std::endl;
-	// std::cout << std::endl;
-	// std::cout << "rend(): " << std::endl;
-	// std::cout << "REAL: " << *(toto.rend() + 1) << std::endl;
-	// std::cout << "FT: " << *(lala.rend() + 1) << std::endl;
-	// std::cout << std::endl;
+	std::cout << "rbegin(): " << std::endl;
+	std::cout << "REAL: " << *toto.rbegin() << std::endl;
+	std::cout << "FT: " << *lala.rbegin() << std::endl;
+	std::cout << std::endl;
+	std::cout << "rend(): " << std::endl;
+	std::cout << "REAL: " << *(toto.rend() - 1) << std::endl;
+	std::cout << "FT: " << *(lala.rend() - 1) << std::endl;
+	std::cout << std::endl;
 	std::cout << "insert() 999 at 3 position: " << std::endl;
 	toto.insert(toto.begin() + 2, 999);
 	lala.insert(lala.begin() + 2, 999);
@@ -600,41 +600,56 @@ int	main(void)
 	for (size_t i = 0; i < lala.size(); ++i)
 		std::cout << "FT: " << lala[i] << std::endl;
 	std::cout << std::endl;
-	// std::vector<int>::iterator b = toto.begin();
-	// std::vector<int>::iterator e = toto.end();
-	// std::vector<int> test(b, e);
-	// ft::vector<int>::iterator b1 = lala.begin();
-	// ft::vector<int>::iterator e1 = lala.end();
-	// ft::vector<int> test1(b1, e1);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test.size(); ++i)
-	// 	std::cout << "REAL: " << test[i] << std::endl;
-	// std::cout << std::endl;
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test1.size(); ++i)
-	// 	std::cout << "FT: " << test1[i] << std::endl;
-	// std::cout << std::endl;
+	std::vector<int>::iterator b = toto.begin();
+	std::vector<int>::iterator e = toto.end();
+	std::vector<int> test(b, e);
+	ft::vector<int>::iterator b1 = lala.begin();
+	ft::vector<int>::iterator e1 = lala.end();
+	ft::vector<int> test1(b1, e1);
+	std::cout << std::endl;
+	for (size_t i = 0; i < test.size(); ++i)
+		std::cout << "REAL: " << test[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	for (size_t i = 0; i < test1.size(); ++i)
+		std::cout << "FT: " << test1[i] << std::endl;
+	std::cout << std::endl;
 
-	// *b = *b - 1;
-	// test.assign(b, e);
-	// *b1 = *b1 - 1;
-	// test1.assign(b1, e1);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test.size(); ++i)
-	// 	std::cout << "REAL: " << test[i] << std::endl;
-	// std::cout << std::endl;
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test1.size(); ++i)
-	// 	std::cout << "FT: " << test1[i] << std::endl;
-	// std::cout << std::endl;
-	// test.insert(test.begin(), b, e);
-	// test1.insert(test1.begin(), b1, e1);
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test.size(); ++i)
-	// 	std::cout << "REAL: " << test[i] << std::endl;
-	// std::cout << std::endl;
-	// std::cout << std::endl;
-	// for (size_t i = 0; i < test1.size(); ++i)
-	// 	std::cout << "FT: " << test1[i] << std::endl;
-	// std::cout << std::endl;
+	*b = *b - 1;
+	test.assign(b, e);
+	*b1 = *b1 - 1;
+	test1.assign(b1, e1);
+	std::cout << std::endl;
+	for (size_t i = 0; i < test.size(); ++i)
+		std::cout << "REAL: " << test[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	for (size_t i = 0; i < test1.size(); ++i)
+		std::cout << "FT: " << test1[i] << std::endl;
+	std::cout << std::endl;
+	test.insert(test.begin(), b, e);
+	test1.insert(test1.begin(), b1, e1);
+	std::cout << std::endl;
+	for (size_t i = 0; i < test.size(); ++i)
+		std::cout << "REAL: " << test[i] << std::endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	for (size_t i = 0; i < test1.size(); ++i)
+		std::cout << "FT: " << test1[i] << std::endl;
+	std::cout << std::endl;
+
+	//INSERT
+	std::cout << "\nINSERT\n";
+	ft::vector<ft::vector<int> >	insert_in_me;
+	for (int i = 0; i < 15; i++)
+	{
+		ft::vector<int>	j(2, i);
+		insert_in_me.push_back(j);
+	}
+	for (size_t i = 0; i < insert_in_me.size(); i++)
+	{
+		for (size_t j = 0; j < insert_in_me.at(i).size(); j++)
+			std::cout << insert_in_me.at(i).at(j) << ' ';
+		std::cout << '\n';
+	}
 }

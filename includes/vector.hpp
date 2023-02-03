@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/01 17:18:57 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/02 13:31:24 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
 			explicit vector(const allocator_type& alloc = allocator_type());
 			~vector();
 			explicit vector (size_type n, const value_type& val = value_type());
-			template <class InputIterator>
+			template <class InputIterator> 
 			vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type());
 			vector(const vector &copy);
 

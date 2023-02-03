@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/01 16:05:04 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:48:57 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::~vector()
 	{
-		// std::cout << "vector destructor called" << std::endl;
+		std::cout << "vector destructor called" << std::endl;
 		if (_vec)
 		{
 			for (int i = _size; _size != 0; --i)
@@ -332,9 +332,9 @@ namespace ft
 			push_back(val);
 			return (iterator(end() - 1));
 		}
-		_size++;
 		size_t j = position - begin();
 		updateCapacity(_size, _capacity + 1);
+		_size++;
 		size_t i = size() - 1;
 		while (i > j)
 		{		
@@ -424,7 +424,7 @@ namespace ft
 		{
 			T	*new_tab = _malloc.allocate(capacity);
 			for (unsigned int i = 0; i < _size ; ++i)
-				_malloc.construct(&new_tab[i], this->at(i));
+				_malloc.construct(new_tab + i, _vec[i]);
 			for (unsigned int i = 0; i < _size; ++i)
 				_malloc.destroy(&_vec[i]);
 			_malloc.deallocate(_vec, _capacity);
