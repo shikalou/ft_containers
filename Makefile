@@ -6,7 +6,7 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/02/07 16:09:42 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/02/07 18:55:04 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,13 @@ NAME	=	containers
 
 SRCS_FILES	=	inception_main.cpp
 
-INC_FILES	=	vector.hpp vector.tpp\
-				iterator_traits.hpp\
-				vector_iterator.hpp vector_iterator.tpp\
-				reverse_iterator.hpp reverse_iterator.tpp\
+INC_FILES	=	vector.hpp vector.tpp \
+				iterator_traits.hpp \
+				vector_iterator.hpp vector_iterator.tpp \
+				reverse_iterator.hpp reverse_iterator.tpp \
 				is_integral.hpp enable_if.hpp \
-				equal.hpp lexicographical_compare.hpp
+				equal.hpp lexicographical_compare.hpp \
+				stack.hpp stack.tpp
 
 SRCS	=	$(addprefix srcs/, $(SRCS_FILES))
 
