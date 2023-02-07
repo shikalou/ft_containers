@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/03 16:48:57 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:29:40 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace ft
 {
 					/*****CONS/DESTRUCTOR*****/
 	template <class T, class Alloc>
-	vector<T, Alloc>::vector(const allocator_type& alloc)
+	vector<T, Alloc>::vector(const allocator_type &alloc)
 	{
 		// std::cout << "vector default constructor called" << std::endl;
 		_malloc = alloc;
@@ -60,11 +60,15 @@ namespace ft
 	vector<T, Alloc>::vector(const vector &copy)
 	{
 		// std::cout << "vector copy constructor called" << std::endl;
-		_malloc = Alloc();
-		_vec = _malloc.allocate(copy._capacity);
+		//  _malloc = copy._malloc;
+		_vec = NULL;
+		 _capacity = 0;
+		 _size = 0;
+		// *this = copy;
 		_size = copy._size;
 		_capacity = copy._capacity;
-		for (unsigned int i = 0; i < _size; ++i)
+		_vec = _malloc.allocate(_capacity);
+		for (size_type i = 0; i < _size; ++i)
 		{
 			_malloc.construct(_vec + i, copy._vec[i]);
 		}
@@ -73,15 +77,14 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::~vector()
 	{
-		std::cout << "vector destructor called" << std::endl;
+		//std::cout << "vector destructor called" << std::endl;
 		if (_vec)
 		{
-			for (int i = _size; _size != 0; --i)
-			{
-				_malloc.destroy(_vec + i);
-				_size--;
-			}
-			_malloc.deallocate(_vec, _capacity);
+				for (size_type i = 0; i < _size; ++i)
+				{
+					_malloc.destroy(_vec + i);
+				}
+				_malloc.deallocate(_vec, _capacity);
 		}
 	}
 
@@ -89,22 +92,25 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>	&vector<T, Alloc>::operator=(const vector &egal)
 	{
-		if (_vec)
+		if (egal._vec)
 		{
-			for (unsigned int i = _size - 1; _size != 0; --i)
+			if (_vec)
 			{
-				_malloc.destroy(_vec + i);
-				_size--;
+
+				for (size_type i = 0; i < _size; ++i)
+				{
+					_malloc.destroy(_vec + i);
+				}
+				_malloc.deallocate(_vec, _capacity);
 			}
-			_malloc.deallocate(_vec, _capacity);
-		}
-		_malloc = Alloc();
-		_size = egal._size;
-		_capacity = egal._capacity;
-		_vec = _malloc.allocate(_capacity);
-		for (unsigned int i = 0; i < egal._size; ++i)
-		{
-			_malloc.construct(_vec + i, egal._vec[i]);
+			_malloc = Alloc();
+			_size = egal._size;
+			_capacity = egal._capacity;
+			_vec = _malloc.allocate(_capacity);
+			for (size_type i = 0; i < egal._size; ++i)
+			{
+				_malloc.construct(_vec + i, egal._vec[i]);
+			}
 		}
 		return (*this);
 	}
@@ -153,10 +159,10 @@ namespace ft
 	template <class T, class Alloc>
 	void	vector<T, Alloc>::clear()
 	{
-		for (unsigned int i = 0; _size != 0; ++i)
+		for (; _size > 0;)
 		{
-			_malloc.destroy(_vec + i);
 			_size--;
+			_malloc.destroy(_vec + _size);
 		}
 	}
 	template <class T, class Alloc>
@@ -182,9 +188,14 @@ namespace ft
 	template <class T, class Alloc>
 	void	vector<T, Alloc>::push_back(const T &val)
 	{
+
 		if (_capacity == 0)
-			_capacity++;
-		updateCapacity(_size + 1, _capacity * 2);
+			reserve(1);
+		//updateCapacity(_size + 1, _capacity * 2);
+		if (_size + 1 > _capacity)
+			reserve(_capacity * 2); 
+		else if (_size + 1 > _capacity && _capacity + 1 == _size)
+			reserve(_size + 1);
 		_malloc.construct(_vec + _size, val);
 		_size++;
 	}
@@ -201,12 +212,26 @@ namespace ft
 	{
 		if (n > _malloc.max_size())
 			throw (std::length_error("length_error"));
-		updateCapacity(n, n);
+		if (n > _capacity)
+		{
+			T	*new_tab = _vec;//_malloc.allocate(capacity);
+			_vec = _malloc.allocate(n);
+			for (size_type i = 0; i < _size ; ++i)
+				_malloc.construct(_vec + i, new_tab[i]);
+			for (size_type i = 0; i < _size; ++i)
+				_malloc.destroy(&new_tab[i]);
+			_malloc.deallocate(new_tab, _capacity);
+			_capacity = n;
+		}
+		//_vec = new_tab;
+		//updateCapacity(n, n);
 	}
 
 	template <class T, class Alloc>
 	void	vector<T, Alloc>::resize(size_type n, T val)
 	{
+		if (n > _capacity)
+			reserve(n);
 		if (n < _size)
 		{
 			for (; _size > n; --_size)
@@ -214,9 +239,7 @@ namespace ft
 		}
 		else if (n > _size)
 		{
-			if (n > _capacity)
-				updateCapacity(n, n);
-			for (unsigned int i = _size; i < n; ++i)
+			for (size_type i = _size; i < n; ++i)
 			{
 				_malloc.construct(_vec + i, val);
 				_size++;
@@ -281,10 +304,11 @@ namespace ft
 			_size--;
 			iterator tmp(position);
 			_malloc.destroy(position.operator->());
-			for(;tmp < end(); ++tmp)
+			for(;tmp < end(); )
 			{ 
 				_malloc.construct(tmp.operator->(), *(tmp + 1));
-				_malloc.destroy(tmp.operator->() + 1);
+				tmp++;
+				_malloc.destroy(tmp.operator->());
 			}
 		}
 		return (position);
@@ -332,14 +356,17 @@ namespace ft
 			push_back(val);
 			return (iterator(end() - 1));
 		}
-		size_t j = position - begin();
-		updateCapacity(_size, _capacity + 1);
+		size_type j = position - begin();
+		//updateCapacity(_size, _capacity + 1);
+		if (_capacity < _size + 1)
+			reserve(_size + 1);
 		_size++;
-		size_t i = size() - 1;
+		size_type i = size() - 1;
 		while (i > j)
 		{		
 			_malloc.construct(&_vec[i], _vec[i - 1]);
 			i--;
+			_malloc.destroy(_vec + i);
 		}
 		_malloc.construct(_vec + i, val);
 		return (iterator(_vec + i));
@@ -422,14 +449,15 @@ namespace ft
 	{
 		if (size >= _capacity)
 		{
-			T	*new_tab = _malloc.allocate(capacity);
-			for (unsigned int i = 0; i < _size ; ++i)
-				_malloc.construct(new_tab + i, _vec[i]);
-			for (unsigned int i = 0; i < _size; ++i)
-				_malloc.destroy(&_vec[i]);
-			_malloc.deallocate(_vec, _capacity);
+			T	*new_tab = _vec;//_malloc.allocate(capacity);
+			_vec = _malloc.allocate(capacity);
+			for (size_type i = 0; i < _size ; ++i)
+				_malloc.construct(_vec + i, new_tab[i]);
+			for (size_type i = 0; i < _size; ++i)
+				_malloc.destroy(&new_tab[i]);
+			_malloc.deallocate(new_tab, _capacity);
 			_capacity = capacity;
-			_vec = new_tab;
+			//_vec = new_tab;
 		}
 	}
 }

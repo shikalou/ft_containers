@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 19:31:16 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/01/31 14:27:20 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:57:11 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ namespace ft
 	template <class InputIterator1, class InputIterator2>
 	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 	{
-		while (first1!=last1)
+		while (first1 != last1)
 		{
 			if (!(*first1 == *first2))
 				return (false);
