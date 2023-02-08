@@ -7,6 +7,7 @@ school/
 *.lib
 *.a
 *.out
+test_utils.hpp
 
 # Executables
 containers

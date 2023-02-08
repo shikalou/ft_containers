@@ -6,13 +6,13 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/02/07 18:55:04 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/02/08 14:39:09 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	containers
 
-SRCS_FILES	=	inception_main.cpp
+SRCS_FILES	=	main_stack.cpp
 
 INC_FILES	=	vector.hpp vector.tpp \
 				iterator_traits.hpp \

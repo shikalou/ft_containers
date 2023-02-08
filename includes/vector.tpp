@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/07 18:29:40 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/08 14:36:35 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,7 @@ namespace ft
 			_size--;
 			iterator tmp(position);
 			_malloc.destroy(position.operator->());
-			for(;tmp < end(); )
+			for (;tmp < end();)
 			{ 
 				_malloc.construct(tmp.operator->(), *(tmp + 1));
 				tmp++;
