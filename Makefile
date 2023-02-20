@@ -6,13 +6,13 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/02/08 14:39:09 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/02/10 12:24:19 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	containers
 
-SRCS_FILES	=	main_stack.cpp
+SRCS_FILES	=	main_rbt.cpp
 
 INC_FILES	=	vector.hpp vector.tpp \
 				iterator_traits.hpp \
@@ -20,7 +20,8 @@ INC_FILES	=	vector.hpp vector.tpp \
 				reverse_iterator.hpp reverse_iterator.tpp \
 				is_integral.hpp enable_if.hpp \
 				equal.hpp lexicographical_compare.hpp \
-				stack.hpp stack.tpp
+				stack.hpp stack.tpp \
+				rbt.hpp
 
 SRCS	=	$(addprefix srcs/, $(SRCS_FILES))
 
