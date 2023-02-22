@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/20 17:56:38 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:18:51 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,19 @@ namespace ft
 		node	*r_child;
 	};
 
-	template <class T>
+	template <class T, class Alloc = std::allocator<T> >
 	class RBT
 	{
+		private:
+			node<T>	*node_null;
+			node<T>	*root;
+			
 		public:
 			RBT()
 			{
-				std::cout << "rbt construct" << std::endl;
-				node_null = new node<T>;
+				// std::cout << "rbt construct" << std::endl;
+				// node_null = new node<T>;
+				node_null
 				// node_null->mother = NULL;
 				node_null->l_child = NULL;
 				node_null->r_child = NULL;
@@ -52,7 +57,161 @@ namespace ft
 				//std::cout << "rbt destruct" << std::endl;
 			}
 
-			void right_rotate(node<T> *n)
+			node<T>	*minimum(node<T> *x)
+			{
+				while (x->l_child != node_null)
+					x = x->l_child;
+				return (x);
+			}
+
+			void	rb_transplant(node<T> *n, node<T> *m)
+			{
+				if (n->mother == NULL)
+				{
+					root = m;
+				}
+				else if (n == n->mother->l_child)
+					n->mother->l_child = m;
+				else
+					n->mother->r_child = m;
+				m->mother = n->mother;
+			}
+
+			void	delete_fix(node<T> *x)
+			{
+				node<T> *w;
+				while (x != root && x->node_color == black)
+				{
+					if (x == x->mother->l_child)
+					{
+						w = x->mother->r_child;
+						if (w->node_color == red)
+						{
+							w->node_color = black;
+							x->mother->node_color = red;
+							left_rotate(x->mother);
+							w = x->mother->r_child;
+						}
+						if (w->l_child->node_color == black && w->r_child->node_color == black)
+						{
+							w->node_color = red;
+							x = x->mother;
+						}
+						else
+						{
+							if (w->r_child->node_color == black)
+							{
+								w->l_child->node_color = black;
+								w->node_color = red;
+								right_rotate(w);
+								w = x->mother->r_child;
+							}
+							w->node_color = x->mother->node_color;
+							x->mother->node_color = black;
+							w->r_child->node_color = black;
+							left_rotate(x->mother);
+							x = root;
+						}
+					}
+					else
+					{
+						w = x->mother->l_child;
+						if (w->node_color == red)
+						{
+							w->node_color = black;
+							x->mother->node_color = red;
+							right_rotate(x->mother);
+							w = x->mother->l_child;
+						}
+						if (w->r_child->node_color == black && w->l_child->node_color == black)
+						{
+							w->node_color = red;
+							x = x->mother;
+						}
+						else
+						{
+							if (w->l_child->node_color == black)
+							{
+								w->r_child->node_color = black;
+								w->node_color = red;
+								left_rotate(w);
+								w = x->mother->l_child;
+							}
+							w->node_color = x->mother->node_color;
+							x->mother->node_color = black;
+							w->l_child->node_color = black;
+							right_rotate(x->mother);
+							x = root;
+						}
+					}
+				}
+				x->node_color = black;
+			}
+
+			void	rb_delete(T key)
+			{
+				node<T>	*y;
+				node<T>	*x;
+				node<T>	*n;
+
+				node<T>	*tmp = root;
+				while (tmp != node_null)
+				{
+					n = tmp;
+					if (key < tmp->key)
+					{
+						tmp = tmp->l_child;
+					}
+					else if (key > tmp->key)
+					{
+						tmp = tmp->r_child;
+					}
+					if (key == tmp->key)
+					{
+						n = tmp;
+						break ;
+					}
+				}
+				y = n;
+				std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
+				color og_color_y = y->node_color;
+				if (n->l_child == node_null)
+				{
+					std::cout << "11111111111111111111111111111\n";
+					x = n->r_child;
+					rb_transplant(n, n->r_child);
+				}
+				else if (n->r_child == node_null)
+				{
+					x = n->l_child;
+					rb_transplant(n, n->l_child);
+				}
+				else
+				{
+					std::cout << "2222222222222222222222222222\n";
+					y = minimum(n->r_child);
+					og_color_y = y->node_color;
+					x = y->r_child;
+					if (y->mother == n)
+						x->mother = y;
+					else
+					{
+						rb_transplant(y, y->r_child);
+						y->r_child = n->r_child;
+						y->r_child->mother = y;
+					}
+					rb_transplant(n, y);
+					y->l_child = n->l_child;
+					y->l_child->mother = y;
+					y->node_color = n->node_color;
+				}
+				if (og_color_y == black)
+				{
+					delete_fix(x);
+				}
+			}
+
+			void	right_rotate(node<T> *n)
 			{
 				node<T> *y;
 
@@ -73,7 +232,7 @@ namespace ft
 					n->mother = y;
 			}
 
-			void left_rotate(node<T> *n)
+			void	left_rotate(node<T> *n)
 			{
 				node<T> *y;
 
@@ -98,15 +257,6 @@ namespace ft
 
 				while (new_node->mother->node_color == red)
 				{
-					std::cout << "new_n key = " << new_node->key << std::endl;
-					std::cout << "mother key = " << new_node->mother->key << std::endl;
-					std::cout << "mother color = " << new_node->mother->node_color << std::endl;
-					std::cout << "gp left key = " << new_node->mother->mother->l_child->key << std::endl;
-					std::cout << "root key = " << root->key << std::endl;
-					std::cout << "root left child key = " << root->l_child->key << std::endl;
-					//std::cout << "root left left  child key = " << root->l_child->l_child->key << std::endl;
-					std::cout << "root right child key = " << root->r_child->key << std::endl;
-					
 					if (new_node->mother == new_node->mother->mother->l_child) // LEFT
 					{
 						y = new_node->mother->mother->r_child;
@@ -133,7 +283,7 @@ namespace ft
 					else// if(new_node->mother == new_node->mother->mother->r_child)
 					{
 						y = new_node->mother->mother->l_child;
-						std::cout << "Y color dans else right: " << y->node_color << "\n";
+						// std::cout << "Y color dans else right: " << y->node_color << "\n";
 						if (y->node_color == red)
 						{
 							new_node->mother->node_color = black;
@@ -182,7 +332,6 @@ namespace ft
 					{
 						tmp = tmp->r_child;
 					}
-					std::cout << "lol\n";
 				}
 				new_node->mother = x;
 				if (x == NULL)
@@ -221,9 +370,6 @@ namespace ft
 				return (root);
 			}
 
-		private:
-			node<T>	*node_null;
-			node<T>	*root;
 	};
 }
 

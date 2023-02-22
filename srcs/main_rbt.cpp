@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/20 17:59:23 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:02:00 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,14 @@ int	main()
 	toto.insert(12);
 	toto.insert(52);
 
+	real_print(toto.getRoot(), 0, toto);
+
+	toto.rb_delete(12);
+	real_print(toto.getRoot(), 0, toto);
+	
+	toto.rb_delete(99);
+	real_print(toto.getRoot(), 0, toto);
+
+	toto.rb_delete(7);
 	real_print(toto.getRoot(), 0, toto);
 }

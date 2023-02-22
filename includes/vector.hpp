@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:28:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/02 13:31:24 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:04:16 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@ namespace ft
 	class vector
 	{
 		public:
-			typedef T										value_type;
-			typedef Alloc									allocator_type;
-			typedef vector_iterator<value_type>				iterator;
-			typedef vector_iterator<const value_type>		const_iterator;
-			typedef ft::reverse_iterator<iterator>			reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-			typedef typename allocator_type::pointer		pointer;
-			typedef typename allocator_type::const_pointer	const_pointer;
-			typedef T&										reference;
-			typedef const T&								const_reference;
+			typedef T													value_type;
+			typedef Alloc												allocator_type;
+			typedef vector_iterator<value_type>							iterator;
+			typedef vector_iterator<const value_type>					const_iterator;
+			typedef ft::reverse_iterator<iterator>						reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+			typedef typename allocator_type::pointer					pointer;
+			typedef typename allocator_type::const_pointer				const_pointer;
+			typedef T&													reference;
+			typedef const T&											const_reference;
 			typedef typename iterator_traits<iterator>::difference_type	difference_type;
-			typedef size_t									size_type;
+			typedef size_t												size_type;
 
 				/*CONS/DESTRUCTOR*/
 			explicit vector(const allocator_type& alloc = allocator_type());
