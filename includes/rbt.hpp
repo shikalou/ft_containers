@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/22 19:18:51 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/23 19:29:47 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,54 @@ enum color
 
 namespace ft
 {
-	template <class T>
-	struct node
-	{
-		T		key;
-		color	node_color;
-		node	*mother;
-		node	*l_child;
-		node	*r_child;
-	};
-
-	template <class T, class Alloc = std::allocator<T> >
+	template <class T, class V, typename pair, class comp, class Alloc = std::allocator<T> >
 	class RBT
 	{
+		public:
+
+			template <class U>
+			struct node
+			{
+				U		key; // key 
+				pair	_pair;
+				color	node_color;
+				node	*mother;
+				node	*l_child;
+				node	*r_child;
+
+				node(const pair &p = pair()) :_pair(p)
+				{
+					key = p.first;
+					// _pair = p;
+					node_color = red;
+					mother = NULL;
+					l_child = NULL;
+					r_child = NULL;
+				}
+			};
+			typedef typename Alloc::template rebind<node<T> >::other allocator_type;
+
 		private:
-			node<T>	*node_null;
-			node<T>	*root;
+			node<T>			*node_null;
+			node<T>			*root;
+			allocator_type	_malloc;
+			comp			_comp;
 			
 		public:
 			RBT()
 			{
-				// std::cout << "rbt construct" << std::endl;
+				std::cout << "rbt construct" << std::endl;
+				_malloc = Alloc();
+				node_null = make_node();
 				// node_null = new node<T>;
-				node_null
 				// node_null->mother = NULL;
 				node_null->l_child = NULL;
 				node_null->r_child = NULL;
 				node_null->node_color = black;
-				root = node_null;
+				root = make_node();
+				root->node_color = black;
+				root->l_child = node_null;
+				root->r_child = node_null;
 			}
 			~RBT()
 			{
@@ -259,9 +279,12 @@ namespace ft
 				{
 					if (new_node->mother == new_node->mother->mother->l_child) // LEFT
 					{
+						// std::cout << "blabla color: " << new_node->mother->mother->r_child->node_color << "\n";
+						// std::cout << "blabla value: " << new_node->mother->mother->r_child->_pair.second << std::endl;
 						y = new_node->mother->mother->r_child;
-						std::cout << "Y color: " << y->node_color << "\n";
-						if (y->node_color == red)
+						// std::cout << "Y color: " << y->node_color << "\n";
+						// std::cout << "new_node value: " << new_node->_pair.second << std::endl;
+						if (y && y->node_color == red)
 						{
 							new_node->mother->node_color = black;
 							y->node_color = black;
@@ -284,7 +307,7 @@ namespace ft
 					{
 						y = new_node->mother->mother->l_child;
 						// std::cout << "Y color dans else right: " << y->node_color << "\n";
-						if (y->node_color == red)
+						if (y && y->node_color == red)
 						{
 							new_node->mother->node_color = black;
 							y->node_color = black;
@@ -303,48 +326,56 @@ namespace ft
 							left_rotate(new_node->mother->mother);
 						}
 					}
-					if (new_node == root) // RIGHT
+					if (new_node == root)
 						break ;
 				}
 				root->node_color = black;
 			}
 
-			void	insert(T newkey)
+			node<T>	*make_node(const pair &p = pair())
 			{
-				node<T> *new_node = new node<T>;
+				node<T> *new_node = _malloc.allocate(1);
+				_malloc.construct(new_node, node<T>(p));
+				return (new_node);
+			}
+
+			void	insert(const pair &p)
+			{
+				node<T> *new_node = make_node(p);
+				
 				//new_node = node_null;
-				new_node->l_child = node_null;
-				new_node->r_child = node_null;
-				new_node->mother = NULL;
-				new_node->key = newkey;
+				new_node->l_child = NULL;
+				new_node->r_child = NULL;
+				// new_node->mother = NULL;
+				// new_node->key = newkey;
 				new_node->node_color = red;
 
 				node<T>	*tmp = root;
 				node<T>	*x = NULL;
-				while (tmp != node_null)
+				while (tmp != NULL)
 				{
 					x = tmp;
-					if (newkey < tmp->key)
+					if (new_node->_pair.first < tmp->_pair.first)
 					{
 						tmp = tmp->l_child;
 					}
-					else if (newkey > tmp->key)
+					else if (new_node->_pair.first > tmp->_pair.first)
 					{
 						tmp = tmp->r_child;
 					}
 				}
 				new_node->mother = x;
-				if (x == NULL)
+				if (x == node_null)
 				{
 					root = new_node;
 					root->node_color = black;
 				}
-				else if (newkey < x->key)
+				else if (new_node->_pair.first < x->_pair.first)
 				{
 					x->l_child = new_node;
-					std::cout << "lolghghghghghghghgh\n";
+					std::cout << "lol\n";
 				}
-				else if (newkey > x->key)
+				else if (new_node->_pair.first > x->_pair.first)
 				{
 					x->r_child = new_node;
 				}

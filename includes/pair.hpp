@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:28:00 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/09 16:05:55 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/23 14:02:16 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,29 @@ namespace ft
 			typedef T1	first_type;
 			typedef T2	second_type;
 
-			first_type	first;
-			second_type	second;
+			first_type	first; //key
+			second_type	second; //value
 
-			pair()
+			pair() :first(first_type())
 			{
-				first = first_type();
 				second = second_type();
 			}
-			pair(const T1 &x, const T2 &y)
+			pair(const T1 &x, const T2 &y) :first(x)
 			{
-				first = x;
 				second = y;
 			}
 			template<class U1, class U2>
-			pair(const pair<U1, U2> &p)
+			pair(const pair<U1, U2> &p) : first(p.first)
 			{
-				first = p.first;
 				second = p.second;
 			}
+			pair& operator= (const pair& pr)
+			{
+				first = pr.first;
+				second = pr.second;
+				return (*this);
+			}
+			
 		private:
 	};
 	

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:01:23 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/09 16:06:58 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/23 13:50:09 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft
 	template<class T1, class T2>
 	ft::pair<T1, T2>	make_pair(T1 t, T2 u)
 	{
-		pair(t, u);
+		return (pair<T1, T2>(t, u));
 	}
 }
 #endif
