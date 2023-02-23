@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/23 19:29:47 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/23 19:47:38 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,8 @@ namespace ft
 				while (tmp != NULL)
 				{
 					x = tmp;
-					if (new_node->_pair.first < tmp->_pair.first)
+					//if (new_node->_pair.first < tmp->_pair.first)
+					if (_comp(new_node->_pair.first, tmp->_pair.first))
 					{
 						tmp = tmp->l_child;
 					}
@@ -373,7 +374,7 @@ namespace ft
 				else if (new_node->_pair.first < x->_pair.first)
 				{
 					x->l_child = new_node;
-					std::cout << "lol\n";
+					//std::cout << "lol\n";
 				}
 				else if (new_node->_pair.first > x->_pair.first)
 				{
@@ -400,7 +401,6 @@ namespace ft
 			{
 				return (root);
 			}
-
 	};
 }
 

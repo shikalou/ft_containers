@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/23 19:33:45 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/23 19:34:56 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main()
 	map._tree.insert(ft::make_pair(52, 52));
 	map._tree.insert(ft::make_pair(988, 988));
 	map._tree.insert(ft::make_pair(999, 999));
+	map._tree.insert(ft::make_pair(53, 53));
 
 	// ft::RBT<int, int> toto;
 
