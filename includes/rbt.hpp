@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/23 19:47:38 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/24 15:05:54 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,30 @@ namespace ft
 			~RBT()
 			{
 				//std::cout << "rbt destruct" << std::endl;
+			}
+
+			node<T>	*searchElem(node<T> *root, T val)
+			{
+				if (root == NULL || root->key == val)
+				{
+					//std::cout << "root->key ===== " << root->key << std::endl;
+					std::cout << "lol mdr         ";
+					return (root);
+				}
+				else
+				{
+					if (_comp(val, _comp->key))
+					{
+						std::cout << "a gauche" << std::endl;
+						return (searchElem(root->l_child, val));
+					}
+					else
+					{
+						std::cout << "a droite" << std::endl;
+						return (searchElem(root->r_child, val));
+					}
+					
+				}
 			}
 
 			node<T>	*minimum(node<T> *x)

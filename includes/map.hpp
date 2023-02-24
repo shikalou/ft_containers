@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/23 17:23:55 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:08:48 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include "rbt.hpp"
 #include "pair.hpp"
+#include "lexicographical_compare.hpp"
+#include "equal.hpp"
 
 namespace ft
 {
@@ -50,11 +52,69 @@ namespace ft
 				/*CONS/DESTRUCTOR*/
 			map();
 			~map();
+				/*OPERATOR OVERLOAD*/
+			map&			operator=(const map &egal);
+			mapped_type&	operator[](const key_type &k);
+
+				/*METHODES*/
+			// iterator							begin(); // A FAIRE -> se base sur la KEY pas la VALUE
+			// const_iterator						begin() const; // A FAIRE
+			void								clear(); // A FAIRE
+			size_type							count(const key_type &k) const; // A FAIRE
+			bool								empty() const;
+			// iterator							end(); // A FAIRE
+			// const_iterator						end() const; // A FAIRE
+			// pair<iterator,iterator>				equal_range(const key_type &k); // A FAIRE
+			// pair<const_iterator,const_iterator>	equal_range(const key_type &k) const; // A FAIRE
+			// void								erase(iterator position); // A FAIRE
+			size_type							erase(const key_type &k); // A FAIRE
+			// void								erase(iterator first, iterator last); // A FAIRE
+			// iterator							find(const key_type &k); // A FAIRE
+			// const_iterator						find(const key_type &k) const; // A FAIRE
+			allocator_type						get_allocator() const; // A FAIRE
+			// pair<iterator,bool>					insert(const value_type &val); // A FAIRE
+			// iterator							insert(iterator position, const value_type &val); // A FAIRE
+			// template <class InputIterator>
+			// void								insert(InputIterator first, InputIterator last); // A FAIRE
+			key_compare							key_comp() const; // A FAIRE
+			// iterator							lower_bound(const key_type &k); // A FAIRE
+			// const_iterator						lower_bound(const key_type &k) const; // A FAIRE
+			size_type							max_size() const;
+			// reverse_iterator					rbegin(); // A FAIRE
+			// const_reverse_iterator				rbegin() const; // A FAIRE
+			// reverse_iterator					rend(); // A FAIRE
+			// const_reverse_iterator				rend() const; // A FAIRE
+			size_type							size() const;
+			void								swap(map &x); // A FAIRE
+			// iterator							upper_bound(const key_type &k); // A FAIRE
+			// const_iterator						upper_bound(const key_type &k) const; // A FAIRE
+			value_compare						value_comp() const; // A FAIRE
 
 			RBT<key_type, mapped_type, value_type, key_compare, Alloc>	_tree;
 		private:
 			size_type		_size;
 	};
+
+	template <class Key, class T, class Compare, class Alloc>
+	void	swap(map<Key,T,Compare,Alloc> &x, map<Key,T,Compare,Alloc> &y);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator==(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator!=(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator<(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator<=(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator>(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool	operator>=(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);
 }
 
 #include "map.tpp"

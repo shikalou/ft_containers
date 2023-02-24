@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/23 19:34:56 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/02/24 15:00:05 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "../includes/map.hpp"
 #include "../includes/make_pair.hpp"
 #include <iomanip>
+#include <iostream>
+#include <map>
 
 // void	print_tree(ft::node<int> *node, int flag)
 // {
@@ -48,6 +50,7 @@ void	real_print(ft::RBT<ft::map<int, int>::key_type, ft::map<int, int>::mapped_t
 int	main()
 {
 	ft::map<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > > map;
+	std::map<int, int> vrai;
 	
 	map._tree.insert(ft::make_pair(50, 50));
 	map._tree.insert(ft::make_pair(8, 8));
@@ -66,30 +69,19 @@ int	main()
 	map._tree.insert(ft::make_pair(999, 999));
 	map._tree.insert(ft::make_pair(53, 53));
 
-	// ft::RBT<int, int> toto;
-
-	// toto.insert(50);
-	// toto.insert(8);
-	// toto.insert(99);
-	// toto.insert(1);
-	// toto.insert(54);
-	// toto.insert(7);
-	// toto.insert(16);
-	// toto.insert(43);
-	// toto.insert(71);
-	// toto.insert(83);
-	// toto.insert(987);
-	// toto.insert(12);
-	// toto.insert(52);
+	std::cout << "ssdgfgdfg " << map._tree.searchElem(map._tree.getRoot(), 988)<< std::endl;
 
 	real_print(map._tree.getRoot(), 0, map._tree);
 
-	// toto.rb_delete(12);
-	// real_print(toto.getRoot(), 0, toto);
 	
-	// toto.rb_delete(99);
-	// real_print(toto.getRoot(), 0, toto);
-
-	// toto.rb_delete(7);
-	// real_print(toto.getRoot(), 0, toto);
+	vrai.insert(std::pair<int, int>(50, 50));
+	vrai.insert(std::pair<int, int>(9, 9));
+	vrai.insert(std::pair<int, int>(8, 8));
+	vrai.insert(std::pair<int, int>(2, 666));
+	vrai.insert(std::pair<int, int>(3, 3));
+	vrai.insert(std::pair<int, int>(5, 5));
+	std::cout << vrai.empty() << std::endl;
+	
+	std::map<int,int>::iterator it = vrai.begin();
+	std::cout << it->first << std::endl;
 }
