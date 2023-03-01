@@ -6,7 +6,7 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/02/23 17:39:27 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/02/27 18:15:38 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ INC_FILES	=	vector.hpp vector.tpp \
 				is_integral.hpp enable_if.hpp \
 				equal.hpp lexicographical_compare.hpp \
 				stack.hpp stack.tpp \
-				rbt.hpp map.hpp map.tpp
+				rbt.hpp map.hpp map.tpp map_iterator.hpp
 
 SRCS	=	$(addprefix srcs/, $(SRCS_FILES))
 

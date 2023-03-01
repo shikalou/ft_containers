@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/24 15:05:54 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/01 18:11:30 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,57 +63,74 @@ namespace ft
 				_malloc = Alloc();
 				node_null = make_node();
 				// node_null = new node<T>;
-				// node_null->mother = NULL;
+				node_null->mother = NULL;
 				node_null->l_child = NULL;
 				node_null->r_child = NULL;
 				node_null->node_color = black;
 				root = make_node();
-				root->node_color = black;
-				root->l_child = node_null;
-				root->r_child = node_null;
+				root = NULL;
+				// root->node_color = black;
+				// root->l_child = node_null;
+				// root->r_child = node_null;
 			}
 			~RBT()
 			{
 				//std::cout << "rbt destruct" << std::endl;
 			}
 
-			node<T>	*searchElem(node<T> *root, T val)
+			node<T>	*getNull() const
 			{
-				if (root == NULL || root->key == val)
-				{
-					//std::cout << "root->key ===== " << root->key << std::endl;
-					std::cout << "lol mdr         ";
-					return (root);
-				}
+				return (node_null);
+			}
+
+			node<T>	*getRoot() const
+			{
+				return (root);
+			}
+
+			comp	getComp() const
+			{
+				return (_comp);
+			}
+
+			allocator_type	getAlloc() const
+			{
+				return (_malloc);
+			}
+
+			node<T>	*searchKey(node<T> *node, T val) const
+			{
+				if (node == NULL || node->key == val)
+					return (node);
+				else if (_comp(val, node->key))
+					return (searchKey(node->l_child, val));
 				else
-				{
-					if (_comp(val, _comp->key))
-					{
-						std::cout << "a gauche" << std::endl;
-						return (searchElem(root->l_child, val));
-					}
-					else
-					{
-						std::cout << "a droite" << std::endl;
-						return (searchElem(root->r_child, val));
-					}
-					
-				}
+					return (searchKey(node->r_child, val));
 			}
 
 			node<T>	*minimum(node<T> *x)
 			{
-				while (x->l_child != node_null)
-					x = x->l_child;
+				if (x != node_null && x != NULL)
+				{
+					while (x->l_child != NULL)
+						x = x->l_child;
+				}
 				return (x);
 			}
 
-			void	rb_transplant(node<T> *n, node<T> *m)
+			node<T>	*maximum(node<T> *x)
 			{
+				while (x && x->r_child != NULL)
+					x = x->r_child;
+				return (x);
+			}
+
+			void	rb_transplant(node<T> *n, node<T> *m) // m --> n->r_child;
+			{
+				if (m == NULL)
+					m = node_null;
 				if (n->mother == NULL)
-				{
 					root = m;
-				}
 				else if (n == n->mother->l_child)
 					n->mother->l_child = m;
 				else
@@ -192,54 +209,59 @@ namespace ft
 				x->node_color = black;
 			}
 
-			void	rb_delete(T key)
+			int	rb_delete(T key)
 			{
 				node<T>	*y;
 				node<T>	*x;
-				node<T>	*n;
+				node<T>	*n = node_null;
 
 				node<T>	*tmp = root;
-				while (tmp != node_null)
+				while (tmp != NULL)
 				{
 					n = tmp;
-					if (key < tmp->key)
+					if (tmp && key < tmp->key)
 					{
 						tmp = tmp->l_child;
 					}
-					else if (key > tmp->key)
+					else if (tmp && key > tmp->key)
 					{
 						tmp = tmp->r_child;
 					}
-					if (key == tmp->key)
+					if (tmp && key == tmp->key)
 					{
 						n = tmp;
 						break ;
 					}
 				}
-				y = n;
+				if (n == NULL)
+					return (0);
+				y = make_node(n->_pair);
 				std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
 				color og_color_y = y->node_color;
-				if (n->l_child == node_null)
+				std::cout << "Y COLOR: " << og_color_y << "\n";
+				if (n->l_child == NULL)
 				{
 					std::cout << "11111111111111111111111111111\n";
 					x = n->r_child;
 					rb_transplant(n, n->r_child);
 				}
-				else if (n->r_child == node_null)
+				else if (n->r_child == NULL)
 				{
 					x = n->l_child;
 					rb_transplant(n, n->l_child);
 				}
 				else
 				{
-					std::cout << "2222222222222222222222222222\n";
 					y = minimum(n->r_child);
+					std::cout << "2222222222222222222222222222\n";
+					std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
 					og_color_y = y->node_color;
 					x = y->r_child;
 					if (y->mother == n)
 						x->mother = y;
 					else
 					{
+						std::cout << "333333333333333333333333333333\n";
 						rb_transplant(y, y->r_child);
 						y->r_child = n->r_child;
 						y->r_child->mother = y;
@@ -253,6 +275,7 @@ namespace ft
 				{
 					delete_fix(x);
 				}
+				return (1);
 			}
 
 			void	right_rotate(node<T> *n)
@@ -294,7 +317,7 @@ namespace ft
 				y->l_child = n;
 				n->mother = y;
 			}
-			
+
 			void	insert_fix(node<T> *new_node)
 			{
 				node<T> *y = NULL;
@@ -370,7 +393,7 @@ namespace ft
 				//new_node = node_null;
 				new_node->l_child = NULL;
 				new_node->r_child = NULL;
-				// new_node->mother = NULL;
+				new_node->mother = NULL;
 				// new_node->key = newkey;
 				new_node->node_color = red;
 
@@ -390,40 +413,30 @@ namespace ft
 					}
 				}
 				new_node->mother = x;
-				if (x == node_null)
+				if (x == NULL)
 				{
 					root = new_node;
 					root->node_color = black;
 				}
-				else if (new_node->_pair.first < x->_pair.first)
+				else if (x && new_node->_pair.first < x->_pair.first)
 				{
 					x->l_child = new_node;
 					//std::cout << "lol\n";
 				}
-				else if (new_node->_pair.first > x->_pair.first)
+				else if (x && new_node->_pair.first > x->_pair.first)
 				{
 					x->r_child = new_node;
 				}
 				else
 				{
 					x->r_child = new_node;
-					new_node->l_child = NULL;
-					new_node->r_child = NULL;
+					new_node->l_child = node_null;
+					new_node->r_child = node_null;
 					new_node->node_color = red;
 				}
 				if (!new_node->mother || !new_node->mother->mother)
 					return ;
 				insert_fix(new_node);
-			}
-
-			node<T>	*getNull()
-			{
-				return (node_null);
-			}
-
-			node<T>	*getRoot()
-			{
-				return (root);
 			}
 	};
 }

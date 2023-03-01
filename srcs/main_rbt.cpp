@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/24 15:00:05 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/01 18:11:43 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,36 +52,52 @@ int	main()
 	ft::map<int, int, std::less<int>, std::allocator<ft::pair<const int, int> > > map;
 	std::map<int, int> vrai;
 	
+
+	// map._tree.insert(ft::make_pair(1, 8));
+	// map._tree.insert(ft::make_pair(2, 9));
+	// map._tree.insert(ft::make_pair(3, 10));
+
 	map._tree.insert(ft::make_pair(50, 50));
 	map._tree.insert(ft::make_pair(8, 8));
 	map._tree.insert(ft::make_pair(99, 99));
 	map._tree.insert(ft::make_pair(1, 1));
 	map._tree.insert(ft::make_pair(54, 54));
 	map._tree.insert(ft::make_pair(7, 7));
-	map._tree.insert(ft::make_pair(16, 16));
-	map._tree.insert(ft::make_pair(43, 43));
-	map._tree.insert(ft::make_pair(71, 71));
-	map._tree.insert(ft::make_pair(83, 83));
-	map._tree.insert(ft::make_pair(987, 987));
-	map._tree.insert(ft::make_pair(12, 12));
-	map._tree.insert(ft::make_pair(52, 52));
-	map._tree.insert(ft::make_pair(988, 988));
-	map._tree.insert(ft::make_pair(999, 999));
-	map._tree.insert(ft::make_pair(53, 53));
+	// map._tree.insert(ft::make_pair(16, 16));
+	// map._tree.insert(ft::make_pair(43, 43));
+	// map._tree.insert(ft::make_pair(71, 71));
+	// map._tree.insert(ft::make_pair(83, 83));
+	// map._tree.insert(ft::make_pair(987, 987));
+	// map._tree.insert(ft::make_pair(12, 12));
+	// map._tree.insert(ft::make_pair(52, 52));
+	// map._tree.insert(ft::make_pair(988, 988));
+	// map._tree.insert(ft::make_pair(999, 999));
+	// map._tree.insert(ft::make_pair(53, 53));
 
-	std::cout << "ssdgfgdfg " << map._tree.searchElem(map._tree.getRoot(), 988)<< std::endl;
+	real_print(map._tree.getRoot(), 0, map._tree);
+	// std::cout << "ssdgfgdfg " << map.count(53) << std::endl;
 
+	vrai.insert(std::pair<int, int>(50, 50));
+	vrai.insert(std::pair<int, int>(8, 8));
+	vrai.insert(std::pair<int, int>(99, 99));
+	vrai.insert(std::pair<int, int>(1, 1));
+	vrai.insert(std::pair<int, int>(54, 54));
+	vrai.insert(std::pair<int, int>(7, 7));
+	//std::cout << vrai.empty() << std::endl;
+	
+	std::map<int,int>::iterator it = vrai.begin();
+	std::cout << "vrai begin = " << it->first << std::endl;
+	std::cout << "vrai begin + 1 = " << (++it)->first << std::endl;
+	std::map<int,int>::iterator ite = vrai.end();
+	std::cout << "vrai end -1 = " << (--ite)->first << std::endl;
+	std::cout << "vrai end -2 = " << (--ite)->first << std::endl;
+
+	ft::map<int, int>::iterator mit = map.begin();
+	std::cout << "mine begin " << mit->key << std::endl;
+
+	map.erase(54);
 	real_print(map._tree.getRoot(), 0, map._tree);
 
 	
-	vrai.insert(std::pair<int, int>(50, 50));
-	vrai.insert(std::pair<int, int>(9, 9));
-	vrai.insert(std::pair<int, int>(8, 8));
-	vrai.insert(std::pair<int, int>(2, 666));
-	vrai.insert(std::pair<int, int>(3, 3));
-	vrai.insert(std::pair<int, int>(5, 5));
-	std::cout << vrai.empty() << std::endl;
-	
-	std::map<int,int>::iterator it = vrai.begin();
-	std::cout << it->first << std::endl;
+
 }
