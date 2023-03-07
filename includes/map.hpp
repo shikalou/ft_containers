@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/27 19:07:55 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/07 19:23:06 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,40 @@ namespace ft
 
 			const_iterator	begin() const
 			{
-				return (const_iterator(_tree.maximum(_tree.getRoot())));
+				return (const_iterator(_tree.minimum(_tree.getRoot())));
 			}
 
 			iterator	end()
 			{
-				if (empty())
-					return (begin());
-				return (iterator(_tree.maximum(_tree.getRoot())->r_child));
+				return (iterator(_end));
 			}
 
 			const_iterator	end() const
 			{
-				return (const_iterator(_tree.maximum(_tree.getRoot())->r_child));
+				return (const_iterator(_end));
 			}
 			
+			pair<iterator, bool>	insert(const value_type &val) // A FAIRE
+			{
+				node *toto = _tree.maximum(_tree.getRoot(), _end);
+				toto->r_child = NULL;
+				if (!_tree.searchKey(_tree.getRoot(), val.first))
+				{
+					_size++;
+					_tree.insert(val);
+					node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
+					node *titi = _tree.maximum(_tree.getRoot(), _end);
+					titi->r_child = _end;
+					_end->mother = titi;
+					return (make_pair(iterator(tmp), true));
+				}
+				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
+				return (make_pair(iterator(tmp), false));
+			}
 			// pair<iterator,iterator>				equal_range(const key_type &k); // A FAIRE
 			// pair<const_iterator,const_iterator>	equal_range(const key_type &k) const; // A FAIRE
 			// iterator							find(const key_type &k); // A FAIRE
 			// const_iterator						find(const key_type &k) const; // A FAIRE
-			// pair<iterator,bool>					insert(const value_type &val); // A FAIRE
 			// iterator							insert(iterator position, const value_type &val); // A FAIRE
 			// template <class InputIterator>
 			// void								insert(InputIterator first, InputIterator last); // A FAIRE
@@ -118,6 +132,7 @@ namespace ft
 			RBT<key_type, mapped_type, value_type, key_compare, Alloc>	_tree;
 		private:
 			size_type		_size;
+			node			*_end;
 	};
 
 	// template <class Key, class T, class Compare, class Alloc>

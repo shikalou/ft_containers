@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/01 18:11:30 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:30:46 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@ namespace ft
 					l_child = NULL;
 					r_child = NULL;
 				}
+				node	&operator=(const node &egal)
+				{
+					this->key = egal->key;
+					this->_pair = egal._pair;
+					this->mother = egal.mother;
+					this->l_child = egal.l_child;
+					this->r_child = egal.r_child;
+					this->node_color = egal.node_color;
+					return (*this);
+				}
 			};
 			typedef typename Alloc::template rebind<node<T> >::other allocator_type;
 
@@ -55,7 +65,8 @@ namespace ft
 			node<T>			*root;
 			allocator_type	_malloc;
 			comp			_comp;
-			
+			size_t			size;
+
 		public:
 			RBT()
 			{
@@ -68,10 +79,11 @@ namespace ft
 				node_null->r_child = NULL;
 				node_null->node_color = black;
 				root = make_node();
-				root = NULL;
-				// root->node_color = black;
-				// root->l_child = node_null;
-				// root->r_child = node_null;
+				root->mother = NULL;
+				root->node_color = black;
+				root->l_child = node_null;
+				root->r_child = node_null;
+				size = 0;
 			}
 			~RBT()
 			{
@@ -100,7 +112,7 @@ namespace ft
 
 			node<T>	*searchKey(node<T> *node, T val) const
 			{
-				if (node == NULL || node->key == val)
+				if (node == NULL || node->key == val) // || node == node_null)
 					return (node);
 				else if (_comp(val, node->key))
 					return (searchKey(node->l_child, val));
@@ -110,19 +122,25 @@ namespace ft
 
 			node<T>	*minimum(node<T> *x)
 			{
-				if (x != node_null && x != NULL)
+				if (x && x != node_null && x != NULL)// && )
 				{
-					while (x->l_child != NULL)
+					while (x->l_child != NULL && x->l_child != node_null)
 						x = x->l_child;
 				}
 				return (x);
 			}
 
-			node<T>	*maximum(node<T> *x)
+			node<T>	*maximum(node<T> *x, node<T> *end)
 			{
-				while (x && x->r_child != NULL)
-					x = x->r_child;
+				if (x && x != node_null && x != NULL)
+				{
+					while (x->r_child != NULL && x->r_child != node_null && x->r_child != end)
+						x = x->r_child;
+				}
 				return (x);
+				// while (x && x->r_child != NULL && x->r_child != node_null && x != node_null)
+				// 	x = x->r_child;
+				// return (x);
 			}
 
 			void	rb_transplant(node<T> *n, node<T> *m) // m --> n->r_child;
@@ -218,7 +236,6 @@ namespace ft
 				node<T>	*tmp = root;
 				while (tmp != NULL)
 				{
-					n = tmp;
 					if (tmp && key < tmp->key)
 					{
 						tmp = tmp->l_child;
@@ -233,49 +250,52 @@ namespace ft
 						break ;
 					}
 				}
-				if (n == NULL)
-					return (0);
-				y = make_node(n->_pair);
-				std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
-				color og_color_y = y->node_color;
-				std::cout << "Y COLOR: " << og_color_y << "\n";
-				if (n->l_child == NULL)
+				if (n->key == key)
 				{
-					std::cout << "11111111111111111111111111111\n";
-					x = n->r_child;
-					rb_transplant(n, n->r_child);
-				}
-				else if (n->r_child == NULL)
-				{
-					x = n->l_child;
-					rb_transplant(n, n->l_child);
-				}
-				else
-				{
-					y = minimum(n->r_child);
-					std::cout << "2222222222222222222222222222\n";
-					std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
-					og_color_y = y->node_color;
-					x = y->r_child;
-					if (y->mother == n)
-						x->mother = y;
+					size--;
+					y = make_node(n->_pair);
+					std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
+					color og_color_y = y->node_color;
+					std::cout << "Y COLOR: " << og_color_y << "\n";
+					if (n->l_child == NULL)
+					{
+						std::cout << "11111111111111111111111111111\n";
+						x = n->r_child;
+						rb_transplant(n, n->r_child);
+					}
+					else if (n->r_child == NULL)
+					{
+						x = n->l_child;
+						rb_transplant(n, n->l_child);
+					}
 					else
 					{
-						std::cout << "333333333333333333333333333333\n";
-						rb_transplant(y, y->r_child);
-						y->r_child = n->r_child;
-						y->r_child->mother = y;
+						y = minimum(n->r_child);
+						std::cout << "2222222222222222222222222222\n";
+						std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
+						og_color_y = y->node_color;
+						x = y->r_child;
+						if (y->mother == n)
+							x->mother = y;
+						else
+						{
+							std::cout << "333333333333333333333333333333\n";
+							rb_transplant(y, y->r_child);
+							y->r_child = n->r_child;
+							y->r_child->mother = y;
+						}
+						rb_transplant(n, y);
+						y->l_child = n->l_child;
+						y->l_child->mother = y;
+						y->node_color = n->node_color;
 					}
-					rb_transplant(n, y);
-					y->l_child = n->l_child;
-					y->l_child->mother = y;
-					y->node_color = n->node_color;
+					if (og_color_y == black)
+					{
+						delete_fix(x);
+					}
+					return (1);
 				}
-				if (og_color_y == black)
-				{
-					delete_fix(x);
-				}
-				return (1);
+				return (0);
 			}
 
 			void	right_rotate(node<T> *n)
@@ -413,7 +433,7 @@ namespace ft
 					}
 				}
 				new_node->mother = x;
-				if (x == NULL)
+				if (x == NULL || size == 0)
 				{
 					root = new_node;
 					root->node_color = black;
@@ -434,6 +454,7 @@ namespace ft
 					new_node->r_child = node_null;
 					new_node->node_color = red;
 				}
+				size++;
 				if (!new_node->mother || !new_node->mother->mother)
 					return ;
 				insert_fix(new_node);

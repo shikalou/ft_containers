@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:11:34 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/02 15:15:32 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/07 19:30:57 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ namespace ft
 
 				/*OPERATOR OVERLOADS*/
 			map_iterator	operator=(const map_iterator &egal){_p = egal._p;return (*this);}
-			reference		operator*() const {return (*_p);}
-			nodeptr			operator->() const {return (_p);}
+			reference		operator*() const {return (this->_p->_pair);}
+			pointer			operator->() const {return (&this->_p->_pair);}
 			map_iterator	&operator++()
 			{
-				nodeptr tmp;
+				nodeptr	tmp = NULL;
 
 				if (_p->r_child != NULL)
 				{
@@ -50,7 +50,8 @@ namespace ft
 					{
 						tmp = tmp->l_child;
 					}
-					return (tmp);
+					this->_p = tmp;
+					return (*this);
 				}
 				else if (_p->mother != NULL)
 				{
@@ -59,13 +60,50 @@ namespace ft
 					{
 						tmp = tmp->mother;
 					}
-					return (tmp);
+					this->_p = tmp;
+					return (*this);
 				}
-				return (_p->r_child);
+				return (*this);
 			}
-			map_iterator	operator++(int);
-			map_iterator	&operator--();
-			map_iterator	operator--(int);
+			map_iterator	operator++(int)
+			{
+				map_iterator tmp(*this);
+				++*this;
+				return (tmp);
+			}
+			map_iterator	&operator--()
+			{
+				if (_p->l_child != NULL)
+				{
+					_p = _p->l_child;
+					while (_p && _p->r_child)
+					{
+						_p = _p->r_child;
+					}
+					// this->_p = tmp;
+					return (*this);
+				}
+				else if (_p == _p->mother->r_child)
+				{
+					_p = _p->mother;
+				}
+				else if (_p->mother != NULL)
+				{
+					while (_p && _p == _p->mother->l_child)
+					{
+						_p = _p->mother;
+					}
+					_p = _p->mother;
+					return (*this);
+				}
+				return (*this);
+			}
+			map_iterator	operator--(int)
+			{
+				map_iterator tmp(*this);
+				--*this;
+				return (tmp);
+			}
 			// map_iterator	&operator+=(difference_type n){_p = _p + n; return (*this);}
 			// map_iterator	&operator-=(difference_type n){_p = _p - n; return (*this);}
 			reference		&operator[](difference_type n) const{ return (_p[n]);}
@@ -95,28 +133,6 @@ namespace ft
 			friend bool	operator>=(const map_iterator<T,U>& lhs, const map_iterator<T,U>& rhs)
 			{
 				return (lhs._p >= rhs._p);
-			}
-			friend map_iterator<T,U>	operator+(typename map_iterator<T,U>::difference_type n, const map_iterator<T,U> &rhs)
-			{
-				map_iterator<T,U> tmp(rhs);
-				tmp._p += n;
-				return (tmp);
-			}
-			friend map_iterator<T,U>	operator+(const map_iterator<T,U> &lhs, typename map_iterator<T,U>::difference_type n)
-			{
-				map_iterator<T,U> tmp(lhs);
-				tmp._p += n;
-				return (tmp);
-			}
-			friend map_iterator<T,U>	operator-(const map_iterator<T,U> &lhs, typename map_iterator<T,U>::difference_type n)
-			{
-				map_iterator<T,U> tmp(lhs);
-				tmp._p -= n;
-				return (tmp);
-			}
-			friend typename map_iterator<T,U>::difference_type		operator-(const map_iterator<T,U> &lhs, const map_iterator<T,U> &rhs)
-			{
-				return (lhs._p - rhs._p);
 			}
 
 		private:

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/01 15:17:48 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:34:51 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ namespace ft
 	map<Key, T, Compare, Alloc>::map()
 	{
 		// std::cout << "map construct" << std::endl;
-		//_tree = RBT<>();
 		_size = 0;
+		_end = _tree.make_node();
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
