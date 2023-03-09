@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/07 16:34:51 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/09 19:19:40 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,54 @@ namespace ft
 {
 					/*****CONS/DESTRUCTOR*****/
 	template <class Key, class T, class Compare, class Alloc>
-	map<Key, T, Compare, Alloc>::map()
+	map<Key, T, Compare, Alloc>::map(const key_compare &comp, const allocator_type &alloc)
 	{
 		// std::cout << "map construct" << std::endl;
 		_size = 0;
 		_end = _tree.make_node();
+		_comp = _tree.getComp();
+		_malloc = _tree.getAlloc();
+		(void)comp;
+		(void)alloc;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	template <class InputIterator>
+	map<Key, T, Compare, Alloc>::map(InputIterator first, InputIterator last, const key_compare& comp, const allocator_type& alloc)
+	{
+		(void)comp;
+		(void)alloc;
+		_size = 0;
+		_end = _tree.make_node();
+		_comp = _tree.getComp();
+		_malloc = _tree.getAlloc();
+		while (first != last)
+		{
+			insert(*first);
+			first++;
+		}
+		node *titi = _tree.maximum(_tree.getRoot(), _end);
+		titi->r_child = _end;
+		_end->mother = titi;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	map<Key, T, Compare, Alloc>::map(const map &copy)
+	{
+		_size = copy._size;
+		_end = _tree.make_node();
+		_comp = _tree.getComp();
+		_malloc = _tree.getAlloc();
+		const_iterator first = copy.begin();
+		const_iterator last = copy.end();
+		while (first != last)
+		{
+			insert(*first);
+			first++;
+		}
+		node *titi = _tree.maximum(_tree.getRoot(), _end);
+		titi->r_child = _end;
+		_end->mother = titi;
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -30,6 +73,24 @@ namespace ft
 		// std::cout << "map destruct" << std::endl;
 	}
 					/*****OPERATOR OVERLOAD******/
+	// template <class Key, class T, class Compare, class Alloc>
+	// map<Key, T, Compare, Alloc>&	map<Key, T, Compare, Alloc>::operator=(const map &egal)
+	// {
+	// 	this->_size = egal._size;
+	// }
+
+	template <class Key, class T, class Compare, class Alloc>
+	T	&map<Key, T, Compare, Alloc>::operator[](const key_type &k)
+	{
+		node *toto = _tree.maximum(_tree.getRoot(), _end);
+		toto->r_child = NULL;
+		insert(make_pair(k, T()));
+		node *tmp = _tree.searchKey(_tree.getRoot(), k);
+		node *titi = _tree.maximum(_tree.getRoot(), _end);
+		titi->r_child = _end;
+		_end->mother = titi;
+		return (tmp->_pair.second);
+	}
 
 					/*****METHODES*****/
 
@@ -42,7 +103,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	size_t	map<Key, T, Compare, Alloc>::max_size() const
 	{
-		return (_tree._malloc.max_size());
+		return (_malloc.max_size());
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -74,9 +135,17 @@ namespace ft
 			return (1);
 		}
 		return (0);
-		
-		//return (_tree.rb_delete(k));
 	}
+
+	// template <class Key, class T, class Compare, class Alloc>
+	// void	map<Key, T, Compare, Alloc>::erase(iterator position)
+	// {
+	// 	if (position < _end)
+	// 	{
+	// 		_tree.rb_delete(position._p);
+			
+	// 	}
+	// }
 
 	template <class Key, class T, class Compare, class Alloc>
 	Alloc	map<Key, T, Compare, Alloc>::get_allocator() const

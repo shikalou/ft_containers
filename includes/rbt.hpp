@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/07 18:30:46 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:32:21 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ namespace ft
 					return (searchKey(node->r_child, val));
 			}
 
-			node<T>	*minimum(node<T> *x)
+			node<T>	*minimum(node<T> *x) const
 			{
 				if (x && x != node_null && x != NULL)// && )
 				{
@@ -130,7 +130,7 @@ namespace ft
 				return (x);
 			}
 
-			node<T>	*maximum(node<T> *x, node<T> *end)
+			node<T>	*maximum(node<T> *x, node<T> *end) const
 			{
 				if (x && x != node_null && x != NULL)
 				{
@@ -274,7 +274,8 @@ namespace ft
 						std::cout << "2222222222222222222222222222\n";
 						std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
 						og_color_y = y->node_color;
-						x = y->r_child;
+						//x = y->r_child;
+						x = y;
 						if (y->mother == n)
 							x->mother = y;
 						else
@@ -304,6 +305,7 @@ namespace ft
 
 				y = n->l_child;
 				n->l_child = y->r_child;
+				std::cout << "dans right_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
 				if (y->r_child != NULL)
 					y->r_child->mother = n;
 				y->mother = n->mother;
@@ -325,25 +327,33 @@ namespace ft
 
 				y = n->r_child;
 				n->r_child = y->l_child;
+				std::cout << "dans left_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
 				if (y->l_child != NULL)
 					y->l_child->mother = n;
 				y->mother = n->mother;
+				std::cout << "genre n->mother il est pas null ?????? " << n->key << std::endl;
 				if (n->mother == NULL)
+				{
+					std::cout << "je rentre pas a ?????????????????\n";
 					root = y;
+				}
 				else if (n == n->mother->l_child)
 					n->mother->l_child = y;
 				else
 					n->mother->r_child = y;
 				y->l_child = n;
 				n->mother = y;
+				std::cout << "rooooooot key est egal = " << root->key << std::endl;
 			}
 
 			void	insert_fix(node<T> *new_node)
 			{
 				node<T> *y = NULL;
+				std::cout << "\n\ndans insert_fix" << std::endl;
 
 				while (new_node->mother->node_color == red)
 				{
+					std::cout << "new_node = " << new_node->key << std::endl;
 					if (new_node->mother == new_node->mother->mother->l_child) // LEFT
 					{
 						// std::cout << "blabla color: " << new_node->mother->mother->r_child->node_color << "\n";
@@ -376,6 +386,7 @@ namespace ft
 						// std::cout << "Y color dans else right: " << y->node_color << "\n";
 						if (y && y->node_color == red)
 						{
+							std::cout << "si mother mother ROUGE" << std::endl;
 							new_node->mother->node_color = black;
 							y->node_color = black;
 							new_node->mother->mother->node_color = red;
@@ -383,8 +394,10 @@ namespace ft
 						}
 						else
 						{
+							std::cout << "si mother mother NOIR" << std::endl;
 							if (new_node == new_node->mother->l_child)
 							{
+								std::cout << "dfgdfg\n";
 								new_node = new_node->mother;
 								right_rotate(new_node);
 							}
@@ -394,9 +407,15 @@ namespace ft
 						}
 					}
 					if (new_node == root)
+					{
+						std::cout << "sdgdddddddddddddddddddddddddddddddddddddd" << std::endl;
 						break ;
+					}
 				}
+				if (root->node_color == red)
+					std::cout << "ptdrrrrrrrrrrrrrrrrrrrrrrrr\n";
 				root->node_color = black;
+				std::cout << "root->key = " << root->key << "\n";
 			}
 
 			node<T>	*make_node(const pair &p = pair())
@@ -410,6 +429,8 @@ namespace ft
 			{
 				node<T> *new_node = make_node(p);
 				
+				if (root)
+					root->mother = NULL;
 				//new_node = node_null;
 				new_node->l_child = NULL;
 				new_node->r_child = NULL;
@@ -433,6 +454,7 @@ namespace ft
 					}
 				}
 				new_node->mother = x;
+				std::cout << "INSERT X = " << x->key << std::endl;
 				if (x == NULL || size == 0)
 				{
 					root = new_node;
@@ -440,15 +462,17 @@ namespace ft
 				}
 				else if (x && new_node->_pair.first < x->_pair.first)
 				{
+					std::cout << new_node->key << " EST INFERIEUR A " << x->key << std::endl;
 					x->l_child = new_node;
-					//std::cout << "lol\n";
 				}
 				else if (x && new_node->_pair.first > x->_pair.first)
 				{
+					std::cout << new_node->key << " EST SUPERIEUR A " << x->key << std::endl;
 					x->r_child = new_node;
 				}
 				else
 				{
+					std::cout << "x = " << x->key << " new_node = " << new_node->key << std::endl;
 					x->r_child = new_node;
 					new_node->l_child = node_null;
 					new_node->r_child = node_null;

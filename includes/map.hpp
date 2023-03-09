@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/07 19:23:06 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/09 19:21:37 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 #include "rbt.hpp"
 #include "pair.hpp"
+#include "make_pair.hpp"
 #include "lexicographical_compare.hpp"
 #include "equal.hpp"
 #include "map_iterator.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft
 {
@@ -56,46 +58,33 @@ namespace ft
 			}
 		};
 				/*CONS/DESTRUCTOR*/
-			map();
+			map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			template <class InputIterator>
+			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			map(const map &copy);
 			~map();
 				/*OPERATOR OVERLOAD*/
 			map&			operator=(const map &egal);
 			mapped_type&	operator[](const key_type &k);
 
 				/*METHODES*/
-			void								clear(); // A FAIRE
-			size_type							count(const key_type &k) const;
-			bool								empty() const;
-			size_type							erase(const key_type &k);
-			allocator_type						get_allocator() const;
-			key_compare							key_comp() const;
-			size_type							max_size() const;
-			size_type							size() const;
-			// void								erase(iterator position); // A FAIRE
-			// void								erase(iterator first, iterator last); // A FAIRE
-			// void								swap(map &x); // A FAIRE
-
-			iterator	begin() // -> se base sur la KEY/FIRST pas la VALUE/SECOND
-			{
-				return(iterator(_tree.minimum(_tree.getRoot())));
-			}
-
-			const_iterator	begin() const
-			{
-				return (const_iterator(_tree.minimum(_tree.getRoot())));
-			}
-
-			iterator	end()
-			{
-				return (iterator(_end));
-			}
-
-			const_iterator	end() const
-			{
-				return (const_iterator(_end));
-			}
-			
-			pair<iterator, bool>	insert(const value_type &val) // A FAIRE
+			void					clear(); // A FAIRE
+			size_type				count(const key_type &k) const;
+			bool					empty() const;
+			size_type				erase(const key_type &k);
+			allocator_type			get_allocator() const;
+			key_compare				key_comp() const;
+			size_type				max_size() const;
+			size_type				size() const;
+			iterator				begin(){return(iterator(_tree.minimum(_tree.getRoot())));}
+			const_iterator			begin() const{return (const_iterator(_tree.minimum(_tree.getRoot())));}
+			iterator				end(){return (iterator(_end));}
+			const_iterator			end() const{ return (const_iterator(_end));}
+			reverse_iterator		rbegin(){ return (reverse_iterator(_end)); }
+			const_reverse_iterator	rbegin() const{ return (const_reverse_iterator(_end)); }
+			reverse_iterator		rend(){ return (reverse_iterator(_tree.minimum(_tree.getRoot()))); }
+			const_reverse_iterator	rend() const{ return (const_reverse_iterator(_tree.minimum(_tree.getRoot()))); }
+			pair<iterator, bool>	insert(const value_type &val)
 			{
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
 				toto->r_child = NULL;
@@ -112,27 +101,98 @@ namespace ft
 				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
 				return (make_pair(iterator(tmp), false));
 			}
-			// pair<iterator,iterator>				equal_range(const key_type &k); // A FAIRE
-			// pair<const_iterator,const_iterator>	equal_range(const key_type &k) const; // A FAIRE
+			iterator				lower_bound(const key_type &k)
+			{
+				iterator	first = begin();
+				iterator	last = end();
+				//Compare		comp = _tree.getComp();
+
+				while (first != last)
+				{
+					if (!_comp(first->first, k))
+						return (first);
+					first++;
+				}
+				return (last);
+			}
+			const_iterator			lower_bound(const key_type &k) const
+			{
+				const_iterator first = begin();
+				const_iterator last = end();
+				//Compare		comp = _tree.getComp();
+
+				while (first != last)
+				{
+					if (!_comp(first->first, k))
+						return (first);
+					first++;
+				}
+				return (last);
+			}
+			iterator				upper_bound(const key_type &k)
+			{
+				iterator	first = begin();
+				iterator	last = end();
+				//Compare		comp = _tree.getComp();
+
+				while (first != last)
+				{
+					if (_comp(k, first->first))
+						return (first);
+					first++;
+				}
+				return (last);
+			}
+			const_iterator			upper_bound(const key_type &k) const
+			{
+				const_iterator first = begin();
+				const_iterator last = end();
+				//Compare		comp = _tree.getComp();
+
+				while (first != last)
+				{
+					if (_comp(k, first->first))
+						return (first);
+					first++;
+				}
+				return (last);
+			}
+			pair<iterator,iterator>	equal_range(const key_type &k)
+			{
+				iterator upper;
+				iterator lower;
+
+				upper = upper_bound(k);
+				lower = lower_bound(k);
+				return (make_pair(lower, upper));
+			}
+			pair<const_iterator,const_iterator>	equal_range(const key_type &k) const
+			{
+				const_iterator upper;
+				const_iterator lower;
+
+				upper = upper_bound(k);
+				lower = lower_bound(k);
+				return (make_pair(lower, upper));
+			}
+			
+			// void								erase(iterator position); // A FAIRE
+			// void								erase(iterator first, iterator last); // A FAIRE
+			// void								swap(map &x); // A FAIRE
 			// iterator							find(const key_type &k); // A FAIRE
 			// const_iterator						find(const key_type &k) const; // A FAIRE
 			// iterator							insert(iterator position, const value_type &val); // A FAIRE
 			// template <class InputIterator>
 			// void								insert(InputIterator first, InputIterator last); // A FAIRE
-			// iterator							lower_bound(const key_type &k); // A FAIRE
-			// const_iterator						lower_bound(const key_type &k) const; // A FAIRE
-			// reverse_iterator					rbegin(); // A FAIRE
-			// const_reverse_iterator				rbegin() const; // A FAIRE
-			// reverse_iterator					rend(); // A FAIRE
-			// const_reverse_iterator				rend() const; // A FAIRE
-			// iterator							upper_bound(const key_type &k); // A FAIRE
-			// const_iterator						upper_bound(const key_type &k) const; // A FAIRE
+
 			value_compare						value_comp() const; // A FAIRE
 
 			RBT<key_type, mapped_type, value_type, key_compare, Alloc>	_tree;
 		private:
 			size_type		_size;
 			node			*_end;
+			allocator_type	_malloc;
+			Compare			_comp;
 	};
 
 	// template <class Key, class T, class Compare, class Alloc>

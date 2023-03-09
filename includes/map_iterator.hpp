@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:11:34 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/07 19:30:57 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:18:07 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,7 @@ namespace ft
 				--*this;
 				return (tmp);
 			}
-			// map_iterator	&operator+=(difference_type n){_p = _p + n; return (*this);}
-			// map_iterator	&operator-=(difference_type n){_p = _p - n; return (*this);}
-			reference		&operator[](difference_type n) const{ return (_p[n]);}
-			//operator		map_iterator<const value_type>() const {return (map_iterator<const value_type>(_p));}
+			operator		map_iterator<T, U>() const {return (map_iterator<T, U>(_p));}
 
 				/*FRIENDS OVERLOAD*/
 			friend bool	operator!=(const map_iterator<T,U> &lhs, const map_iterator<T,U> &rhs)
