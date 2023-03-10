@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/09 19:21:37 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:59:20 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ namespace ft
 			mapped_type&	operator[](const key_type &k);
 
 				/*METHODES*/
-			void					clear(); // A FAIRE
+			//void					clear(); // A FAIRE
 			size_type				count(const key_type &k) const;
 			bool					empty() const;
 			size_type				erase(const key_type &k);
+			void					erase(iterator position);
+			void					erase(iterator first, iterator last);
 			allocator_type			get_allocator() const;
 			key_compare				key_comp() const;
 			size_type				max_size() const;
@@ -84,6 +86,7 @@ namespace ft
 			const_reverse_iterator	rbegin() const{ return (const_reverse_iterator(_end)); }
 			reverse_iterator		rend(){ return (reverse_iterator(_tree.minimum(_tree.getRoot()))); }
 			const_reverse_iterator	rend() const{ return (const_reverse_iterator(_tree.minimum(_tree.getRoot()))); }
+			void					swap(map &x); // A FAIRE
 			pair<iterator, bool>	insert(const value_type &val)
 			{
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
@@ -96,16 +99,27 @@ namespace ft
 					node *titi = _tree.maximum(_tree.getRoot(), _end);
 					titi->r_child = _end;
 					_end->mother = titi;
-					return (make_pair(iterator(tmp), true));
+					return (ft::make_pair<iterator, bool>(iterator(tmp), true));
 				}
 				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
-				return (make_pair(iterator(tmp), false));
+				return (ft::make_pair<iterator, bool>(iterator(tmp), false));
+			}
+			iterator				insert(iterator position, const value_type &val)
+			{
+				(void)position;
+				node *toto = _tree.maximum(_tree.getRoot(), _end);
+				toto->r_child = NULL;
+				insert(val);
+				node *tmp = _tree.searchKey(_tree.getRoot, val.first);
+				node *titi = _tree.maximum(_tree.getRoot(), _end);
+				titi->r_child = _end;
+				_end->mother = titi;
+				return (iterator(tmp));
 			}
 			iterator				lower_bound(const key_type &k)
 			{
 				iterator	first = begin();
 				iterator	last = end();
-				//Compare		comp = _tree.getComp();
 
 				while (first != last)
 				{
@@ -119,7 +133,6 @@ namespace ft
 			{
 				const_iterator first = begin();
 				const_iterator last = end();
-				//Compare		comp = _tree.getComp();
 
 				while (first != last)
 				{
@@ -133,7 +146,6 @@ namespace ft
 			{
 				iterator	first = begin();
 				iterator	last = end();
-				//Compare		comp = _tree.getComp();
 
 				while (first != last)
 				{
@@ -147,7 +159,6 @@ namespace ft
 			{
 				const_iterator first = begin();
 				const_iterator last = end();
-				//Compare		comp = _tree.getComp();
 
 				while (first != last)
 				{
@@ -176,12 +187,8 @@ namespace ft
 				return (make_pair(lower, upper));
 			}
 			
-			// void								erase(iterator position); // A FAIRE
-			// void								erase(iterator first, iterator last); // A FAIRE
-			// void								swap(map &x); // A FAIRE
 			// iterator							find(const key_type &k); // A FAIRE
 			// const_iterator						find(const key_type &k) const; // A FAIRE
-			// iterator							insert(iterator position, const value_type &val); // A FAIRE
 			// template <class InputIterator>
 			// void								insert(InputIterator first, InputIterator last); // A FAIRE
 
@@ -195,8 +202,8 @@ namespace ft
 			Compare			_comp;
 	};
 
-	// template <class Key, class T, class Compare, class Alloc>
-	// void	swap(map<Key,T,Compare,Alloc> &x, map<Key,T,Compare,Alloc> &y);
+	template <class Key, class T, class Compare, class Alloc>
+	void	swap(map<Key,T,Compare,Alloc> &x, map<Key,T,Compare,Alloc> &y);
 
 	template <class Key, class T, class Compare, class Alloc>
 	bool	operator==(const map<Key,T,Compare,Alloc> &lhs, const map<Key,T,Compare,Alloc> &rhs);

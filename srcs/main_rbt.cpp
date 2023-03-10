@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/09 20:32:31 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:07:35 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,16 @@ int	main()
 	toto.insert(ft::make_pair(243, 53));
 	//toto[243] = 24;
 	toto.erase(26);
+
+	ft::map<int, int>::iterator toto_begin = toto.begin();
+	toto_begin++;
+	toto_begin++;
+	toto_begin++;
+
 	real_print(toto._tree.getRoot(), 0, toto._tree);
+	toto.erase(toto_begin);
+	real_print(toto._tree.getRoot(), 0, toto._tree);
+
+
 
 }
