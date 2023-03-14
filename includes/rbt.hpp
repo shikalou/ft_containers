@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/09 20:32:21 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:25:16 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,9 @@ namespace ft
 
 			void	delete_fix(node<T> *x)
 			{
+				std::cout << "start delete fix: " << x->_pair.first << "\n";
 				node<T> *w;
-				while (x != root && x->node_color == black)
+				while (x && x != root && x->node_color == black)
 				{
 					if (x == x->mother->l_child)
 					{
@@ -171,14 +172,12 @@ namespace ft
 							left_rotate(x->mother);
 							w = x->mother->r_child;
 						}
-						if (w->l_child->node_color == black && w->r_child->node_color == black)
+						if (w->l_child && w->l_child->node_color == black && w->r_child->node_color == black)
 						{
 							w->node_color = red;
 							x = x->mother;
 						}
-						else
-						{
-							if (w->r_child->node_color == black)
+						else if (w->l_child && w->r_child->node_color == black)
 							{
 								w->l_child->node_color = black;
 								w->node_color = red;
@@ -190,7 +189,7 @@ namespace ft
 							w->r_child->node_color = black;
 							left_rotate(x->mother);
 							x = root;
-						}
+						
 					}
 					else
 					{
@@ -202,7 +201,7 @@ namespace ft
 							right_rotate(x->mother);
 							w = x->mother->l_child;
 						}
-						if (w->r_child->node_color == black && w->l_child->node_color == black)
+						if (w->r_child && w->r_child->node_color == black && w->l_child->node_color == black)
 						{
 							w->node_color = red;
 							x = x->mother;
@@ -224,7 +223,8 @@ namespace ft
 						}
 					}
 				}
-				x->node_color = black;
+				if (x)
+					x->node_color = black;
 			}
 
 			int	rb_delete(T key)
@@ -257,14 +257,16 @@ namespace ft
 					std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
 					color og_color_y = y->node_color;
 					std::cout << "Y COLOR: " << og_color_y << "\n";
-					if (n->l_child == NULL)
+					if (n->l_child == NULL || n->l_child == node_null)
 					{
+						n->l_child = node_null;
 						std::cout << "11111111111111111111111111111\n";
 						x = n->r_child;
 						rb_transplant(n, n->r_child);
 					}
-					else if (n->r_child == NULL)
+					else if (n->r_child == NULL || n->r_child == node_null)
 					{
+						std::cout << "r child null delete\n";
 						x = n->l_child;
 						rb_transplant(n, n->l_child);
 					}
@@ -274,8 +276,10 @@ namespace ft
 						std::cout << "2222222222222222222222222222\n";
 						std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
 						og_color_y = y->node_color;
-						//x = y->r_child;
-						x = y;
+						if (y->r_child == NULL)
+							y->r_child = node_null;
+						x = y->r_child;
+						//x = y;
 						if (y->mother == n)
 							x->mother = y;
 						else
@@ -356,11 +360,7 @@ namespace ft
 					std::cout << "new_node = " << new_node->key << std::endl;
 					if (new_node->mother == new_node->mother->mother->l_child) // LEFT
 					{
-						// std::cout << "blabla color: " << new_node->mother->mother->r_child->node_color << "\n";
-						// std::cout << "blabla value: " << new_node->mother->mother->r_child->_pair.second << std::endl;
 						y = new_node->mother->mother->r_child;
-						// std::cout << "Y color: " << y->node_color << "\n";
-						// std::cout << "new_node value: " << new_node->_pair.second << std::endl;
 						if (y && y->node_color == red)
 						{
 							new_node->mother->node_color = black;
@@ -380,7 +380,7 @@ namespace ft
 							right_rotate(new_node->mother->mother);
 						}
 					}
-					else// if(new_node->mother == new_node->mother->mother->r_child)
+					else
 					{
 						y = new_node->mother->mother->l_child;
 						// std::cout << "Y color dans else right: " << y->node_color << "\n";
@@ -397,7 +397,7 @@ namespace ft
 							std::cout << "si mother mother NOIR" << std::endl;
 							if (new_node == new_node->mother->l_child)
 							{
-								std::cout << "dfgdfg\n";
+								std::cout << "si new_node est a gauche\n";
 								new_node = new_node->mother;
 								right_rotate(new_node);
 							}
@@ -440,16 +440,20 @@ namespace ft
 
 				node<T>	*tmp = root;
 				node<T>	*x = NULL;
+
 				while (tmp != NULL)
 				{
 					x = tmp;
 					//if (new_node->_pair.first < tmp->_pair.first)
+					std::cout << "\t\t new_node = " << new_node->_pair.first << "  tmp = " << tmp->_pair.first << std::endl;
 					if (_comp(new_node->_pair.first, tmp->_pair.first))
 					{
+						std::cout << "new node plus petit que tmp" << std::endl;
 						tmp = tmp->l_child;
 					}
 					else if (new_node->_pair.first > tmp->_pair.first)
 					{
+						std::cout << "new node plus grand que tmp" << std::endl;
 						tmp = tmp->r_child;
 					}
 				}

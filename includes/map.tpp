@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/10 17:55:05 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:35:06 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ namespace ft
 	map<Key, T, Compare, Alloc>&	map<Key, T, Compare, Alloc>::operator=(const map &egal)
 	{
 		this->_size = egal._size;
+		return (*this);
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -150,6 +151,7 @@ namespace ft
 			_end->mother = titi;
 			// _malloc.destroy(tmp);
 			// _malloc.deallocate(tmp, 1);
+			_size--;
 			return (1);
 		}
 		return (0);
@@ -171,17 +173,19 @@ namespace ft
 			titi->r_child = _end;
 			_end->mother = titi;
 			// _malloc.deallocate(tmp, 1);
+			_size--;
 		}
+		toto = _tree.maximum(_tree.getRoot(), _end);
+		toto->r_child = _end;
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
 	void	map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
 	{
-		iterator first = begin();
-		iterator last = end();
 		while (first != last)
 		{
 			erase(first);
+			real_print(_tree.getRoot(), 0, _tree);
 			first++;
 		}
 	}
@@ -218,6 +222,14 @@ namespace ft
 		_end = tmp_end;
 		_malloc = tmp_malloc;
 		_comp = tmp_comp;
+	}
+	template <class Key, class T, class Compare, class Alloc>
+	void map<Key, T, Compare, Alloc>::clear()
+	{
+		while (_tree.getRoot() != NULL && _size)
+		{
+			erase(_tree.getRoot());
+		}
 	}
 
 					/*****NON-MEMBER OVERLOAD*****/

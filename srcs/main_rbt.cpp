@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:34:29 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/10 16:07:35 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:33:44 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,16 +170,16 @@ int	main()
 	toto.insert(ft::make_pair(7, 0));
 	toto.insert(ft::make_pair(8, 987));
 	toto.insert(ft::make_pair(9, 12));
-	real_print(toto._tree.getRoot(), 0, toto._tree);
 	toto.insert(ft::make_pair(16, 52));
 	toto.insert(ft::make_pair(26, 988));
 	toto.insert(ft::make_pair(36, 999));
 	toto.insert(ft::make_pair(46, 53));
 	toto.insert(ft::make_pair(243, 53));
 	//toto[243] = 24;
-	toto.erase(26);
+	//toto.erase(26);
 
 	ft::map<int, int>::iterator toto_begin = toto.begin();
+	ft::map<int, int>::iterator toto_end = toto.end();
 	toto_begin++;
 	toto_begin++;
 	toto_begin++;
@@ -188,6 +188,48 @@ int	main()
 	toto.erase(toto_begin);
 	real_print(toto._tree.getRoot(), 0, toto._tree);
 
+	toto_begin = toto.begin();
 
+	ft::map<int, int>::iterator last;
+	ft::map<int, int>::iterator first;
 
+	first = toto.find(8);
+	last = toto.find(16);
+
+	std::cout << "first->first = " << first->first << "last->first = " << last->first << std::endl;
+	toto.erase(first, last);
+	real_print(toto._tree.getRoot(), 0, toto._tree);
+	
+	toto_begin = toto.begin();
+	toto_end = toto.end();
+
+	//std::cout << (*toto_end).first << std::endl;
+	std::cout << "APRES LE ERASE ITERATOR" << std::endl;
+	while (toto_begin != toto_end)
+	{
+		//toto_end--;
+		std::cout << toto_begin->first << std::endl;
+		toto_begin++;
+	}
+	std::cout << "\n\n---------------------------------\n";
+
+	ft::map<int, int> to_insert;
+
+	to_insert.insert(ft::make_pair(37, 37));
+	to_insert.insert(ft::make_pair(38, 38));
+	to_insert.insert(ft::make_pair(42, 42));
+	std::cout << "\n\n---------------------------------\n";
+	real_print(to_insert._tree.getRoot(), 0, to_insert._tree);
+	std::cout << "---------------------------------\n\n\n";
+
+	ft::map<int, int>::iterator frist = to_insert.begin();
+	ft::map<int, int>::iterator lsat = to_insert.end();
+
+	real_print(toto._tree.getRoot(), 0, toto._tree);
+	std::cout << "---------------------------------\n\n\n";
+	toto.insert(frist, lsat);
+	real_print(toto._tree.getRoot(), 0, toto._tree);
+
+	to_insert.clear();
+	std::cout << to_insert.empty() << std::endl;
 }

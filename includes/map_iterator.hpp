@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:11:34 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/09 16:18:07 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:50:46 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,57 @@ namespace ft
 			map_iterator	operator=(const map_iterator &egal){_p = egal._p;return (*this);}
 			reference		operator*() const {return (this->_p->_pair);}
 			pointer			operator->() const {return (&this->_p->_pair);}
+			// map_iterator	&operator++()
+			// {
+			// 	nodeptr	tmp = NULL;
+
+			// 	if (_p->r_child != NULL)
+			// 	{
+			// 		tmp = _p->r_child;
+			// 		while (tmp && tmp->l_child)
+			// 		{
+			// 			tmp = tmp->l_child;
+			// 		}
+			// 		this->_p = tmp;
+			// 		return (*this);
+			// 	}
+			// 	else if (_p->mother != NULL)
+			// 	{
+			// 		tmp = _p->mother;
+			// 		while (tmp && tmp->key < _p->key)
+			// 		{
+			// 			tmp = tmp->mother;
+			// 		}
+			// 		this->_p = tmp;
+			// 		return (*this);
+			// 	}
+			// 	return (*this);
+			// }
 			map_iterator	&operator++()
 			{
-				nodeptr	tmp = NULL;
-
+				if (_p == NULL || (_p->mother == NULL && _p->l_child == NULL && _p->r_child == NULL))
+					return (*this);
 				if (_p->r_child != NULL)
 				{
-					tmp = _p->r_child;
-					while (tmp && tmp->l_child)
+					_p = _p->r_child;
+					while (_p && _p->l_child)
 					{
-						tmp = tmp->l_child;
+						_p = _p->l_child;
 					}
-					this->_p = tmp;
+					// this->_p = tmp;
 					return (*this);
 				}
-				else if (_p->mother != NULL)
+				else if (_p == _p->mother->l_child)
 				{
-					tmp = _p->mother;
-					while (tmp && tmp->key < _p->key)
+					_p = _p->mother;
+				}
+				else if (_p->mother != NULL)// && _p == _p->mother->l_child)
+				{
+					while (_p && _p->mother && _p == _p->mother->r_child)
 					{
-						tmp = tmp->mother;
+						_p = _p->mother;
 					}
-					this->_p = tmp;
+					_p = _p->mother;
 					return (*this);
 				}
 				return (*this);
@@ -104,7 +133,7 @@ namespace ft
 				--*this;
 				return (tmp);
 			}
-			operator		map_iterator<T, U>() const {return (map_iterator<T, U>(_p));}
+			operator		map_iterator<const T, U>() const {return (map_iterator<const T, U>(_p));}
 
 				/*FRIENDS OVERLOAD*/
 			friend bool	operator!=(const map_iterator<T,U> &lhs, const map_iterator<T,U> &rhs)
