@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/14 19:36:21 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:13:26 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,18 @@ namespace ft
 			key_compare				key_comp() const;
 			size_type				max_size() const;
 			size_type				size() const;
-			iterator				begin(){return(iterator(_tree.minimum(_tree.getRoot())));}
-			const_iterator			begin() const{return (const_iterator(_tree.minimum(_tree.getRoot())));}
+			iterator				begin()
+			{
+				if (_size == 0)
+					return (iterator(_end));
+				return(iterator(_tree.minimum(_tree.getRoot())));
+			}
+			const_iterator			begin() const
+			{
+				if (_size == 0)
+					return (const_iterator(_end));
+				return (const_iterator(_tree.minimum(_tree.getRoot())));
+			}
 			iterator				end(){return (iterator(_end));}
 			const_iterator			end() const{return (const_iterator(_end));}
 			reverse_iterator		rbegin(){return (reverse_iterator(_end));}
@@ -92,7 +102,8 @@ namespace ft
 			{
 				std::cout << "JE RENTRE DANS INSERT (1)\n\n";
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
-				toto->r_child = NULL;
+				if (toto)
+					toto->r_child = NULL;
 				if (!_tree.searchKey(_tree.getRoot(), val.first))
 				{
 					_size++;
@@ -123,10 +134,11 @@ namespace ft
 			template <class InputIterator>
 			void					insert(InputIterator first, InputIterator last)
 			{
+				std::cout << "JE RENTRE DANS INSERT (3)\n\n";
 				while (first != last)
 				{
 					std::cout << "kjkjhkjhkjhkjhkhkjhkjhk     " << first->first << std::endl;
-					insert(*first);
+					insert(ft::make_pair(first->first, first->second));
 					++first;
 				}
 			}

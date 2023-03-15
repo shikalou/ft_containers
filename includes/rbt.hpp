@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/14 17:25:16 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:45:54 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ enum color
 
 namespace ft
 {
-	template <class T, class V, typename pair, class comp, class Alloc = std::allocator<T> >
+	template <class T, class V, typename pair, class comp, class Alloc_pair >
 	class RBT
 	{
 		public:
@@ -58,12 +58,13 @@ namespace ft
 					return (*this);
 				}
 			};
-			typedef typename Alloc::template rebind<node<T> >::other allocator_type;
+			typedef typename Alloc_pair::template rebind<node<T> >::other allocator_type;
 
 		private:
 			node<T>			*node_null;
 			node<T>			*root;
-			allocator_type	_malloc;
+			Alloc_pair	_malloc_pair;
+			allocator_type	_malloc_node;
 			comp			_comp;
 			size_t			size;
 
@@ -71,22 +72,21 @@ namespace ft
 			RBT()
 			{
 				std::cout << "rbt construct" << std::endl;
-				_malloc = Alloc();
+				_malloc_pair = Alloc_pair();
+				_malloc_node = allocator_type();
 				node_null = make_node();
 				// node_null = new node<T>;
 				node_null->mother = NULL;
 				node_null->l_child = NULL;
 				node_null->r_child = NULL;
 				node_null->node_color = black;
-				root = make_node();
-				root->mother = NULL;
-				root->node_color = black;
-				root->l_child = node_null;
-				root->r_child = node_null;
+				root = NULL;
 				size = 0;
 			}
 			~RBT()
 			{
+				_malloc_node.destroy(node_null);
+				_malloc_node.deallocate(node_null, 1);
 				//std::cout << "rbt destruct" << std::endl;
 			}
 
@@ -107,11 +107,18 @@ namespace ft
 
 			allocator_type	getAlloc() const
 			{
-				return (_malloc);
+				return (_malloc_node);
+			}
+
+			void	supp_end(node<T> *end)
+			{
+				_malloc_node.destroy(end);
+				_malloc_node.deallocate(end, 1);
 			}
 
 			node<T>	*searchKey(node<T> *node, T val) const
 			{
+				std::cout << "node = " << node << " node-null = " << node_null << "\n";
 				if (node == NULL || node->key == val) // || node == node_null)
 					return (node);
 				else if (_comp(val, node->key))
@@ -122,7 +129,7 @@ namespace ft
 
 			node<T>	*minimum(node<T> *x) const
 			{
-				if (x && x != node_null && x != NULL)// && )
+				if (x && x != node_null && x != NULL)
 				{
 					while (x->l_child != NULL && x->l_child != node_null)
 						x = x->l_child;
@@ -132,11 +139,14 @@ namespace ft
 
 			node<T>	*maximum(node<T> *x, node<T> *end) const
 			{
-				if (x && x != node_null && x != NULL)
-				{
-					while (x->r_child != NULL && x->r_child != node_null && x->r_child != end)
-						x = x->r_child;
-				}
+				// if ()
+				if (size == 0)
+					return (NULL);
+				while (x && x != node_null && x != NULL && x->r_child != NULL && x->r_child != node_null && x->r_child != end)
+					x = x->r_child;
+				//}
+				if (x == node_null)
+					return (NULL);
 				return (x);
 				// while (x && x->r_child != NULL && x->r_child != node_null && x != node_null)
 				// 	x = x->r_child;
@@ -158,38 +168,40 @@ namespace ft
 
 			void	delete_fix(node<T> *x)
 			{
-				std::cout << "start delete fix: " << x->_pair.first << "\n";
 				node<T> *w;
 				while (x && x != root && x->node_color == black)
 				{
 					if (x == x->mother->l_child)
 					{
 						w = x->mother->r_child;
-						if (w->node_color == red)
+						if (!w)
+							w = node_null;
+						if (w && w->node_color == red)
 						{
 							w->node_color = black;
 							x->mother->node_color = red;
 							left_rotate(x->mother);
 							w = x->mother->r_child;
 						}
-						if (w->l_child && w->l_child->node_color == black && w->r_child->node_color == black)
+						if (w && w->l_child && w->l_child->node_color == black && w->r_child && w->r_child->node_color == black)
 						{
 							w->node_color = red;
 							x = x->mother;
 						}
-						else if (w->l_child && w->r_child->node_color == black)
-							{
-								w->l_child->node_color = black;
-								w->node_color = red;
-								right_rotate(w);
-								w = x->mother->r_child;
-							}
-							w->node_color = x->mother->node_color;
-							x->mother->node_color = black;
-							w->r_child->node_color = black;
-							left_rotate(x->mother);
-							x = root;
-						
+						else if (w && w->l_child && w->r_child->node_color == black)
+						{
+							w->l_child->node_color = black;
+							w->node_color = red;
+							right_rotate(w);
+							w = x->mother->r_child;
+						}
+						w->node_color = x->mother->node_color;
+						x->mother->node_color = black;
+						if (w->r_child == NULL)
+							w->r_child = node_null;
+						w->r_child->node_color = black;
+						left_rotate(x->mother);
+						x = root;
 					}
 					else
 					{
@@ -208,7 +220,7 @@ namespace ft
 						}
 						else
 						{
-							if (w->l_child->node_color == black)
+							if (w->l_child && w->l_child->node_color == black)
 							{
 								w->r_child->node_color = black;
 								w->node_color = red;
@@ -217,6 +229,8 @@ namespace ft
 							}
 							w->node_color = x->mother->node_color;
 							x->mother->node_color = black;
+							if (w->l_child == NULL)
+								w->l_child = node_null;
 							w->l_child->node_color = black;
 							right_rotate(x->mother);
 							x = root;
@@ -225,6 +239,16 @@ namespace ft
 				}
 				if (x)
 					x->node_color = black;
+			}
+
+			void print_rec(node<T> *tmp, int co = 0) {
+				if (tmp && tmp != node_null)
+				{
+
+					std::cout << std::string(co * 2, ' ') << "n = " << tmp << " v = " << tmp->key << std::endl;
+					print_rec(tmp->l_child, co + 1);
+					print_rec(tmp->r_child, co + 1);
+				}
 			}
 
 			int	rb_delete(T key)
@@ -253,11 +277,18 @@ namespace ft
 				if (n->key == key)
 				{
 					size--;
-					y = make_node(n->_pair);
-					std::cout << "n = " << n->key << " y = "<< y->key << std::endl;
-					color og_color_y = y->node_color;
-					std::cout << "Y COLOR: " << og_color_y << "\n";
-					if (n->l_child == NULL || n->l_child == node_null)
+					
+					//y = make_node(n->_pair);
+					std::cout << "n = " << n << " v = " << n->key << " root = "<< getRoot() << std::endl;
+					if (size == 2)
+						print_rec(root);
+					std::cout << "Y COLOR: " << n->node_color << "\n";
+					color og_color_y = n->node_color;
+					if (size == 0)
+					{
+						root = NULL;
+					}
+					else if (n->l_child == NULL || n->l_child == node_null)
 					{
 						n->l_child = node_null;
 						std::cout << "11111111111111111111111111111\n";
@@ -294,7 +325,9 @@ namespace ft
 						y->l_child->mother = y;
 						y->node_color = n->node_color;
 					}
-					if (og_color_y == black)
+					_malloc_node.destroy(n);
+					_malloc_node.deallocate(n, 1);
+					if (og_color_y == black && size != 0)
 					{
 						delete_fix(x);
 					}
@@ -328,7 +361,9 @@ namespace ft
 			void	left_rotate(node<T> *n)
 			{
 				node<T> *y;
-
+				
+				if (!n->r_child)
+					n->r_child = node_null;
 				y = n->r_child;
 				n->r_child = y->l_child;
 				std::cout << "dans left_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
@@ -412,16 +447,14 @@ namespace ft
 						break ;
 					}
 				}
-				if (root->node_color == red)
-					std::cout << "ptdrrrrrrrrrrrrrrrrrrrrrrrr\n";
 				root->node_color = black;
 				std::cout << "root->key = " << root->key << "\n";
 			}
 
 			node<T>	*make_node(const pair &p = pair())
 			{
-				node<T> *new_node = _malloc.allocate(1);
-				_malloc.construct(new_node, node<T>(p));
+				node<T> *new_node = _malloc_node.allocate(1);
+				_malloc_node.construct(new_node, node<T>(p));
 				return (new_node);
 			}
 
@@ -441,7 +474,7 @@ namespace ft
 				node<T>	*tmp = root;
 				node<T>	*x = NULL;
 
-				while (tmp != NULL)
+				while (tmp != NULL && tmp != node_null)
 				{
 					x = tmp;
 					//if (new_node->_pair.first < tmp->_pair.first)
@@ -458,10 +491,11 @@ namespace ft
 					}
 				}
 				new_node->mother = x;
-				std::cout << "INSERT X = " << x->key << std::endl;
+				std::cout << "INSERT X = " << x << std::endl;
 				if (x == NULL || size == 0)
 				{
 					root = new_node;
+					
 					root->node_color = black;
 				}
 				else if (x && new_node->_pair.first < x->_pair.first)

@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/14 19:35:06 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:48:49 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 		_malloc = _tree.getAlloc();
 		while (first != last)
 		{
-			insert(*first);
+			insert(ft::make_pair(first->first, first->second));
 			first++;
 		}
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -51,7 +51,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	map<Key, T, Compare, Alloc>::map(const map &copy)
 	{
-		_size = copy._size;
+		_size = 0;
 		_end = _tree.make_node();
 		_comp = _tree.getComp();
 		_malloc = _tree.getAlloc();
@@ -59,7 +59,7 @@ namespace ft
 		const_iterator last = copy.end();
 		while (first != last)
 		{
-			insert(*first);
+			insert(ft::make_pair(first->first, first->second));
 			first++;
 		}
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -71,12 +71,18 @@ namespace ft
 	map<Key, T, Compare, Alloc>::~map()
 	{
 		// std::cout << "map destruct" << std::endl;
+		std::cout << "NOTE A PAS DETRUIRE END !!!!!!!11  " << _end << std::endl;
+		clear();
+		_tree.supp_end(_end);
 	}
 					/*****OPERATOR OVERLOAD******/
 	template <class Key, class T, class Compare, class Alloc>
 	map<Key, T, Compare, Alloc>&	map<Key, T, Compare, Alloc>::operator=(const map &egal)
 	{
-		this->_size = egal._size;
+		clear();
+		const_iterator first = egal.begin();
+		const_iterator last = egal.end();
+		insert(first, last);
 		return (*this);
 	}
 
@@ -84,7 +90,8 @@ namespace ft
 	T	&map<Key, T, Compare, Alloc>::operator[](const key_type &k)
 	{
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
-		toto->r_child = NULL;
+		if (toto)
+			toto->r_child = NULL;
 		insert(ft::make_pair(k, T()));
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -139,7 +146,9 @@ namespace ft
 	size_t	map<Key, T, Compare, Alloc>::erase(const key_type &k)
 	{
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
-		toto->r_child = NULL;
+		std::cout << "on suppr le max : " << toto << std::endl;
+		if (toto)
+			toto->r_child = NULL;
 
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
 
@@ -147,13 +156,21 @@ namespace ft
 		{
 			_tree.rb_delete(k);
 			node *titi = _tree.maximum(_tree.getRoot(), _end);
+			if (!titi)
+			{
+				_size--;
+				return (1);
+			}
 			titi->r_child = _end;
 			_end->mother = titi;
-			// _malloc.destroy(tmp);
+			// _malloc.destroy(tmp->p);
 			// _malloc.deallocate(tmp, 1);
 			_size--;
 			return (1);
 		}
+		node *titi = _tree.maximum(_tree.getRoot(), _end);
+		titi->r_child = _end;
+		_end->mother = titi;
 		return (0);
 	}
 
@@ -161,18 +178,23 @@ namespace ft
 	void	map<Key, T, Compare, Alloc>::erase(iterator position)
 	{
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
+		if (!toto)
+			return ;
 		toto->r_child = NULL;
 
 		node *tmp = _tree.searchKey(_tree.getRoot(), (*position).first);
+		std::cout << "DANS ERASE\ntmp = " << tmp->key << std::endl;
 
 		if (tmp != NULL)
 		{
 			_tree.rb_delete((*position).first);
 			// _malloc.destroy(tmp);
+			// _malloc.deallocate(tmp, 1);
 			node *titi = _tree.maximum(_tree.getRoot(), _end);
+			if (!titi)
+				return ;
 			titi->r_child = _end;
 			_end->mother = titi;
-			// _malloc.deallocate(tmp, 1);
 			_size--;
 		}
 		toto = _tree.maximum(_tree.getRoot(), _end);
@@ -185,7 +207,7 @@ namespace ft
 		while (first != last)
 		{
 			erase(first);
-			real_print(_tree.getRoot(), 0, _tree);
+			//real_print(_tree.getRoot(), 0, _tree);
 			first++;
 		}
 	}
@@ -228,7 +250,9 @@ namespace ft
 	{
 		while (_tree.getRoot() != NULL && _size)
 		{
-			erase(_tree.getRoot());
+			//real_print(_tree.getRoot(), 0, _tree);
+			std::cout << "DANS CLEAR    " << _size << std::endl;
+			erase(_tree.getRoot()->key);
 		}
 	}
 

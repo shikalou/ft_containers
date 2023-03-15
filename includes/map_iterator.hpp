@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:11:34 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/14 17:50:46 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:22:56 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,6 @@ namespace ft
 			map_iterator	operator=(const map_iterator &egal){_p = egal._p;return (*this);}
 			reference		operator*() const {return (this->_p->_pair);}
 			pointer			operator->() const {return (&this->_p->_pair);}
-			// map_iterator	&operator++()
-			// {
-			// 	nodeptr	tmp = NULL;
-
-			// 	if (_p->r_child != NULL)
-			// 	{
-			// 		tmp = _p->r_child;
-			// 		while (tmp && tmp->l_child)
-			// 		{
-			// 			tmp = tmp->l_child;
-			// 		}
-			// 		this->_p = tmp;
-			// 		return (*this);
-			// 	}
-			// 	else if (_p->mother != NULL)
-			// 	{
-			// 		tmp = _p->mother;
-			// 		while (tmp && tmp->key < _p->key)
-			// 		{
-			// 			tmp = tmp->mother;
-			// 		}
-			// 		this->_p = tmp;
-			// 		return (*this);
-			// 	}
-			// 	return (*this);
-			// }
 			map_iterator	&operator++()
 			{
 				if (_p == NULL || (_p->mother == NULL && _p->l_child == NULL && _p->r_child == NULL))
