@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/15 22:48:49 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:30:29 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,16 @@ namespace ft
 			if (!titi)
 			{
 				_size--;
+				_tree.supp_end(tmp);
 				return (1);
 			}
+			std::cout << "dans erase titi = " << titi << std::endl;
 			titi->r_child = _end;
 			_end->mother = titi;
 			// _malloc.destroy(tmp->p);
 			// _malloc.deallocate(tmp, 1);
 			_size--;
+			_tree.supp_end(tmp);
 			return (1);
 		}
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -181,10 +184,7 @@ namespace ft
 		if (!toto)
 			return ;
 		toto->r_child = NULL;
-
 		node *tmp = _tree.searchKey(_tree.getRoot(), (*position).first);
-		std::cout << "DANS ERASE\ntmp = " << tmp->key << std::endl;
-
 		if (tmp != NULL)
 		{
 			_tree.rb_delete((*position).first);
@@ -192,9 +192,15 @@ namespace ft
 			// _malloc.deallocate(tmp, 1);
 			node *titi = _tree.maximum(_tree.getRoot(), _end);
 			if (!titi)
+			{
+				_size--;
+				_tree.supp_end(tmp);
 				return ;
+			}
 			titi->r_child = _end;
 			_end->mother = titi;
+			std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF " << tmp->key << std::endl;
+			_tree.supp_end(tmp);
 			_size--;
 		}
 		toto = _tree.maximum(_tree.getRoot(), _end);
@@ -204,12 +210,36 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	void	map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
 	{
-		while (first != last)
+		if (first == begin() && last == end())
 		{
-			erase(first);
-			//real_print(_tree.getRoot(), 0, _tree);
-			first++;
+			clear();
+			return ;
 		}
+		node *toto = _tree.maximum(_tree.getRoot(), _end);
+		if (!toto)
+			return ;
+		toto->r_child = NULL;
+		if (last == end())
+		{
+			last--;
+		}
+			while (last != first)
+				{
+			//node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+				erase(last);
+			//std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+			//real_print(_tree.getRoot(), 0, _tree);
+				last--;
+			//_tree.supp_end(tmp);
+			}
+		// else
+		// {
+		// 	while (first != last)
+		// 	{
+		// 		erase(first);
+		// 		first++;
+		// 	}
+		// }
 	}
 
 	template <class Key, class T, class Compare, class Alloc>

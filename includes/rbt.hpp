@@ -6,12 +6,23 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/15 22:45:54 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:17:11 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_HPP
 #define RBT_HPP
+# define reset "\033[00m"
+
+# define italic "\033[3m"
+# define bold "\033[1m"
+# define underline "\033[4m"
+
+# define white "\033[37m"
+# define reed "\033[31m"
+# define green "\033[32m"
+# define yellow "\033[33m"
+# define blue "\033[34m"
 
 #include <iostream>
 
@@ -116,6 +127,25 @@ namespace ft
 				_malloc_node.deallocate(end, 1);
 			}
 
+			void	replace_node_null(node<T> *tmp)
+			{
+				std::cout << "on check " << tmp << "  : " << (tmp == node_null) << std::endl;
+				if (tmp == NULL)
+					return ;
+				else
+				{
+					if (tmp->r_child == node_null)
+						tmp->r_child = NULL;
+					else
+						replace_node_null(tmp->r_child);
+
+					if (tmp->l_child == node_null)
+						tmp->l_child = NULL;
+					else
+						replace_node_null(tmp->l_child);
+				}
+			}
+
 			node<T>	*searchKey(node<T> *node, T val) const
 			{
 				std::cout << "node = " << node << " node-null = " << node_null << "\n";
@@ -169,10 +199,12 @@ namespace ft
 			void	delete_fix(node<T> *x)
 			{
 				node<T> *w;
-				while (x && x != root && x->node_color == black)
+				while (x  && x != root && x->node_color == black)
 				{
+					std::cout << "oue la boucle\n";
 					if (x == x->mother->l_child)
 					{
+						std::cout << "si on est a gauche " << std::endl;
 						w = x->mother->r_child;
 						if (!w)
 							w = node_null;
@@ -188,23 +220,27 @@ namespace ft
 							w->node_color = red;
 							x = x->mother;
 						}
-						else if (w && w->l_child && w->r_child->node_color == black)
+						else
 						{
-							w->l_child->node_color = black;
-							w->node_color = red;
-							right_rotate(w);
-							w = x->mother->r_child;
+							if (w && w->l_child && w->r_child->node_color == black)
+							{
+								w->l_child->node_color = black;
+								w->node_color = red;
+								right_rotate(w);
+								w = x->mother->r_child;
+							}
+							w->node_color = x->mother->node_color;
+							x->mother->node_color = black;
+							if (w->r_child == NULL)
+								w->r_child = node_null;
+							w->r_child->node_color = black;
+							left_rotate(x->mother);
+							x = root;
 						}
-						w->node_color = x->mother->node_color;
-						x->mother->node_color = black;
-						if (w->r_child == NULL)
-							w->r_child = node_null;
-						w->r_child->node_color = black;
-						left_rotate(x->mother);
-						x = root;
 					}
 					else
 					{
+						std::cout << "si on est a droite " << std::endl;
 						w = x->mother->l_child;
 						if (w->node_color == red)
 						{
@@ -244,10 +280,16 @@ namespace ft
 			void print_rec(node<T> *tmp, int co = 0) {
 				if (tmp && tmp != node_null)
 				{
-
+					if (tmp->node_color == red)
+						std::cout << reed;
 					std::cout << std::string(co * 2, ' ') << "n = " << tmp << " v = " << tmp->key << std::endl;
+					std::cout << reset;
 					print_rec(tmp->l_child, co + 1);
 					print_rec(tmp->r_child, co + 1);
+				}
+				else
+				{
+					std::cout << std::string(co * 2, ' ') << "END "  << tmp << std::endl;
 				}
 			}
 
@@ -277,21 +319,26 @@ namespace ft
 				if (n->key == key)
 				{
 					size--;
-					
+					std::cout << "dans rb_delete size = " << size << std::endl;
 					//y = make_node(n->_pair);
 					std::cout << "n = " << n << " v = " << n->key << " root = "<< getRoot() << std::endl;
-					if (size == 2)
-						print_rec(root);
+					std::cout << "ARBRE AVANT DELETE ---------- SIZE = " <<  size + 1 << std::endl; 
+					//vprint_rec(root);
+					std::cout << "-----------\n";
 					std::cout << "Y COLOR: " << n->node_color << "\n";
 					color og_color_y = n->node_color;
 					if (size == 0)
 					{
+						std::cout << "ON RENTRE LAAAAAAAAAAAAAAAA" << std::endl;
 						root = NULL;
 					}
 					else if (n->l_child == NULL || n->l_child == node_null)
 					{
 						n->l_child = node_null;
 						std::cout << "11111111111111111111111111111\n";
+						std::cout << "on a n = " << n << " et son r child = " << n->r_child << std::endl;
+						// if (n->r_child == NULL)
+						// 	n->r_child = node_null;
 						x = n->r_child;
 						rb_transplant(n, n->r_child);
 					}
@@ -307,10 +354,10 @@ namespace ft
 						std::cout << "2222222222222222222222222222\n";
 						std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
 						og_color_y = y->node_color;
-						if (y->r_child == NULL)
-							y->r_child = node_null;
-						x = y->r_child;
-						//x = y;
+						// if (y->r_child == NULL)
+						// 	y->r_child = node_null;
+						//x = y->r_child;
+						x = y;
 						if (y->mother == n)
 							x->mother = y;
 						else
@@ -319,18 +366,29 @@ namespace ft
 							rb_transplant(y, y->r_child);
 							y->r_child = n->r_child;
 							y->r_child->mother = y;
+							std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) " << y->r_child << std::endl;
 						}
 						rb_transplant(n, y);
+						std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) " << y->r_child << std::endl;
 						y->l_child = n->l_child;
 						y->l_child->mother = y;
 						y->node_color = n->node_color;
+						std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) " << y->r_child << std::endl;
 					}
-					_malloc_node.destroy(n);
-					_malloc_node.deallocate(n, 1);
+				//	_malloc_node.destroy(n);
+				//	_malloc_node.deallocate(n, 1);
 					if (og_color_y == black && size != 0)
 					{
+						//std::cout << "x->mother =   " << x->mother->key << std::endl;
+						//std::cout << "on doit fix bg (x = adress " << x << " )\n";
 						delete_fix(x);
 					}
+					replace_node_null(root);
+					std::cout << "ARBRE APRES DELETE ---------- SIZE = " <<  size << std::endl;
+					print_rec(root);
+					std::cout << "-----------\n";
+					if (size == 0)
+						root = NULL;
 					return (1);
 				}
 				return (0);
@@ -343,7 +401,7 @@ namespace ft
 				y = n->l_child;
 				n->l_child = y->r_child;
 				std::cout << "dans right_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
-				if (y->r_child != NULL)
+				if (y->r_child != NULL && y->r_child != node_null)
 					y->r_child->mother = n;
 				y->mother = n->mother;
 				if (n->mother == NULL)
@@ -367,13 +425,12 @@ namespace ft
 				y = n->r_child;
 				n->r_child = y->l_child;
 				std::cout << "dans left_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
-				if (y->l_child != NULL)
+				if (y->l_child != NULL && y->l_child != node_null)
 					y->l_child->mother = n;
 				y->mother = n->mother;
-				std::cout << "genre n->mother il est pas null ?????? " << n->key << std::endl;
+				std::cout << "genre n->key =  " << n->key << std::endl;
 				if (n->mother == NULL)
 				{
-					std::cout << "je rentre pas a ?????????????????\n";
 					root = y;
 				}
 				else if (n == n->mother->l_child)
@@ -460,8 +517,9 @@ namespace ft
 
 			void	insert(const pair &p)
 			{
+				std::cout << "node_null " << node_null << std::endl;
 				node<T> *new_node = make_node(p);
-				
+				std::cout << "au debut " << new_node << std::endl;
 				if (root)
 					root->mother = NULL;
 				//new_node = node_null;
@@ -494,8 +552,8 @@ namespace ft
 				std::cout << "INSERT X = " << x << std::endl;
 				if (x == NULL || size == 0)
 				{
+					std::cout << "ON A MIS ROOT A NEW NODE    " << new_node << std::endl;
 					root = new_node;
-					
 					root->node_color = black;
 				}
 				else if (x && new_node->_pair.first < x->_pair.first)
@@ -518,8 +576,12 @@ namespace ft
 				}
 				size++;
 				if (!new_node->mother || !new_node->mother->mother)
+				{
+					replace_node_null(root);
 					return ;
+				}
 				insert_fix(new_node);
+				replace_node_null(root);
 			}
 	};
 }

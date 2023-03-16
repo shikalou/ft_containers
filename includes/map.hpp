@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/15 22:13:26 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/16 12:00:44 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,11 @@ namespace ft
 				if (!_tree.searchKey(_tree.getRoot(), val.first))
 				{
 					_size++;
+					std::cout << "ON EST LA " << std::endl;
+					_tree.print_rec(_tree.getRoot());
 					_tree.insert(val);
+					std::cout << "APRES ISERT DANS MAP" << std::endl;
+					_tree.print_rec(_tree.getRoot());
 					node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
 					node *titi = _tree.maximum(_tree.getRoot(), _end);
 					titi->r_child = _end;
