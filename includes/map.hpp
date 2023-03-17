@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/16 12:00:44 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/17 22:24:09 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,15 @@ namespace ft
 					node *titi = _tree.maximum(_tree.getRoot(), _end);
 					titi->r_child = _end;
 					_end->mother = titi;
+					std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
+					_tree.print_rec(_tree.getRoot());
+					std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
 					return (ft::make_pair<iterator, bool>(iterator(tmp), true));
 				}
 				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
+				node *titi = _tree.maximum(_tree.getRoot(), _end);
+				titi->r_child = _end;
+				_end->mother = titi;
 				return (ft::make_pair<iterator, bool>(iterator(tmp), false));
 			}
 			iterator				insert(iterator position, const value_type &val)
@@ -127,7 +133,8 @@ namespace ft
 
 				(void)position;
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
-				toto->r_child = NULL;
+				if (toto)
+					toto->r_child = NULL;
 				insert(val);
 				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
 				node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -139,10 +146,11 @@ namespace ft
 			void					insert(InputIterator first, InputIterator last)
 			{
 				std::cout << "JE RENTRE DANS INSERT (3)\n\n";
+				_tree.print_rec(_tree.getRoot());
 				while (first != last)
 				{
 					std::cout << "kjkjhkjhkjhkjhkhkjhkjhk     " << first->first << std::endl;
-					insert(ft::make_pair(first->first, first->second));
+					insert(*first);
 					++first;
 				}
 			}

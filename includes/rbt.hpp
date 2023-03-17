@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/16 19:17:11 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/17 22:33:06 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ namespace ft
 			struct node
 			{
 				U		key; // key 
-				pair	_pair;
+				pair	*_pair;
 				color	node_color;
 				node	*mother;
 				node	*l_child;
 				node	*r_child;
 
-				node(const pair &p = pair()) :_pair(p)
+				node(pair *p = pair()) :_pair(p)
 				{
-					key = p.first;
+					key = p->first;
 					// _pair = p;
 					node_color = red;
 					mother = NULL;
@@ -74,7 +74,7 @@ namespace ft
 		private:
 			node<T>			*node_null;
 			node<T>			*root;
-			Alloc_pair	_malloc_pair;
+			Alloc_pair		_malloc_pair;
 			allocator_type	_malloc_node;
 			comp			_comp;
 			size_t			size;
@@ -149,9 +149,10 @@ namespace ft
 			node<T>	*searchKey(node<T> *node, T val) const
 			{
 				std::cout << "node = " << node << " node-null = " << node_null << "\n";
+				std::cout << "val = " << val << std::endl;
 				if (node == NULL || node->key == val) // || node == node_null)
 					return (node);
-				else if (_comp(val, node->key))
+				else if (val < node->key)
 					return (searchKey(node->l_child, val));
 				else
 					return (searchKey(node->r_child, val));
@@ -510,8 +511,10 @@ namespace ft
 
 			node<T>	*make_node(const pair &p = pair())
 			{
+				pair *pairr = _malloc_pair.allocate(1);
+				_malloc_pair.construct(pairr, p);
 				node<T> *new_node = _malloc_node.allocate(1);
-				_malloc_node.construct(new_node, node<T>(p));
+				_malloc_node.construct(new_node, node<T>(pairr));
 				return (new_node);
 			}
 
@@ -532,17 +535,23 @@ namespace ft
 				node<T>	*tmp = root;
 				node<T>	*x = NULL;
 
+				if (size == 1)
+				{
+					std::cout << "SDOFIJSDLFKJSLDKFJSLDKFJSLDKFJSLKDJFLSKDJFLSKDJFLSKDJF\n";
+					root->l_child = NULL;
+					root->r_child = NULL;
+				}
 				while (tmp != NULL && tmp != node_null)
 				{
 					x = tmp;
-					//if (new_node->_pair.first < tmp->_pair.first)
-					std::cout << "\t\t new_node = " << new_node->_pair.first << "  tmp = " << tmp->_pair.first << std::endl;
-					if (_comp(new_node->_pair.first, tmp->_pair.first))
+					std::cout << "\t\t new_node = " << new_node->_pair->first << "  tmp = " << tmp->_pair->first << std::endl;
+					//if (_comp(new_node->_pair->first, tmp->_pair->first))
+					if (new_node->_pair->first < tmp->_pair->first)
 					{
 						std::cout << "new node plus petit que tmp" << std::endl;
 						tmp = tmp->l_child;
 					}
-					else if (new_node->_pair.first > tmp->_pair.first)
+					else if (new_node->_pair->first > tmp->_pair->first)
 					{
 						std::cout << "new node plus grand que tmp" << std::endl;
 						tmp = tmp->r_child;
@@ -556,12 +565,12 @@ namespace ft
 					root = new_node;
 					root->node_color = black;
 				}
-				else if (x && new_node->_pair.first < x->_pair.first)
+				else if (x && new_node->_pair->first < x->_pair->first)
 				{
 					std::cout << new_node->key << " EST INFERIEUR A " << x->key << std::endl;
 					x->l_child = new_node;
 				}
-				else if (x && new_node->_pair.first > x->_pair.first)
+				else if (x && new_node->_pair->first > x->_pair->first)
 				{
 					std::cout << new_node->key << " EST SUPERIEUR A " << x->key << std::endl;
 					x->r_child = new_node;

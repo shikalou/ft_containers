@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/16 19:30:29 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/17 22:31:30 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft
 		_malloc = _tree.getAlloc();
 		while (first != last)
 		{
-			insert(ft::make_pair(first->first, first->second));
+			insert(*first);
 			first++;
 		}
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -59,7 +59,7 @@ namespace ft
 		const_iterator last = copy.end();
 		while (first != last)
 		{
-			insert(ft::make_pair(first->first, first->second));
+			insert(*first);
 			first++;
 		}
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -89,15 +89,20 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	T	&map<Key, T, Compare, Alloc>::operator[](const key_type &k)
 	{
+		insert(ft::make_pair(k, T()));
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
 		if (toto)
 			toto->r_child = NULL;
-		insert(ft::make_pair(k, T()));
+		std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
+		_tree.print_rec(_tree.getRoot());
+		std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
+		if (!tmp)
+			std::cout << "SEARCH KEY RENVOIE NULL\n";
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
 		titi->r_child = _end;
 		_end->mother = titi;
-		return (tmp->_pair.second);
+		return (tmp->_pair->second);
 	}
 
 					/*****METHODES*****/
@@ -223,10 +228,10 @@ namespace ft
 		{
 			last--;
 		}
-			while (last != first)
-				{
+		while (last != first)
+		{
 			//node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
-				erase(last);
+			erase(last);
 			//std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
 			//real_print(_tree.getRoot(), 0, _tree);
 				last--;
