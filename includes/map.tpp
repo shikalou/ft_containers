@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/17 22:31:30 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:06:55 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	map<Key, T, Compare, Alloc>::map(const key_compare &comp, const allocator_type &alloc)
 	{
-		// std::cout << "map construct" << std::endl;
+		// //std::cout << "map construct" << std::endl;
 		_size = 0;
 		_end = _tree.make_node();
 		_comp = _tree.getComp();
@@ -70,8 +70,8 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	map<Key, T, Compare, Alloc>::~map()
 	{
-		// std::cout << "map destruct" << std::endl;
-		std::cout << "NOTE A PAS DETRUIRE END !!!!!!!11  " << _end << std::endl;
+		// //std::cout << "map destruct" << std::endl;
+		//std::cout << "NOTE A PAS DETRUIRE END !!!!!!!11  " << _end << std::endl;
 		clear();
 		_tree.supp_end(_end);
 	}
@@ -93,9 +93,9 @@ namespace ft
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
 		if (toto)
 			toto->r_child = NULL;
-		std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
-		_tree.print_rec(_tree.getRoot());
-		std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
+		//std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
+		//_tree.print_rec(_tree.getRoot());
+		//std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
 		if (!tmp)
 			std::cout << "SEARCH KEY RENVOIE NULL\n";
@@ -151,7 +151,7 @@ namespace ft
 	size_t	map<Key, T, Compare, Alloc>::erase(const key_type &k)
 	{
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
-		std::cout << "on suppr le max : " << toto << std::endl;
+		//std::cout << "on suppr le max : " << toto << std::endl;
 		if (toto)
 			toto->r_child = NULL;
 
@@ -167,7 +167,7 @@ namespace ft
 				_tree.supp_end(tmp);
 				return (1);
 			}
-			std::cout << "dans erase titi = " << titi << std::endl;
+			//std::cout << "dans erase titi = " << titi << std::endl;
 			titi->r_child = _end;
 			_end->mother = titi;
 			// _malloc.destroy(tmp->p);
@@ -204,7 +204,7 @@ namespace ft
 			}
 			titi->r_child = _end;
 			_end->mother = titi;
-			std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF " << tmp->key << std::endl;
+			//std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF " << tmp->key << std::endl;
 			_tree.supp_end(tmp);
 			_size--;
 		}
@@ -232,7 +232,7 @@ namespace ft
 		{
 			//node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
 			erase(last);
-			//std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+			////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
 			//real_print(_tree.getRoot(), 0, _tree);
 				last--;
 			//_tree.supp_end(tmp);
@@ -286,7 +286,7 @@ namespace ft
 		while (_tree.getRoot() != NULL && _size)
 		{
 			//real_print(_tree.getRoot(), 0, _tree);
-			std::cout << "DANS CLEAR    " << _size << std::endl;
+			//std::cout << "DANS CLEAR    " << _size << std::endl;
 			erase(_tree.getRoot()->key);
 		}
 	}

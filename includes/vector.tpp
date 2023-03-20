@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/08 14:36:35 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:54:49 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::vector(const allocator_type &alloc)
 	{
-		// std::cout << "vector default constructor called" << std::endl;
+		// //std::cout << "vector default constructor called" << std::endl;
 		_malloc = alloc;
 		_vec = _malloc.allocate(0);
 		_size = 0;
@@ -29,7 +29,7 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::vector (size_type n, const value_type& val)
 	{
-		// std::cout << "vector fill constructor called" << std::endl;
+		// //std::cout << "vector fill constructor called" << std::endl;
 		_malloc = Alloc();
 		_vec = _malloc.allocate(n);
 		_size = n;
@@ -44,7 +44,7 @@ namespace ft
 	template <class InputIterator>
 	vector<T, Alloc>::vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const Alloc &alloc)
 	{
-		// std::cout << "vector range constructor called" << std::endl;
+		// //std::cout << "vector range constructor called" << std::endl;
 		_malloc = alloc;
 		_vec = _malloc.allocate(0);
 		_size = 0;
@@ -59,7 +59,7 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::vector(const vector &copy)
 	{
-		// std::cout << "vector copy constructor called" << std::endl;
+		// //std::cout << "vector copy constructor called" << std::endl;
 		//  _malloc = copy._malloc;
 		_vec = NULL;
 		 _capacity = 0;
@@ -77,7 +77,7 @@ namespace ft
 	template <class T, class Alloc>
 	vector<T, Alloc>::~vector()
 	{
-		//std::cout << "vector destructor called" << std::endl;
+		////std::cout << "vector destructor called" << std::endl;
 		if (_vec)
 		{
 				for (size_type i = 0; i < _size; ++i)

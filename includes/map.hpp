@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/17 22:24:09 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:06:43 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,25 @@ namespace ft
 			void					swap(map &x);
 			pair<iterator, bool>	insert(const value_type &val)
 			{
-				std::cout << "JE RENTRE DANS INSERT (1)\n\n";
+				////////std::cout << "JE RENTRE DANS INSERT (1)\n\n";
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
 				if (toto)
 					toto->r_child = NULL;
 				if (!_tree.searchKey(_tree.getRoot(), val.first))
 				{
 					_size++;
-					std::cout << "ON EST LA " << std::endl;
-					_tree.print_rec(_tree.getRoot());
+					//std::cout << "ON EST LA " << std::endl;
+					//_tree.print_rec(_tree.getRoot());
 					_tree.insert(val);
-					std::cout << "APRES ISERT DANS MAP" << std::endl;
-					_tree.print_rec(_tree.getRoot());
+					//std::cout << "APRES ISERT DANS MAP" << std::endl;
+					//_tree.print_rec(_tree.getRoot());
 					node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
 					node *titi = _tree.maximum(_tree.getRoot(), _end);
 					titi->r_child = _end;
 					_end->mother = titi;
-					std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
-					_tree.print_rec(_tree.getRoot());
-					std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
+					//std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
+					//_tree.print_rec(_tree.getRoot());
+					//std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
 					return (ft::make_pair<iterator, bool>(iterator(tmp), true));
 				}
 				node *tmp = _tree.searchKey(_tree.getRoot(), val.first);
@@ -129,7 +129,7 @@ namespace ft
 			}
 			iterator				insert(iterator position, const value_type &val)
 			{
-				std::cout << "JE RENTRE DANS INSERT (2)\n\n";
+				//std::cout << "JE RENTRE DANS INSERT (2)\n\n";
 
 				(void)position;
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
@@ -145,11 +145,11 @@ namespace ft
 			template <class InputIterator>
 			void					insert(InputIterator first, InputIterator last)
 			{
-				std::cout << "JE RENTRE DANS INSERT (3)\n\n";
-				_tree.print_rec(_tree.getRoot());
+				//std::cout << "JE RENTRE DANS INSERT (3)\n\n";
+				//_tree.print_rec(_tree.getRoot());
 				while (first != last)
 				{
-					std::cout << "kjkjhkjhkjhkjhkhkjhkjhk     " << first->first << std::endl;
+					//std::cout << "kjkjhkjhkjhkjhkhkjhkjhk     " << first->first << std::endl;
 					insert(*first);
 					++first;
 				}

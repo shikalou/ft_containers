@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 18:53:54 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/02/08 12:56:34 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:54:49 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ namespace ft
 	template <class T, class Container>
 	stack<T, Container>::stack(const container_type &ctnr):_c(ctnr)
 	{
-		//std::cout << "stack default constructor called" << std::endl;
+		////std::cout << "stack default constructor called" << std::endl;
 	}
 
 	template <class T, class Container>
 	stack<T,Container>::~stack()
 	{
-		//std::cout << "stack default destructor called" << std::endl;
+		////std::cout << "stack default destructor called" << std::endl;
 	}
 				/*****OPERATOR OVERLOAD******/
 	template <class T, class Container>
