@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:28:43 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 20:43:25 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 23:50:41 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ namespace ft
 				_malloc_pair = Alloc_pair();
 				_malloc_node = allocator_type();
 				node_null = make_node();
-				// node_null = new node<T>;
 				node_null->mother = NULL;
 				node_null->l_child = NULL;
 				node_null->r_child = NULL;
@@ -96,11 +95,7 @@ namespace ft
 			}
 			~RBT_SET()
 			{
-				////std::cout << "rbt destruct" << std::endl;
-				// _malloc_pair.destroy(node_null->_pair);
-				// _malloc_pair.deallocate(node_null->_pair, 1);
-				// _malloc_node.destroy(node_null);
-				// _malloc_node.deallocate(node_null, 1);
+				//std::cout << "rbt destruct" << std::endl;
 			}
 
 			node<T>	*getNull() const
@@ -133,7 +128,6 @@ namespace ft
 
 			void	replace_node_null(node<T> *tmp)
 			{
-				//std::cout << "on check " << tmp << "  : " << (tmp == node_null) << std::endl;
 				if (tmp == NULL)
 					return ;
 				else
@@ -152,11 +146,8 @@ namespace ft
 
 			node<T>	*searchKey(node<T> *node, T val) const
 			{
-				//std::cout << "node = " << node << " node-null = " << node_null << "\n";
-				//std::cout << "val = " << val << std::endl;
 				if (node == NULL || node->key == val) // || node == node_null)
 					return (node);
-				// else if (val < node->key)
 				else if (_comp(val, node->key))
 					return (searchKey(node->l_child, val));
 				else
@@ -175,25 +166,19 @@ namespace ft
 
 			node<T>	*maximum(node<T> *x, node<T> *end) const
 			{
-				// if ()
 				if (size == 0)
 					return (NULL);
 				while (x && x != node_null && x != NULL && x->r_child != NULL && x->r_child != node_null && x->r_child != end)
 					x = x->r_child;
-				//}
 				if (x == node_null)
 					return (NULL);
 				return (x);
-				// while (x && x->r_child != NULL && x->r_child != node_null && x != node_null)
-				// 	x = x->r_child;
-				// return (x);
 			}
 
 			void	rb_transplant(node<T> *n, node<T> *m) // m --> n->r_child;
 			{
 				if (m == NULL)
 				{
-					//std::cout << "m est bien null\n";
 					m = node_null;
 				}
 				if (n->mother == NULL)
@@ -210,10 +195,8 @@ namespace ft
 				node<T> *w;
 				while (x  && x != root && x->node_color == black)
 				{
-					//std::cout << "oue la boucle\n";
 					if (x == x->mother->l_child)
 					{
-						//std::cout << "si on est a gauche " << std::endl;
 						w = x->mother->r_child;
 						if (!w)
 							w = node_null;
@@ -249,7 +232,6 @@ namespace ft
 					}
 					else
 					{
-						//std::cout << "si on est a droite " << std::endl;
 						w = x->mother->l_child;
 						if (w->node_color == red)
 						{
@@ -311,12 +293,10 @@ namespace ft
 				node<T>	*tmp = root;
 				while (tmp != NULL)
 				{
-					//if (tmp && key < tmp->key)
 					if (tmp && _comp(key, tmp->key))
 					{
 						tmp = tmp->l_child;
 					}
-					//else if (tmp && key > tmp->key)
 					else if (tmp && _comp(tmp->key, key))
 					{
 						tmp = tmp->r_child;
@@ -330,75 +310,45 @@ namespace ft
 				if (n->key == key)
 				{
 					size--;
-					//std::cout << "dans rb_delete size = " << size << std::endl;
-					//y = make_node(n->_pair);
-					//std::cout << "n = " << n << " v = " << n->key << " root = "<< getRoot() << std::endl;
-					//std::cout << "ARBRE AVANT DELETE ---------- SIZE = " <<  size + 1 << std::endl; 
-					//print_rec(root);
-					//std::cout << "-----------\n";
-					//std::cout << "Y COLOR: " << n->node_color << "\n";
 					color og_color_y = n->node_color;
 					if (size == 0)
 					{
-						//std::cout << "ON RENTRE LAAAAAAAAAAAAAAAA" << std::endl;
 						root = NULL;
 					}
 					else if (n->l_child == NULL || n->l_child == node_null)
 					{
 						n->l_child = node_null;
-						//std::cout << "11111111111111111111111111111\n";
-						//std::cout << "on a n = " << n << " et son r child = " << n->r_child << std::endl;
-						// if (n->r_child == NULL)
-						// 	n->r_child = node_null;
 						x = n->r_child;
 						rb_transplant(n, n->r_child);
 					}
 					else if (n->r_child == NULL || n->r_child == node_null)
 					{
-						//std::cout << "r child null delete\n";
 						x = n->l_child;
 						rb_transplant(n, n->l_child);
 					}
 					else
 					{
 						y = minimum(n->r_child);
-						//std::cout << "2222222222222222222222222222\n";
-						//std::cout << "dans rb_delete y->node_color = " << y->node_color << std::endl;
 						og_color_y = y->node_color;
-						// if (y->r_child == NULL)
-						// 	y->r_child = node_null;
-						//x = y->r_child;
 						x = y;
 						if (y->mother == n)
 							x->mother = y;
 						else
 						{
-							//std::cout << "333333333333333333333333333333\n";
-							//std::cout << "y = " << y << " =  " << y->key << std::endl;//<< "y->r_child = " << y->r_child << " =  " << y->r_child->key << std::endl;
 							rb_transplant(y, y->r_child);
 							y->r_child = n->r_child;
 							y->r_child->mother = y;
-							//std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) 1 " << y->r_child << std::endl;
 						}
 						rb_transplant(n, y);
-						//std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) 2 " << y->r_child << std::endl;
 						y->l_child = n->l_child;
 						y->l_child->mother = y;
 						y->node_color = n->node_color;
-						//std:: cout << "L ADRESSE DE Y LO " << y << " SON FILS DROIT (LE GRAND ) 3 " << y->r_child << std::endl;
 					}
-				//	_malloc_node.destroy(n);
-				//	_malloc_node.deallocate(n, 1);
 					if (og_color_y == black && size != 0)
 					{
-						////std::cout << "x->mother =   " << x->mother->key << std::endl;
-						////std::cout << "on doit fix bg (x = adress " << x << " )\n";
 						delete_fix(x);
 					}
 					replace_node_null(root);
-					//std::cout << "ARBRE APRES DELETE ---------- SIZE = " <<  size << std::endl;
-					//print_rec(root);
-					//std::cout << "-----------\n";
 					if (size == 0)
 						root = NULL;
 					return (1);
@@ -412,7 +362,6 @@ namespace ft
 
 				y = n->l_child;
 				n->l_child = y->r_child;
-				//std::cout << "dans right_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
 				if (y->r_child != NULL && y->r_child != node_null)
 					y->r_child->mother = n;
 				y->mother = n->mother;
@@ -436,11 +385,9 @@ namespace ft
 					n->r_child = node_null;
 				y = n->r_child;
 				n->r_child = y->l_child;
-				//std::cout << "dans left_rotate\ny = " << y->key << "\nn = " << n->key << std::endl;
 				if (y->l_child != NULL && y->l_child != node_null)
 					y->l_child->mother = n;
 				y->mother = n->mother;
-				//std::cout << "genre n->key =  " << n->key << std::endl;
 				if (n->mother == NULL)
 				{
 					root = y;
@@ -451,17 +398,14 @@ namespace ft
 					n->mother->r_child = y;
 				y->l_child = n;
 				n->mother = y;
-				//std::cout << "rooooooot key est egal = " << root->key << std::endl;
 			}
 
 			void	insert_fix(node<T> *new_node)
 			{
 				node<T> *y = NULL;
-				//std::cout << "\n\ndans insert_fix" << std::endl;
 
 				while (new_node->mother->node_color == red)
 				{
-					//std::cout << "new_node = " << new_node->key << std::endl;
 					if (new_node->mother == new_node->mother->mother->l_child) // LEFT
 					{
 						y = new_node->mother->mother->r_child;
@@ -487,10 +431,8 @@ namespace ft
 					else
 					{
 						y = new_node->mother->mother->l_child;
-						// //std::cout << "Y color dans else right: " << y->node_color << "\n";
 						if (y && y->node_color == red)
 						{
-							//std::cout << "si mother mother ROUGE" << std::endl;
 							new_node->mother->node_color = black;
 							y->node_color = black;
 							new_node->mother->mother->node_color = red;
@@ -498,10 +440,8 @@ namespace ft
 						}
 						else
 						{
-							//std::cout << "si mother mother NOIR" << std::endl;
 							if (new_node == new_node->mother->l_child)
 							{
-								//std::cout << "si new_node est a gauche\n";
 								new_node = new_node->mother;
 								right_rotate(new_node);
 							}
@@ -512,12 +452,10 @@ namespace ft
 					}
 					if (new_node == root)
 					{
-						//std::cout << "sdgdddddddddddddddddddddddddddddddddddddd" << std::endl;
 						break ;
 					}
 				}
 				root->node_color = black;
-				//std::cout << "root->key = " << root->key << "\n";
 			}
 
 			node<T>	*make_node(const pair &p = pair())
@@ -531,16 +469,12 @@ namespace ft
 
 			void	insert(const pair &p)
 			{
-				//std::cout << "node_null " << node_null << std::endl;
 				node<T> *new_node = make_node(p);
-				//std::cout << "au debut " << new_node << std::endl;
 				if (root)
 					root->mother = NULL;
-				//new_node = node_null;
 				new_node->l_child = NULL;
 				new_node->r_child = NULL;
 				new_node->mother = NULL;
-				// new_node->key = newkey;
 				new_node->node_color = red;
 
 				node<T>	*tmp = root;
@@ -548,50 +482,37 @@ namespace ft
 
 				if (size == 1)
 				{
-					//std::cout << "SDOFIJSDLFKJSLDKFJSLDKFJSLDKFJSLKDJFLSKDJFLSKDJFLSKDJF\n";
 					root->l_child = NULL;
 					root->r_child = NULL;
 				}
 				while (tmp != NULL && tmp != node_null)
 				{
 					x = tmp;
-					//std::cout << "\t\t new_node = " << new_node->_pair << "  tmp = " << tmp->_pair << std::endl;
-					//if (new_node->_pair < tmp->_pair)
 					if (_comp((*new_node->_pair), (*tmp->_pair)))
 					{
-						//std::cout << "new node plus petit que tmp" << std::endl;
 						tmp = tmp->l_child;
 					}
-					//else if (new_node->_pair > tmp->_pair)
 					else
 					{
-						//std::cout << "new node plus grand que tmp" << std::endl;
 						tmp = tmp->r_child;
 					}
 				}
 				new_node->mother = x;
-				//std::cout << "INSERT X = " << x << std::endl;
 				if (x == NULL || size == 0)
 				{
-					//std::cout << "ON A MIS ROOT A NEW NODE    " << new_node << std::endl;
 					root = new_node;
 					root->node_color = black;
 				}
-				//else if (x && new_node->_pair < x->_pair)
 				else if (x && _comp((*new_node->_pair), (*x->_pair)))
 				{
-					//std::cout << new_node->key << " EST INFERIEUR A " << x->key << std::endl;
 					x->l_child = new_node;
 				}
-				//else if (x && new_node->_pair > (*x->_pair))
 				else if (x && _comp((*x->_pair), (*new_node->_pair)))
 				{
-					//std::cout << new_node->key << " EST SUPERIEUR A " << x->key << std::endl;
 					x->r_child = new_node;
 				}
 				else
 				{
-					//std::cout << "x = " << x->key << " new_node = " << new_node->key << std::endl;
 					x->r_child = new_node;
 					new_node->l_child = node_null;
 					new_node->r_child = node_null;

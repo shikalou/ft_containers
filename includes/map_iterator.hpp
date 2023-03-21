@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:11:34 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/17 22:18:47 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 23:43:37 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ namespace ft
 					{
 						_p = _p->l_child;
 					}
-					// this->_p = tmp;
 					return (*this);
 				}
 				else if (_p == _p->mother->l_child)
 				{
 					_p = _p->mother;
 				}
-				else if (_p->mother != NULL)// && _p == _p->mother->l_child)
+				else if (_p->mother != NULL)
 				{
 					while (_p && _p->mother && _p == _p->mother->r_child)
 					{
@@ -83,7 +82,6 @@ namespace ft
 					{
 						_p = _p->r_child;
 					}
-					// this->_p = tmp;
 					return (*this);
 				}
 				else if (_p == _p->mother->r_child)

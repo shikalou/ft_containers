@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 18:35:22 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/20 17:54:49 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 23:58:08 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,9 @@ namespace ft
 	vector<T, Alloc>::vector(const vector &copy)
 	{
 		// //std::cout << "vector copy constructor called" << std::endl;
-		//  _malloc = copy._malloc;
 		_vec = NULL;
 		 _capacity = 0;
 		 _size = 0;
-		// *this = copy;
 		_size = copy._size;
 		_capacity = copy._capacity;
 		_vec = _malloc.allocate(_capacity);
@@ -191,7 +189,6 @@ namespace ft
 
 		if (_capacity == 0)
 			reserve(1);
-		//updateCapacity(_size + 1, _capacity * 2);
 		if (_size + 1 > _capacity)
 			reserve(_capacity * 2); 
 		else if (_size + 1 > _capacity && _capacity + 1 == _size)
@@ -214,7 +211,7 @@ namespace ft
 			throw (std::length_error("length_error"));
 		if (n > _capacity)
 		{
-			T	*new_tab = _vec;//_malloc.allocate(capacity);
+			T	*new_tab = _vec;
 			_vec = _malloc.allocate(n);
 			for (size_type i = 0; i < _size ; ++i)
 				_malloc.construct(_vec + i, new_tab[i]);
@@ -223,8 +220,6 @@ namespace ft
 			_malloc.deallocate(new_tab, _capacity);
 			_capacity = n;
 		}
-		//_vec = new_tab;
-		//updateCapacity(n, n);
 	}
 
 	template <class T, class Alloc>
@@ -357,7 +352,6 @@ namespace ft
 			return (iterator(end() - 1));
 		}
 		size_type j = position - begin();
-		//updateCapacity(_size, _capacity + 1);
 		if (_capacity < _size + 1)
 			reserve(_size + 1);
 		_size++;
@@ -457,7 +451,6 @@ namespace ft
 				_malloc.destroy(&new_tab[i]);
 			_malloc.deallocate(new_tab, _capacity);
 			_capacity = capacity;
-			//_vec = new_tab;
 		}
 	}
 }

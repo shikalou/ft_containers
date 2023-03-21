@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:09:56 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 20:44:43 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 23:54:18 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,17 @@ namespace ft
 			void					swap(set &x);
 			pair<iterator, bool>	insert(const value_type &val)
 			{
-				////////std::cout << "JE RENTRE DANS INSERT (1)\n\n";
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
 				if (toto)
 					toto->r_child = NULL;
 				if (!_tree.searchKey(_tree.getRoot(), val))
 				{
 					_size++;
-					//std::cout << "ON EST LA " << std::endl;
-					//_tree.print_rec(_tree.getRoot());
 					_tree.insert(val);
-					//std::cout << "APRES ISERT DANS set" << std::endl;
-					//_tree.print_rec(_tree.getRoot());
 					node *tmp = _tree.searchKey(_tree.getRoot(), val);
 					node *titi = _tree.maximum(_tree.getRoot(), _end);
 					titi->r_child = _end;
 					_end->mother = titi;
-					//std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
-					//_tree.print_rec(_tree.getRoot());
-					//std::cout << "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n";
 					return (ft::make_pair<iterator, bool>(iterator(tmp), true));
 				}
 				node *tmp = _tree.searchKey(_tree.getRoot(), val);
@@ -129,7 +121,6 @@ namespace ft
 			}
 			iterator				insert(iterator position, const value_type &val)
 			{
-				//std::cout << "JE RENTRE DANS INSERT (2)\n\n";
 				(void)position;
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
 				if (toto)
@@ -144,11 +135,8 @@ namespace ft
 			template <class InputIterator>
 			void					insert(InputIterator first, InputIterator last)
 			{
-				//std::cout << "JE RENTRE DANS INSERT (3)\n\n";
-				//_tree.print_rec(_tree.getRoot());
 				while (first != last)
 				{
-					//std::cout << "kjkjhkjhkjhkjhkhkjhkjhk     " << first << std::endl;
 					insert(*first);
 					++first;
 				}
@@ -262,7 +250,7 @@ namespace ft
 			value_compare						value_comp() const
 			{
 				return (value_compare());
-			} // A FAIRE
+			}
 
 			RBT_SET<key_type, value_type, key_compare, Alloc>	_tree;
 			bool	_flower;

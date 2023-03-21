@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 20:03:19 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 23:47:34 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	map<Key, T, Compare, Alloc>::~map()
 	{
-		// //std::cout << "map destruct" << std::endl;
-		//std::cout << "NOTE A PAS DETRUIRE END !!!!!!!11  " << _end << std::endl;
+		// //std::cout << "map destructor" << std::endl;
 		clear();
 		_tree.supp_end(_end);
 		_tree.supp_end(_tree.node_null);
@@ -92,12 +91,7 @@ namespace ft
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
 		if (toto)
 			toto->r_child = NULL;
-		//std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
-		//_tree.print_rec(_tree.getRoot());
-		//std::cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL\n";
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
-		if (!tmp)
-			std::cout << "SEARCH KEY RENVOIE NULL\n";
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
 		titi->r_child = _end;
 		_end->mother = titi;
@@ -115,7 +109,7 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	size_t	map<Key, T, Compare, Alloc>::max_size() const
 	{
-		return (_malloc.max_size());
+		return (_tree.getAlloc().max_size());
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -150,12 +144,9 @@ namespace ft
 	size_t	map<Key, T, Compare, Alloc>::erase(const key_type &k)
 	{
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
-		//std::cout << "on suppr le max : " << toto << std::endl;
 		if (toto)
 			toto->r_child = NULL;
-
 		node *tmp = _tree.searchKey(_tree.getRoot(), k);
-
 		if (tmp != NULL)
 		{
 			_tree.rb_delete(k);
@@ -166,11 +157,8 @@ namespace ft
 				_tree.supp_end(tmp);
 				return (1);
 			}
-			//std::cout << "dans erase titi = " << titi << std::endl;
 			titi->r_child = _end;
 			_end->mother = titi;
-			// _malloc.destroy(tmp->p);
-			// _malloc.deallocate(tmp, 1);
 			_size--;
 			_tree.supp_end(tmp);
 			return (1);
@@ -192,8 +180,6 @@ namespace ft
 		if (tmp != NULL)
 		{
 			_tree.rb_delete((*position).first);
-			// _malloc.destroy(tmp);
-			// _malloc.deallocate(tmp, 1);
 			node *titi = _tree.maximum(_tree.getRoot(), _end);
 			if (!titi)
 			{
@@ -203,7 +189,6 @@ namespace ft
 			}
 			titi->r_child = _end;
 			_end->mother = titi;
-			//std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF size = " << _size << "  " << tmp->key << std::endl;
 			_tree.supp_end(tmp);
 			_size--;
 		}
@@ -235,7 +220,6 @@ namespace ft
 			{
 				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
 				_tree.rb_delete((*first).first);
-				//real_print(_tree.getRoot(), 0, _tree);
 				first++;
 				_size--;
 				_tree.supp_end(tmp);
@@ -244,91 +228,64 @@ namespace ft
 			{
 				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
 				_tree.rb_delete((*first).first);
-				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-				//real_print(_tree.getRoot(), 0, _tree);
 				_size--;
 				_tree.supp_end(tmp);
 			}
 		}
 		else
 		{
-
 			node	*l = NULL;
-		//	std::cout << "AVANT WHILE first: " << (*first).first << "\n";
-		if (_flower)
-		{
-			l = _tree.searchKey(_tree.getRoot(), (*first).first);
-			++first;
-			while (last != first)
+			if (_flower)
 			{
-		
-				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*first).first << std::endl;
-				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
-				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
-				if (!tmp)
-				{
-					node *titi = _tree.maximum(_tree.getRoot(), _end);
-					titi->r_child = _end;
-					_end->mother = titi;
-					return ;
-				}
-				_tree.rb_delete(tmp->_pair->first);
+				l = _tree.searchKey(_tree.getRoot(), (*first).first);
 				++first;
-				// std::cout << "JDHKFJHKJFHSKDJFHSDDANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
-				_size--;
-				_tree.supp_end(tmp);
-			}
-		//		node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
-		//		_tree.rb_delete((*first).first);
-				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-				//real_print(_tree.getRoot(), 0, _tree);
-		//		_size--;
-		//		_tree.supp_end(tmp);
+				while (last != first)
+				{
+					node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+					if (!tmp)
+					{
+						node *titi = _tree.maximum(_tree.getRoot(), _end);
+						titi->r_child = _end;
+						_end->mother = titi;
+						return ;
+					}
+					_tree.rb_delete(tmp->_pair->first);
+					++first;
+					_size--;
+					_tree.supp_end(tmp);
+				}
 				_tree.rb_delete(l->_pair->first);
-				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-				//real_print(_tree.getRoot(), 0, _tree);
 				_size--;
 				_tree.supp_end(l);
-		}
-		
-		else
-		{
-			//std::cout << "LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\n";
-			last--;
-			l = _tree.searchKey(_tree.getRoot(), (*last).first);
-			last--;
-				//	std::cout << "AVANT WHILE first: " << (*first).first << "\n";
-			while (last != first)
-			{
-		
-				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*first).first << std::endl;
-				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
-				node *tmp = _tree.searchKey(_tree.getRoot(), (*last).first);
-				if (!tmp)
-				{
-					node *titi = _tree.maximum(_tree.getRoot(), _end);
-					titi->r_child = _end;
-					_end->mother = titi;
-					return ;
-				}
-				_tree.rb_delete(tmp->_pair->first);
-				--last;
-				// std::cout << "JDHKFJHKJFHSKDJFHSDDANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
-				_size--;
-				_tree.supp_end(tmp);
 			}
+			else
+			{
+				last--;
+				l = _tree.searchKey(_tree.getRoot(), (*last).first);
+				last--;
+				while (last != first)
+				{
+					node *tmp = _tree.searchKey(_tree.getRoot(), (*last).first);
+					if (!tmp)
+					{
+						node *titi = _tree.maximum(_tree.getRoot(), _end);
+						titi->r_child = _end;
+						_end->mother = titi;
+						return ;
+					}
+					_tree.rb_delete(tmp->_pair->first);
+					--last;
+					_size--;
+					_tree.supp_end(tmp);
+				}
 				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
 				_tree.rb_delete((*first).first);
-				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-				//real_print(_tree.getRoot(), 0, _tree);
 				_size--;
 				_tree.supp_end(tmp);
 				_tree.rb_delete(l->_pair->first);
-				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-				//real_print(_tree.getRoot(), 0, _tree);
 				_size--;
 				_tree.supp_end(l);
-		}
+			}
 		}
 		_flower = false;
 		node *titi = _tree.maximum(_tree.getRoot(), _end);
@@ -379,8 +336,6 @@ namespace ft
 	{
 		while (_tree.getRoot() != NULL && _size)
 		{
-			//real_print(_tree.getRoot(), 0, _tree);
-			//std::cout << "DANS CLEAR    " << _size << std::endl;
 			erase(_tree.getRoot()->key);
 		}
 	}
