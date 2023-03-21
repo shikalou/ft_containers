@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:06:45 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/20 20:06:55 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 20:03:19 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ namespace ft
 		// //std::cout << "map construct" << std::endl;
 		_size = 0;
 		_end = _tree.make_node();
-		_comp = _tree.getComp();
+		_comp = comp;
 		_malloc = _tree.getAlloc();
-		(void)comp;
 		(void)alloc;
 	}
 
@@ -32,11 +31,10 @@ namespace ft
 	template <class InputIterator>
 	map<Key, T, Compare, Alloc>::map(InputIterator first, InputIterator last, const key_compare& comp, const allocator_type& alloc)
 	{
-		(void)comp;
 		(void)alloc;
 		_size = 0;
 		_end = _tree.make_node();
-		_comp = _tree.getComp();
+		_comp = comp;
 		_malloc = _tree.getAlloc();
 		while (first != last)
 		{
@@ -53,7 +51,7 @@ namespace ft
 	{
 		_size = 0;
 		_end = _tree.make_node();
-		_comp = _tree.getComp();
+		_comp = copy._comp;
 		_malloc = _tree.getAlloc();
 		const_iterator first = copy.begin();
 		const_iterator last = copy.end();
@@ -74,6 +72,7 @@ namespace ft
 		//std::cout << "NOTE A PAS DETRUIRE END !!!!!!!11  " << _end << std::endl;
 		clear();
 		_tree.supp_end(_end);
+		_tree.supp_end(_tree.node_null);
 	}
 					/*****OPERATOR OVERLOAD******/
 	template <class Key, class T, class Compare, class Alloc>
@@ -204,7 +203,7 @@ namespace ft
 			}
 			titi->r_child = _end;
 			_end->mother = titi;
-			//std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF " << tmp->key << std::endl;
+			//std::cout << " FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF size = " << _size << "  " << tmp->key << std::endl;
 			_tree.supp_end(tmp);
 			_size--;
 		}
@@ -215,36 +214,128 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	void	map<Key, T, Compare, Alloc>::erase(iterator first, iterator last)
 	{
+		int flast = 0;
 		if (first == begin() && last == end())
 		{
 			clear();
 			return ;
 		}
+		if (last == end())
+		{
+			flast++;
+			last--;
+		}
 		node *toto = _tree.maximum(_tree.getRoot(), _end);
 		if (!toto)
 			return ;
 		toto->r_child = NULL;
-		if (last == end())
+		if (flast)
 		{
-			last--;
-		}
-		while (last != first)
-		{
-			//node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
-			erase(last);
-			////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
-			//real_print(_tree.getRoot(), 0, _tree);
-				last--;
-			//_tree.supp_end(tmp);
+			while (first != last)
+			{
+				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+				_tree.rb_delete((*first).first);
+				//real_print(_tree.getRoot(), 0, _tree);
+				first++;
+				_size--;
+				_tree.supp_end(tmp);
 			}
-		// else
-		// {
-		// 	while (first != last)
-		// 	{
-		// 		erase(first);
-		// 		first++;
-		// 	}
-		// }
+			if (flast)
+			{
+				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+				_tree.rb_delete((*first).first);
+				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+				//real_print(_tree.getRoot(), 0, _tree);
+				_size--;
+				_tree.supp_end(tmp);
+			}
+		}
+		else
+		{
+
+			node	*l = NULL;
+		//	std::cout << "AVANT WHILE first: " << (*first).first << "\n";
+		if (_flower)
+		{
+			l = _tree.searchKey(_tree.getRoot(), (*first).first);
+			++first;
+			while (last != first)
+			{
+		
+				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*first).first << std::endl;
+				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
+				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+				if (!tmp)
+				{
+					node *titi = _tree.maximum(_tree.getRoot(), _end);
+					titi->r_child = _end;
+					_end->mother = titi;
+					return ;
+				}
+				_tree.rb_delete(tmp->_pair->first);
+				++first;
+				// std::cout << "JDHKFJHKJFHSKDJFHSDDANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
+				_size--;
+				_tree.supp_end(tmp);
+			}
+		//		node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+		//		_tree.rb_delete((*first).first);
+				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+				//real_print(_tree.getRoot(), 0, _tree);
+		//		_size--;
+		//		_tree.supp_end(tmp);
+				_tree.rb_delete(l->_pair->first);
+				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+				//real_print(_tree.getRoot(), 0, _tree);
+				_size--;
+				_tree.supp_end(l);
+		}
+		
+		else
+		{
+			//std::cout << "LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\n";
+			last--;
+			l = _tree.searchKey(_tree.getRoot(), (*last).first);
+			last--;
+				//	std::cout << "AVANT WHILE first: " << (*first).first << "\n";
+			while (last != first)
+			{
+		
+				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*first).first << std::endl;
+				// std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
+				node *tmp = _tree.searchKey(_tree.getRoot(), (*last).first);
+				if (!tmp)
+				{
+					node *titi = _tree.maximum(_tree.getRoot(), _end);
+					titi->r_child = _end;
+					_end->mother = titi;
+					return ;
+				}
+				_tree.rb_delete(tmp->_pair->first);
+				--last;
+				// std::cout << "JDHKFJHKJFHSKDJFHSDDANS LA BOUCLE ERASE (IT,IT) " << (*last).first << std::endl;
+				_size--;
+				_tree.supp_end(tmp);
+			}
+				node *tmp = _tree.searchKey(_tree.getRoot(), (*first).first);
+				_tree.rb_delete((*first).first);
+				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+				//real_print(_tree.getRoot(), 0, _tree);
+				_size--;
+				_tree.supp_end(tmp);
+				_tree.rb_delete(l->_pair->first);
+				////std::cout << "DANS LA BOUCLE ERASE (IT,IT) " << (*tmp).first << std::endl;
+				//real_print(_tree.getRoot(), 0, _tree);
+				_size--;
+				_tree.supp_end(l);
+		}
+		}
+		_flower = false;
+		node *titi = _tree.maximum(_tree.getRoot(), _end);
+		if (!titi)
+			return ;
+		titi->r_child = _end;
+		_end->mother = titi;
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
@@ -256,29 +347,32 @@ namespace ft
 	template <class Key, class T, class Compare, class Alloc>
 	Compare	map<Key, T, Compare, Alloc>::key_comp() const
 	{
-		return (_tree.getComp());
+		return (_comp);
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
 	void map<Key, T, Compare, Alloc>::swap(map<Key, T, Compare, Alloc> &x)
 	{
 		RBT<key_type, mapped_type, value_type, key_compare, Alloc> tmp_tree = x._tree;
-		size_type	tmp_size = x._size;
-		node		*tmp_end = x._end;
+		size_type		tmp_size = x._size;
+		node			*tmp_end = x._end;
 		allocator_type	tmp_malloc = x._malloc;
 		Compare			tmp_comp = x._comp;
+		node			*tmp_node_null = x._tree.node_null;
 
 		x._tree = _tree;
 		x._size = _size;
 		x._end = _end;
 		x._malloc = _malloc;
 		x._comp = _comp;
+		x._tree.node_null = _tree.node_null;
 
 		_tree = tmp_tree;
 		_size = tmp_size;
 		_end = tmp_end;
 		_malloc = tmp_malloc;
 		_comp = tmp_comp;
+		_tree.node_null = tmp_node_null;
 	}
 	template <class Key, class T, class Compare, class Alloc>
 	void map<Key, T, Compare, Alloc>::clear()

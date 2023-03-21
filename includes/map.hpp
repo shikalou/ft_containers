@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:51:50 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/20 20:06:43 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/21 19:35:42 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ namespace ft
 			iterator				insert(iterator position, const value_type &val)
 			{
 				//std::cout << "JE RENTRE DANS INSERT (2)\n\n";
-
 				(void)position;
 				node *toto = _tree.maximum(_tree.getRoot(), _end);
 				if (toto)
@@ -182,6 +181,7 @@ namespace ft
 			}
 			iterator				upper_bound(const key_type &k)
 			{
+				_flower = true;
 				iterator	first = begin();
 				iterator	last = end();
 
@@ -278,6 +278,7 @@ namespace ft
 			} // A FAIRE
 
 			RBT<key_type, mapped_type, value_type, key_compare, Alloc>	_tree;
+			bool	_flower;
 		private:
 			size_type		_size;
 			node			*_end;
