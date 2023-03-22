@@ -6,7 +6,7 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/03/22 14:21:04 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/03/22 17:20:30 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=	ft_containers
 
 STDNAME	=	std_containers
 
-SRCS_FILES	=	main_map.cpp
+SRCS_FILES	=	main_set.cpp
 
 INC_FILES	=	vector.hpp vector.tpp \
 				iterator_traits.hpp \

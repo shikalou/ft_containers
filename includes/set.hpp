@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:09:56 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 23:54:18 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/22 17:03:49 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ namespace ft
 			~set();
 				/*OPERATOR OVERLOAD*/
 			set&			operator=(const set &egal);
-			mapped_type&	operator[](const key_type &k);
 
 				/*METHODES*/
 			void					clear();

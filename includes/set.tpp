@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:18:17 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 23:56:28 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/22 17:03:40 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,6 @@ namespace ft
 		const_iterator last = egal.end();
 		insert(first, last);
 		return (*this);
-	}
-
-	template <class Key, class Compare, class Alloc>
-	Key	&set<Key, Compare, Alloc>::operator[](const key_type &k)
-	{
-		insert(ft::make_pair(k, Key()));
-		node *toto = _tree.maximum(_tree.getRoot(), _end);
-		if (toto)
-			toto->r_child = NULL;
-		node *tmp = _tree.searchKey(_tree.getRoot(), k);
-		node *titi = _tree.maximum(_tree.getRoot(), _end);
-		titi->r_child = _end;
-		_end->mother = titi;
-		return (tmp->_pair->second);
 	}
 
 					/*****METHODES*****/
