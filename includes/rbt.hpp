@@ -6,7 +6,7 @@
 /*   By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:30:13 by ldinaut           #+#    #+#             */
-/*   Updated: 2023/03/21 23:53:04 by ldinaut          ###   ########.fr       */
+/*   Updated: 2023/03/22 14:58:24 by ldinaut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,14 +273,14 @@ namespace ft
 				{
 					if (tmp->node_color == red)
 						std::cout << reed;
-					std::cout << std::string(co * 2, ' ') << "n = " << tmp << " v = " << tmp->key << std::endl;
+					std::cout << std::string(co * 2, ' ') << tmp->key << std::endl;
 					std::cout << reset;
 					print_rec(tmp->l_child, co + 1);
 					print_rec(tmp->r_child, co + 1);
 				}
 				else
 				{
-					std::cout << std::string(co * 2, ' ') << "END "  << tmp << std::endl;
+					std::cout << std::string(co * 2, ' ') << "END " << std::endl;
 				}
 			}
 

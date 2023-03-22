@@ -6,13 +6,15 @@
 #    By: ldinaut <ldinaut@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/06 15:26:50 by ldinaut           #+#    #+#              #
-#    Updated: 2023/03/21 21:01:07 by ldinaut          ###   ########.fr        #
+#    Updated: 2023/03/22 14:21:04 by ldinaut          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	containers
+NAME	=	ft_containers
 
-SRCS_FILES	=	hihi.cpp
+STDNAME	=	std_containers
+
+SRCS_FILES	=	main_map.cpp
 
 INC_FILES	=	vector.hpp vector.tpp \
 				iterator_traits.hpp \
@@ -30,7 +32,7 @@ INCS	=	$(addprefix includes/, $(INC_FILES))
 
 CXX	=	c++
 
-CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -pedantic -I./includes -g3
+CPPFLAGS	=	-Wall -Wextra -Werror -std=c++98 -pedantic -I./includes
 
 OBJS_FILES	=	$(SRCS_FILES:%.cpp=%.o)
 
@@ -42,13 +44,15 @@ all	:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 	$(CXX) $(CPPFLAGS) -o $(NAME) $(OBJS)
+	$(CXX) $(CPPFLAGS) -D STD=1 -o $(STDNAME) $(OBJS)
+
 
 clean	:
 	rm -rf $(OBJS) $(DEP)
 	rm -rf objs/
 
 fclean	:	clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(STDNAME)
 
 re	:	fclean all
 
